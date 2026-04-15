@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Search, Download, X, ChevronDown, ArrowUpDown, Filter, ArrowLeft, GripVertical, Eye, EyeOff, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Search, Download, X, ChevronDown, ArrowUpDown, Filter, ArrowLeft, GripVertical, Eye, EyeOff, ChevronLeft, ChevronRight, Users, TrendingUp, TrendingDown, DollarSign, Columns as ColumnsIcon, BarChart3 } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Input } from '@/app/components/ui/input';
 import { Checkbox } from '@/app/components/ui/checkbox';
@@ -9,9 +9,10 @@ import { Card } from '@/app/components/ui/card';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { DataTable, Column } from '@/app/components/DataTable';
-import { Popover, PopoverTrigger, PopoverContent } from '@/app/components/ui/popover';
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/app/components/ui/sheet';
 import { ColumnManager } from '@/app/components/ColumnManager';
 import { CustomerDetailModal } from '@/app/components/CustomerDetailModal';
+import { Popover, PopoverTrigger, PopoverContent } from '@/app/components/ui/popover';
 
 // Mock data for the subscriber list
 const subscriberData = [
@@ -23,6 +24,7 @@ const subscriberData = [
     ownership: 'owner',
     addressCreated: '1/26/2026',
     customerName: 'Josef Bollman',
+    serialNumber: 'ISKT4A2B9C',
     serviceProvider: 'Sumo Fiber',
     planName: '2 Gigabit Internet',
     subscriptionStatus: 'Active',
@@ -37,6 +39,7 @@ const subscriberData = [
     ownership: 'owner',
     addressCreated: '1/26/2026',
     customerName: 'Tom Sears',
+    serialNumber: 'ISKT7F3K8D',
     serviceProvider: 'N/A',
     planName: 'N/A',
     subscriptionStatus: 'Pending',
@@ -51,6 +54,7 @@ const subscriberData = [
     ownership: 'owner',
     addressCreated: '1/25/2026',
     customerName: 'Brian Marino',
+    serialNumber: 'ISKT1M5N2P',
     serviceProvider: 'N/A',
     planName: 'N/A',
     subscriptionStatus: 'Active',
@@ -65,6 +69,7 @@ const subscriberData = [
     ownership: 'owner',
     addressCreated: '1/23/2026',
     customerName: 'Deborah Ohls',
+    serialNumber: 'ISKT9Q6R4T',
     serviceProvider: 'N/A',
     planName: 'N/A',
     subscriptionStatus: 'Pending',
@@ -79,6 +84,7 @@ const subscriberData = [
     ownership: 'N/A',
     addressCreated: '1/23/2026',
     customerName: 'Patricia Collins',
+    serialNumber: 'ISKT3V8W7X',
     serviceProvider: 'N/A',
     planName: 'N/A',
     subscriptionStatus: 'Pending',
@@ -93,6 +99,7 @@ const subscriberData = [
     ownership: 'owner',
     addressCreated: '1/23/2026',
     customerName: 'Alan Abbott',
+    serialNumber: 'ISKT5Y2Z1A',
     serviceProvider: 'N/A',
     planName: 'N/A',
     subscriptionStatus: 'Active',
@@ -107,6 +114,7 @@ const subscriberData = [
     ownership: 'owner',
     addressCreated: '1/22/2026',
     customerName: 'Izaac Rhome',
+    serialNumber: 'ISKT6B4C8E',
     serviceProvider: 'N/A',
     planName: 'N/A',
     subscriptionStatus: 'Pending',
@@ -123,6 +131,7 @@ const defaultColumns: Column[] = [
   { id: 'ownership', label: 'Ownership Status', visible: true },
   { id: 'addressCreated', label: 'Address Created', visible: true },
   { id: 'customerName', label: 'Customer Name', visible: true },
+  { id: 'serialNumber', label: 'Serial Number', visible: true },
   { id: 'serviceProvider', label: 'Service Provider', visible: true },
   { id: 'planName', label: 'Plan Name', visible: true },
   { id: 'subscriptionStatus', label: 'Subscription Status', visible: true },
@@ -147,11 +156,13 @@ const defaultColumns: Column[] = [
 
 export function AllSubscribersContent() {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
+  const [showStats, setShowStats] = useState(true);
   const [columns, setColumns] = useState<Column[]>(defaultColumns);
   const [entriesPerPage, setEntriesPerPage] = useState('50');
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 131; // 1302 total / 10 per page (example)
   const [selectedCustomer, setSelectedCustomer] = useState<any>(null);
+  const [isColumnSheetOpen, setIsColumnSheetOpen] = useState(false);
   const [activeFilters, setActiveFilters] = useState<Record<string, any>>({
     currentStatus: [],
     subscriptionStatus: [],
@@ -204,10 +215,65 @@ export function AllSubscribersContent() {
       <div className="p-6">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="mb-6">
-            <h1 className="text-3xl font-bold text-[var(--foreground)] mb-2">All Subscribers</h1>
-            <p className="text-[var(--muted-foreground)]">Comprehensive directory of all subscriber accounts</p>
+          <div className="mb-6 flex items-start justify-between">
+            <div>
+              <h1 className="text-3xl font-bold text-[var(--foreground)] mb-2">All Subscribers</h1>
+              <p className="text-[var(--muted-foreground)]">Comprehensive directory of all subscriber accounts</p>
+            </div>
+            <button
+              onClick={() => setShowStats(!showStats)}
+              className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--foreground)] bg-[var(--secondary)] hover:bg-[var(--secondary)]/80 border border-[var(--border)] rounded-lg transition-colors"
+              title={showStats ? "Hide Statistics" : "Show Statistics"}
+            >
+              {showStats ? <EyeOff className="w-4 h-4" /> : <BarChart3 className="w-4 h-4" />}
+              {showStats ? "Hide Stats" : "Show Stats"}
+            </button>
           </div>
+
+          {/* Active Subscription Stats */}
+          {showStats && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+              {/* Total Active */}
+              <Card className="bg-[var(--card)] border border-[var(--border)] p-6">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="text-sm text-[var(--muted-foreground)]">Total Active</div>
+                  <Users className="w-5 h-5 text-[var(--muted-foreground)]" />
+                </div>
+                <div className="text-3xl font-bold text-[var(--foreground)] mb-1">0</div>
+                <div className="text-sm text-[var(--muted-foreground)]">Active subscriptions</div>
+              </Card>
+
+              {/* New This Month */}
+              <Card className="bg-[var(--card)] border border-[var(--border)] p-6">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="text-sm text-[var(--muted-foreground)]">New This Month</div>
+                  <TrendingUp className="w-5 h-5 text-[var(--success)]" />
+                </div>
+                <div className="text-3xl font-bold text-[var(--success)] mb-1">+0</div>
+                <div className="text-sm text-[var(--muted-foreground)]">New activations</div>
+              </Card>
+
+              {/* Churned This Month */}
+              <Card className="bg-[var(--card)] border border-[var(--border)] p-6">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="text-sm text-[var(--muted-foreground)]">Churned This Month</div>
+                  <TrendingDown className="w-5 h-5 text-[var(--error)]" />
+                </div>
+                <div className="text-3xl font-bold text-[var(--error)] mb-1">-0</div>
+                <div className="text-sm text-[var(--muted-foreground)]">Net 0 subscribers</div>
+              </Card>
+
+              {/* Monthly Revenue */}
+              <Card className="bg-[var(--card)] border border-[var(--border)] p-6">
+                <div className="flex items-start justify-between mb-3">
+                  <div className="text-sm text-[var(--muted-foreground)]">Monthly Revenue</div>
+                  <DollarSign className="w-5 h-5 text-[var(--muted-foreground)]" />
+                </div>
+                <div className="text-3xl font-bold text-[var(--foreground)] mb-1">$0</div>
+                <div className="text-sm text-[var(--muted-foreground)]">Recurring revenue</div>
+              </Card>
+            </div>
+          )}
 
           {/* Search Bar */}
           <div className="mb-6">
@@ -580,24 +646,19 @@ export function AllSubscribersContent() {
           {/* Table */}
           <Card className="bg-[var(--card)] border-[var(--border)]">
             <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)]">
-              <Popover>
-                <PopoverTrigger asChild>
-                  <button className="flex items-center gap-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors">
-                    <span className="w-4 h-4 bg-[var(--secondary)] rounded flex items-center justify-center">
-                      <span className="text-xs">⚙</span>
-                    </span>
-                    View
-                  </button>
-                </PopoverTrigger>
-                <PopoverContent 
-                  className="bg-[var(--popover)] border-[var(--border)] p-4 w-auto max-w-md" 
-                  align="start"
-                  side="bottom"
-                  sideOffset={8}
+              <div className="flex items-center gap-2">
+                <button 
+                  onClick={() => setIsColumnSheetOpen(true)}
+                  className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--foreground)] bg-[var(--secondary)] hover:bg-[var(--secondary)]/80 border border-[var(--border)] rounded-lg transition-colors"
                 >
-                  <ColumnManager columns={columns} onColumnsChange={setColumns} />
-                </PopoverContent>
-              </Popover>
+                  <ColumnsIcon className="w-4 h-4" />
+                  Columns
+                </button>
+                <button className="flex items-center gap-2 px-3 py-2 text-sm text-[var(--foreground)] bg-[var(--secondary)] hover:bg-[var(--secondary)]/80 border border-[var(--border)] rounded-lg transition-colors">
+                  <Download className="w-4 h-4" />
+                  Export
+                </button>
+              </div>
               
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
@@ -679,6 +740,20 @@ export function AllSubscribersContent() {
         onClose={() => setSelectedCustomer(null)}
         customer={selectedCustomer}
       />
+
+      {/* Column Manager Sheet */}
+      <Sheet open={isColumnSheetOpen} onOpenChange={setIsColumnSheetOpen}>
+        <SheetContent className="bg-[var(--card)] border-l border-[var(--border)] w-[400px] sm:w-[500px] p-0">
+          <SheetHeader className="px-6 py-4 border-b border-[var(--border)]">
+            <SheetTitle className="text-lg font-semibold text-[var(--foreground)]">
+              Manage Columns
+            </SheetTitle>
+          </SheetHeader>
+          <div className="h-[calc(100vh-73px)] overflow-hidden">
+            <ColumnManager columns={columns} onColumnsChange={setColumns} />
+          </div>
+        </SheetContent>
+      </Sheet>
     </DndProvider>
   );
 }

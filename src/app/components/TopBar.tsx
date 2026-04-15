@@ -18,9 +18,6 @@ export function TopBar({ activeSection, onSectionChange }: TopBarProps) {
   const { theme, toggleTheme } = useTheme();
   const { activeTheme, isPreviewMode } = useThemePreview();
   
-  // Use primary color if in dark mode OR if previewing a theme
-  const usePrimaryColor = theme === 'dark' || (isPreviewMode && activeTheme !== null);
-  
   return (
     <div className="h-16 bg-[var(--background)] border-b border-[var(--border)] flex items-center justify-between px-4 md:px-6 gap-4">
       {/* Search */}
@@ -77,7 +74,7 @@ export function TopBar({ activeSection, onSectionChange }: TopBarProps) {
           <DropdownMenuTrigger className="focus:outline-none focus:ring-2 focus:ring-[var(--focus)] rounded-full">
             <Avatar className="w-8 h-8 border border-[var(--border)]">
               <AvatarImage src="" />
-              <AvatarFallback className={usePrimaryColor ? "bg-[var(--primary)] text-[var(--primary-foreground)] text-sm" : "bg-[var(--focus)] text-white text-sm"}>AD</AvatarFallback>
+              <AvatarFallback className="bg-[var(--btn-primary-default)] text-[var(--primary-foreground)] text-sm">AD</AvatarFallback>
             </Avatar>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="bg-[var(--popover)] border-[var(--border)]">

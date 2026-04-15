@@ -3,6 +3,26 @@
 :root {
   --font-size: 16px;
   
+  /* Primary Color Tokens - Dynamically set by PrimaryColorProvider */
+  --primary-light: #6366f1;  /* Default: Deep Indigo */
+  --primary-dark: #6366f1;
+  --primary-light-hover: #818cf8;
+  --primary-dark-hover: #818cf8;
+  --primary-light-foreground: #FFFFFF;  /* Text color for light mode primary buttons */
+  --primary-dark-foreground: #FFFFFF;   /* Text color for dark mode primary buttons */
+  
+  /* Typography Scale - Accessibility-First Font Sizes */
+  /* WARNING: text-xs (12px) should ONLY be used for non-interactive metadata */
+  /* All interactive UI elements must use text-sm (14px) or larger */
+  --text-xs: 0.75rem;   /* 12px - RESTRICTED: metadata, timestamps, disclaimers only */
+  --text-sm: 0.875rem;  /* 14px - MINIMUM for interactive UI elements */
+  --text-base: 1rem;    /* 16px - Default body text */
+  --text-lg: 1.125rem;  /* 18px */
+  --text-xl: 1.25rem;   /* 20px */
+  --text-2xl: 1.5rem;   /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem;  /* 36px */
+  
   /* Light Mode - Background Colors */
   --background: #FFFFFF;
   --foreground: #020817;
@@ -14,10 +34,10 @@
   --secondary-foreground: #020817;
   
   /* Light Mode - Text Colors */
-  --primary: #0F172A;
-  --primary-foreground: #FFFFFF;
+  --primary: var(--primary-light);
+  --primary-foreground: var(--primary-light-foreground);
   --muted: #F1F5F9;
-  --muted-foreground: #64748B;
+  --muted-foreground: #475569;
   --accent: #F1F5F9;
   --accent-foreground: #020817;
   
@@ -44,16 +64,16 @@
   /* Sidebar Light Mode */
   --sidebar: #FFFFFF;
   --sidebar-foreground: #334155;
-  --sidebar-primary: #147FFF;
-  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-primary: var(--primary-light);
+  --sidebar-primary-foreground: var(--primary-light-foreground);
   --sidebar-accent: #F1F5F9;
   --sidebar-accent-foreground: #334155;
   --sidebar-border: #E2E8F0;
-  --sidebar-ring: #147FFF;
+  --sidebar-ring: var(--primary-light);
   
   /* Sidebar Active Item Gradient - Light Mode */
-  --sidebar-active-gradient-from: #0052CC;
-  --sidebar-active-gradient-to: #0099FF;
+  --sidebar-active-gradient-from: var(--primary-light);
+  --sidebar-active-gradient-to: var(--primary-light-hover);
   --sidebar-active-shadow: rgba(0, 0, 0, 0.1);
   
   /* Neutrals (same for both modes) */
@@ -76,10 +96,10 @@
   --destructive: #DC2626;
   --destructive-foreground: #FFFFFF;
   
-  /* Button Primary - Light Mode */
-  --btn-primary-default: #3876F2;
-  --btn-primary-hover: rgba(56, 118, 242, 0.75);
-  --btn-primary-border: #3876F2;
+  /* Button Primary - Light Mode - Dynamic Primary Color */
+  --btn-primary-default: var(--primary-light);
+  --btn-primary-hover: var(--primary-light-hover);
+  --btn-primary-border: var(--primary-light);
   --btn-primary-disabled: #B2B2B4;
   
   /* Button Secondary - Light Mode */
@@ -92,31 +112,32 @@
 }
 
 .dark {
-  /* Dark Mode - Background Colors */
-  --background: #020817;
-  --foreground: #F8FAFC;
-  --card: #020817;
-  --card-foreground: #F8FAFC;
-  --popover: #070E1E;
-  --popover-foreground: #F8FAFC;
-  --secondary: #1E293B;
-  --secondary-foreground: #F8FAFC;
+  /* Dark Mode - Deep Indigo Theme */
+  /* Background Colors */
+  --background: #1a1a1a;
+  --foreground: #ffffff;
+  --card: #212121;
+  --card-foreground: #ffffff;
+  --popover: #212121;
+  --popover-foreground: #ffffff;
+  --secondary: #2a2a2a;
+  --secondary-foreground: #ffffff;
   
-  /* Dark Mode - Text Colors */
-  --primary: #F8FAFC;
-  --primary-foreground: #020817;
-  --muted: #1E293B;
-  --muted-foreground: #94A3B8;
-  --accent: #1E293B;
-  --accent-foreground: #F8FAFC;
+  /* Primary Colors - Dynamic from PrimaryColorProvider */
+  --primary: var(--primary-dark);
+  --primary-foreground: var(--primary-dark-foreground);
+  --muted: #2e2e2e;
+  --muted-foreground: #cbd5e1;
+  --accent: var(--primary-dark-hover);
+  --accent-foreground: #ffffff;
   
-  /* Dark Mode - Borders & Dividers */
-  --border: #1E293B;
-  --divider: #1E293B;
-  --input: #1E293B;
-  --input-background: #0F172A;
+  /* Borders & Dividers */
+  --border: #2e2e2e;
+  --divider: #2e2e2e;
+  --input: #2e2e2e;
+  --input-background: #212121;
   --switch-background: #475569;
-  --ring: #147FFF;
+  --ring: var(--primary-dark);
   
   /* Charts */
   --chart-1: oklch(0.488 0.243 264.376);
@@ -125,44 +146,44 @@
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
   
-  /* Sidebar Dark Mode */
-  --sidebar: #020817;
-  --sidebar-foreground: #F8FAFC;
-  --sidebar-primary: #147FFF;
-  --sidebar-primary-foreground: #F8FAFC;
-  --sidebar-accent: #1E293B;
-  --sidebar-accent-foreground: #F8FAFC;
-  --sidebar-border: #1E293B;
-  --sidebar-ring: #147FFF;
+  /* Sidebar Dark Mode - Much darker than background */
+  --sidebar: #0d0d0d;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: var(--primary-dark);
+  --sidebar-primary-foreground: var(--primary-dark-foreground);
+  --sidebar-accent: #2e2e2e;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: #2e2e2e;
+  --sidebar-ring: var(--primary-dark);
   
-  /* Sidebar Active Item Gradient - Dark Mode */
-  --sidebar-active-gradient-from: #0066FF;
-  --sidebar-active-gradient-to: #00A3FF;
+  /* Sidebar Active Item Gradient - Dynamic Primary */
+  --sidebar-active-gradient-from: var(--primary-dark);
+  --sidebar-active-gradient-to: var(--primary-dark-hover);
   --sidebar-active-shadow: rgba(0, 0, 0, 0.3);
   
-  /* Semantic Colors - Dark Mode */
-  --focus: #147FFF;
-  --success: #21DB00;
-  --warning: #DC6300;
-  --error: #E60000;
-  --info: #FFFFFF;
-  --disabled: #B2B2B4;
-  --destructive: #E60000;
-  --destructive-foreground: #FFFFFF;
+  /* Semantic Colors */
+  --focus: var(--primary-dark);
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --error: #ef4444;
+  --info: var(--primary-dark);
+  --disabled: #cbd5e1;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
   
-  /* Button Primary - Dark Mode */
-  --btn-primary-default: #F8FAFC;
-  --btn-primary-hover: rgba(248, 250, 252, 0.30);
-  --btn-primary-border: #F8FAFC;
-  --btn-primary-disabled: #B2B2B4;
+  /* Button Primary - Dynamic Primary Color */
+  --btn-primary-default: var(--primary-dark);
+  --btn-primary-hover: var(--primary-dark-hover);
+  --btn-primary-border: var(--primary-dark);
+  --btn-primary-disabled: #cbd5e1;
   
-  /* Button Secondary - Dark Mode */
-  --btn-secondary-default: #1E293B;
-  --btn-secondary-hover: #2D3F5E;
-  --btn-secondary-border: #50607B;
+  /* Button Secondary */
+  --btn-secondary-default: #2e2e2e;
+  --btn-secondary-hover: #3a3a3a;
+  --btn-secondary-border: #475569;
   
   /* Error States */
-  --error-hover: #C70808;
+  --error-hover: #dc2626;
 }
 
 @theme inline {
@@ -204,6 +225,16 @@
   --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
+  
+  /* Typography Scale - Map Tailwind classes to design tokens */
+  --font-size-xs: var(--text-xs);     /* 12px - RESTRICTED USE */
+  --font-size-sm: var(--text-sm);     /* 14px - Minimum UI size */
+  --font-size-base: var(--text-base); /* 16px - Default */
+  --font-size-lg: var(--text-lg);     /* 18px */
+  --font-size-xl: var(--text-xl);     /* 20px */
+  --font-size-2xl: var(--text-2xl);   /* 24px */
+  --font-size-3xl: var(--text-3xl);   /* 30px */
+  --font-size-4xl: var(--text-4xl);   /* 36px */
 }
 
 @layer base {
@@ -444,7 +475,7 @@
   .btn-primary-gradient {
     background: linear-gradient(to right, var(--sidebar-active-gradient-from), var(--sidebar-active-gradient-to));
     box-shadow: inset 0 1px 2px var(--sidebar-active-shadow);
-    color: var(--sidebar-primary-foreground);
+    color: var(--primary-foreground);
   }
   
   .btn-primary-gradient:hover {

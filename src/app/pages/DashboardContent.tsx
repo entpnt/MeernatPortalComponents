@@ -78,7 +78,7 @@ const getSeverityColor = (severity: string) => {
     case 'info':
       return 'bg-[#147FFF]/10 text-[#147FFF] border-[#147FFF]';
     default:
-      return 'bg-[#94A3B8]/10 text-[#94A3B8] border-[#94A3B8]';
+      return 'bg-muted/10 text-muted-foreground border-muted-foreground';
   }
 };
 
@@ -121,7 +121,7 @@ export function DashboardContent() {
             </span>
           </div>
           <div className="text-2xl font-semibold text-[#F8FAFC] mb-1">Healthy</div>
-          <div className="text-xs text-[#94A3B8]">Network Status</div>
+          <div className="text-xs text-muted-foreground">Network Status</div>
         </div>
 
         {/* Active Incidents */}
@@ -136,7 +136,7 @@ export function DashboardContent() {
             </span>
           </div>
           <div className="text-2xl font-semibold text-[#F8FAFC] mb-1">3</div>
-          <div className="text-xs text-[#94A3B8]">Active Incidents</div>
+          <div className="text-xs text-muted-foreground">Active Incidents</div>
         </div>
 
         {/* Active Alerts */}
@@ -145,10 +145,10 @@ export function DashboardContent() {
             <div className="p-2 bg-[#DC6300]/10 rounded-lg">
               <AlertTriangle className="w-5 h-5 text-[#DC6300]" />
             </div>
-            <span className="text-xs text-[#94A3B8]">Critical: 2</span>
+            <span className="text-xs text-muted-foreground">Critical: 2</span>
           </div>
           <div className="text-2xl font-semibold text-[#F8FAFC] mb-1">12</div>
-          <div className="text-xs text-[#94A3B8]">Active Alerts</div>
+          <div className="text-xs text-muted-foreground">Active Alerts</div>
         </div>
 
         {/* Network Uptime */}
@@ -160,7 +160,7 @@ export function DashboardContent() {
             <span className="text-xs text-[var(--success)]">7d: 99.98%</span>
           </div>
           <div className="text-2xl font-semibold text-[#F8FAFC] mb-1">99.97%</div>
-          <div className="text-xs text-[#94A3B8]">Uptime (24h)</div>
+          <div className="text-xs text-muted-foreground">Uptime (24h)</div>
         </div>
 
         {/* SLA Compliance */}
@@ -175,7 +175,7 @@ export function DashboardContent() {
             </span>
           </div>
           <div className="text-2xl font-semibold text-[#F8FAFC] mb-1">99.4%</div>
-          <div className="text-xs text-[#94A3B8]">SLA Compliance</div>
+          <div className="text-xs text-muted-foreground">SLA Compliance</div>
         </div>
 
         {/* Subscribers Affected */}
@@ -187,7 +187,7 @@ export function DashboardContent() {
             <span className="text-xs text-[#DC2626]">8 enterprise</span>
           </div>
           <div className="text-2xl font-semibold text-[#F8FAFC] mb-1">127</div>
-          <div className="text-xs text-[#94A3B8]">Subscribers Affected</div>
+          <div className="text-xs text-muted-foreground">Subscribers Affected</div>
         </div>
       </div>
 
@@ -198,11 +198,11 @@ export function DashboardContent() {
           <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="text-base font-semibold text-[#F8FAFC] mb-1">Bandwidth Utilization</h3>
-              <p className="text-xs text-[#94A3B8]">Ingress/Egress over 24 hours</p>
+              <p className="text-xs text-muted-foreground">Ingress/Egress over 24 hours</p>
             </div>
             <div className="text-right">
               <div className="text-lg font-semibold text-[#F8FAFC]">91 Gbps</div>
-              <div className="text-xs text-[#94A3B8]">Peak: 94.2 Gbps</div>
+              <div className="text-xs text-muted-foreground">Peak: 94.2 Gbps</div>
             </div>
           </div>
           <ResponsiveContainer width="100%" height={200}>
@@ -213,29 +213,29 @@ export function DashboardContent() {
                   <stop offset="95%" stopColor="#147FFF" stopOpacity={0}/>
                 </linearGradient>
                 <linearGradient id="colorEgress" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#21DB00" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#21DB00" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="var(--success)" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="var(--success)" stopOpacity={0}/>
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
-              <XAxis dataKey="time" stroke="#94A3B8" style={{ fontSize: '11px' }} />
-              <YAxis stroke="#94A3B8" style={{ fontSize: '11px' }} />
+              <XAxis dataKey="time" stroke="var(--muted-foreground)" style={{ fontSize: '11px' }} />
+              <YAxis stroke="var(--muted-foreground)" style={{ fontSize: '11px' }} />
               <Tooltip 
                 contentStyle={{ backgroundColor: '#0F172A', border: '1px solid #1E293B', borderRadius: '8px' }}
                 labelStyle={{ color: '#F8FAFC' }}
               />
-              <Area type="monotone" dataKey="ingress" stroke="#147FFF" fillOpacity={1} fill="url(#colorIngress)" />
-              <Area type="monotone" dataKey="egress" stroke="#21DB00" fillOpacity={1} fill="url(#colorEgress)" />
+              <Area key="area-ingress" type="monotone" dataKey="ingress" stroke="#147FFF" fillOpacity={1} fill="url(#colorIngress)" />
+              <Area key="area-egress" type="monotone" dataKey="egress" stroke="var(--success)" fillOpacity={1} fill="url(#colorEgress)" />
             </AreaChart>
           </ResponsiveContainer>
           <div className="flex items-center justify-center gap-6 mt-3">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-[#147FFF] rounded-full"></div>
-              <span className="text-xs text-[#94A3B8]">Ingress</span>
+              <span className="text-xs text-muted-foreground">Ingress</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-[#21DB00] rounded-full"></div>
-              <span className="text-xs text-[#94A3B8]">Egress</span>
+              <div className="w-3 h-3 bg-[var(--success)] rounded-full"></div>
+              <span className="text-xs text-muted-foreground">Egress</span>
             </div>
           </div>
         </div>
@@ -245,11 +245,11 @@ export function DashboardContent() {
           <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="text-base font-semibold text-[#F8FAFC] mb-1">Infrastructure Health</h3>
-              <p className="text-xs text-[#94A3B8]">Device status distribution</p>
+              <p className="text-xs text-muted-foreground">Device status distribution</p>
             </div>
             <div className="text-right">
               <div className="text-lg font-semibold text-[#F8FAFC]">270</div>
-              <div className="text-xs text-[#94A3B8]">Total Devices</div>
+              <div className="text-xs text-muted-foreground">Total Devices</div>
             </div>
           </div>
           <div className="flex items-center gap-6">
@@ -279,7 +279,7 @@ export function DashboardContent() {
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="text-sm font-semibold text-[#F8FAFC]">{item.value}</span>
-                    <span className="text-xs text-[#94A3B8]">
+                    <span className="text-xs text-muted-foreground">
                       {((item.value / 270) * 100).toFixed(1)}%
                     </span>
                   </div>
@@ -297,34 +297,34 @@ export function DashboardContent() {
           <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="text-base font-semibold text-[#F8FAFC] mb-1">Network Performance</h3>
-              <p className="text-xs text-[#94A3B8]">Latency and jitter metrics</p>
+              <p className="text-xs text-muted-foreground">Latency and jitter metrics</p>
             </div>
             <div className="text-right">
-              <div className="text-xs text-[#94A3B8] mb-1">Packet Loss: 0.02%</div>
+              <div className="text-xs text-muted-foreground mb-1">Packet Loss: 0.02%</div>
               <div className="text-xs text-[var(--success)]">Within threshold</div>
             </div>
           </div>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={latencyData}>
               <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
-              <XAxis dataKey="time" stroke="#94A3B8" style={{ fontSize: '11px' }} />
-              <YAxis stroke="#94A3B8" style={{ fontSize: '11px' }} />
+              <XAxis dataKey="time" stroke="var(--muted-foreground)" style={{ fontSize: '11px' }} />
+              <YAxis stroke="var(--muted-foreground)" style={{ fontSize: '11px' }} />
               <Tooltip 
                 contentStyle={{ backgroundColor: '#0F172A', border: '1px solid #1E293B', borderRadius: '8px' }}
                 labelStyle={{ color: '#F8FAFC' }}
               />
-              <Line type="monotone" dataKey="latency" stroke="#147FFF" strokeWidth={2} dot={{ fill: '#147FFF', r: 3 }} />
-              <Line type="monotone" dataKey="jitter" stroke="#DC6300" strokeWidth={2} dot={{ fill: '#DC6300', r: 3 }} />
+              <Line key="line-latency" type="monotone" dataKey="latency" stroke="#147FFF" strokeWidth={2} dot={{ fill: '#147FFF', r: 3 }} />
+              <Line key="line-jitter" type="monotone" dataKey="jitter" stroke="#DC6300" strokeWidth={2} dot={{ fill: '#DC6300', r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
           <div className="flex items-center justify-center gap-6 mt-3">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-[#147FFF] rounded-full"></div>
-              <span className="text-xs text-[#94A3B8]">Latency (ms)</span>
+              <span className="text-xs text-muted-foreground">Latency (ms)</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 bg-[#DC6300] rounded-full"></div>
-              <span className="text-xs text-[#94A3B8]">Jitter (ms)</span>
+              <span className="text-xs text-muted-foreground">Jitter (ms)</span>
             </div>
           </div>
         </div>
@@ -440,7 +440,7 @@ export function DashboardContent() {
           <div className="flex items-start justify-between mb-4">
             <div>
               <h3 className="text-base font-semibold text-[#F8FAFC] mb-1">Capacity & Planning</h3>
-              <p className="text-xs text-[#94A3B8]">Resource utilization overview</p>
+              <p className="text-xs text-muted-foreground">Resource utilization overview</p>
             </div>
           </div>
           <div className="space-y-4">
@@ -473,7 +473,7 @@ export function DashboardContent() {
                     ></div>
                   </div>
                   <div className="flex items-center justify-between mt-1">
-                    <span className="text-xs text-[#94A3B8]">{item.used} / {item.total} units</span>
+                    <span className="text-xs text-muted-foreground">{item.used} / {item.total} units</span>
                     {isCritical && (
                       <span className="text-xs text-[#DC2626]">Immediate action required</span>
                     )}
@@ -498,7 +498,7 @@ export function DashboardContent() {
             <h3 className="text-sm font-semibold text-[#F8FAFC]">Services Degraded</h3>
           </div>
           <div className="text-2xl font-semibold text-[#F8FAFC] mb-2">7</div>
-          <div className="space-y-1 text-xs text-[#94A3B8]">
+          <div className="space-y-1 text-xs text-muted-foreground">
             <div>• 4 Internet services</div>
             <div>• 2 IPTV services</div>
             <div>• 1 VoIP service</div>
@@ -513,7 +513,7 @@ export function DashboardContent() {
             <h3 className="text-sm font-semibold text-[#F8FAFC]">Impacted Customers</h3>
           </div>
           <div className="text-2xl font-semibold text-[#F8FAFC] mb-2">127</div>
-          <div className="space-y-1 text-xs text-[#94A3B8]">
+          <div className="space-y-1 text-xs text-muted-foreground">
             <div>• 8 Enterprise customers</div>
             <div>• 34 Business customers</div>
             <div>• 85 Residential customers</div>
@@ -528,7 +528,7 @@ export function DashboardContent() {
             <h3 className="text-sm font-semibold text-[#F8FAFC]">Provider Status</h3>
           </div>
           <div className="text-2xl font-semibold text-[#F8FAFC] mb-2">98.5%</div>
-          <div className="space-y-1 text-xs text-[#94A3B8]">
+          <div className="space-y-1 text-xs text-muted-foreground">
             <div>• 12 providers active</div>
             <div>• 2 with minor issues</div>
             <div>• Avg response: 15 min</div>

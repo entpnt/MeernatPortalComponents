@@ -1,6 +1,5 @@
 import { useState } from 'react';
-import { Info } from 'lucide-react';
-import { Modal, ModalSection, ModalActions, ModalInfoBox } from '@/app/components/ui/modal';
+import { Modal, ModalSection, ModalActions } from '@/app/components/ui/modal';
 import { Input } from '@/app/components/ui/input';
 import { Label } from '@/app/components/ui/label';
 import { Textarea } from '@/app/components/ui/textarea';
@@ -18,28 +17,6 @@ interface AddVendorModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-interface NetworkOption {
-  id: string;
-  name: string;
-  networkId: string;
-  location: string;
-}
-
-const availableNetworks: NetworkOption[] = [
-  {
-    id: '1',
-    name: 'Jamestown BPU',
-    networkId: 'jamestown_bpu',
-    location: 'Jamestown, NY',
-  },
-  {
-    id: '2',
-    name: 'Orangeburg Fiber',
-    networkId: 'subscribers',
-    location: 'Orangeburg, SC',
-  },
-];
-
 export function AddVendorModal({ open, onOpenChange }: AddVendorModalProps) {
   const [formData, setFormData] = useState({
     vendorName: '',
@@ -48,7 +25,17 @@ export function AddVendorModal({ open, onOpenChange }: AddVendorModalProps) {
     contactPhone: '',
     clerkOrgId: '',
     address: '',
-    networks: [] as string[],
+    // Networks
+    jamestown: false,
+    orangeburg: true,
+    fiberco: false,
+    // Services
+    installationEnabled: true,
+    salesEnabled: false,
+    supportEnabled: false,
+    // Status & Metadata
+    isActive: true,
+    notes: '',
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -57,22 +44,13 @@ export function AddVendorModal({ open, onOpenChange }: AddVendorModalProps) {
     onOpenChange(false);
   };
 
-  const handleNetworkToggle = (networkId: string) => {
-    setFormData(prev => ({
-      ...prev,
-      networks: prev.networks.includes(networkId)
-        ? prev.networks.filter(id => id !== networkId)
-        : [...prev.networks, networkId],
-    }));
-  };
-
   return (
     <Modal
       open={open}
       onOpenChange={onOpenChange}
       title="Create New Vendor"
-      description="Create a new vendor and assign networks."
-      maxWidth="2xl"
+      description="Create a new vendor partner with network access and service configuration."
+      maxWidth="3xl"
     >
       <form onSubmit={handleSubmit}>
         {/* Basic Information */}
@@ -82,28 +60,28 @@ export function AddVendorModal({ open, onOpenChange }: AddVendorModalProps) {
         >
           {/* Vendor Name */}
           <div className="space-y-2">
-            <Label htmlFor="vendorName" className="text-[#F8FAFC]">
-              Vendor Name <span className="text-red-500">*</span>
+            <Label htmlFor="vendorName" className="text-foreground">
+              Vendor Name <span className="text-destructive">*</span>
             </Label>
             <Input
               id="vendorName"
               placeholder="e.g., Acme Installation Services"
               value={formData.vendorName}
               onChange={(e) => setFormData({ ...formData, vendorName: e.target.value })}
-              className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B]"
+              className="bg-input-background border-input text-foreground placeholder:text-muted-foreground"
             />
           </div>
 
           {/* Vendor Type */}
           <div className="space-y-2">
-            <Label htmlFor="vendorType" className="text-[#F8FAFC]">
-              Vendor Type <span className="text-red-500">*</span>
+            <Label htmlFor="vendorType" className="text-foreground">
+              Vendor Type <span className="text-destructive">*</span>
             </Label>
             <Select value={formData.vendorType} onValueChange={(value) => setFormData({ ...formData, vendorType: value })}>
-              <SelectTrigger className="bg-[#020817] border-[#1E293B] text-[#F8FAFC]">
+              <SelectTrigger className="bg-input-background border-input text-foreground">
                 <SelectValue placeholder="Network Installer..." />
               </SelectTrigger>
-              <SelectContent className="bg-[#0F172A] border-[#1E293B]">
+              <SelectContent className="bg-popover border-border">
                 <SelectItem value="network-installer">Network Installer</SelectItem>
                 <SelectItem value="network-construction">Network Construction</SelectItem>
                 <SelectItem value="independent-sales">Independent Sales</SelectItem>
@@ -116,53 +94,53 @@ export function AddVendorModal({ open, onOpenChange }: AddVendorModalProps) {
           {/* Contact Email & Phone */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="contactEmail" className="text-[#F8FAFC]">Contact Email</Label>
+              <Label htmlFor="contactEmail" className="text-foreground">Contact Email</Label>
               <Input
                 id="contactEmail"
                 type="email"
                 placeholder="contact@vendor.com"
                 value={formData.contactEmail}
                 onChange={(e) => setFormData({ ...formData, contactEmail: e.target.value })}
-                className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B]"
+                className="bg-input-background border-input text-foreground placeholder:text-muted-foreground"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="contactPhone" className="text-[#F8FAFC]">Contact Phone</Label>
+              <Label htmlFor="contactPhone" className="text-foreground">Contact Phone</Label>
               <Input
                 id="contactPhone"
                 placeholder="(555) 123-4567"
                 value={formData.contactPhone}
                 onChange={(e) => setFormData({ ...formData, contactPhone: e.target.value })}
-                className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B]"
+                className="bg-input-background border-input text-foreground placeholder:text-muted-foreground"
               />
             </div>
           </div>
 
           {/* Clerk Organization ID */}
           <div className="space-y-2">
-            <Label htmlFor="clerkOrgId" className="text-[#F8FAFC]">Clerk Organization ID</Label>
+            <Label htmlFor="clerkOrgId" className="text-foreground">Clerk Organization ID</Label>
             <Input
               id="clerkOrgId"
               placeholder="org_2abc123def456"
               value={formData.clerkOrgId}
               onChange={(e) => setFormData({ ...formData, clerkOrgId: e.target.value })}
-              className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B]"
+              className="bg-input-background border-input text-foreground placeholder:text-muted-foreground"
             />
-            <p className="text-xs text-[#64748B]">
+            <p className="text-xs text-muted-foreground">
               The Clerk organization ID for this vendor (e.g., org_2abc123def456)
             </p>
           </div>
 
           {/* Address */}
           <div className="space-y-2">
-            <Label htmlFor="address" className="text-[#F8FAFC]">Address</Label>
+            <Label htmlFor="address" className="text-foreground">Address</Label>
             <Textarea
               id="address"
               placeholder="Company address"
               value={formData.address}
               onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-              className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B] min-h-[80px]"
+              className="bg-input-background border-input text-foreground placeholder:text-muted-foreground min-h-[80px]"
             />
           </div>
         </ModalSection>
@@ -174,34 +152,119 @@ export function AddVendorModal({ open, onOpenChange }: AddVendorModalProps) {
           showDivider
         >
           <div className="space-y-3">
-            {availableNetworks.map((network) => (
-              <div key={network.id} className="flex items-start space-x-3">
-                <Checkbox
-                  id={`network-${network.id}`}
-                  checked={formData.networks.includes(network.id)}
-                  onCheckedChange={() => handleNetworkToggle(network.id)}
-                  className="mt-1 border-[#1E293B] data-[state=checked]:bg-[#147FFF] data-[state=checked]:border-[#147FFF]"
-                />
-                <div className="flex-1">
-                  <Label
-                    htmlFor={`network-${network.id}`}
-                    className="text-[#F8FAFC] font-medium cursor-pointer"
-                  >
-                    {network.name}
-                  </Label>
-                  <p className="text-sm text-[#64748B]">
-                    {network.networkId} • {network.location}
-                  </p>
-                </div>
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="jamestown"
+                checked={formData.jamestown}
+                onCheckedChange={(checked) => setFormData({ ...formData, jamestown: !!checked })}
+              />
+              <Label htmlFor="jamestown" className="text-foreground cursor-pointer">
+                Jamestown BPU
+              </Label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="orangeburg"
+                checked={formData.orangeburg}
+                onCheckedChange={(checked) => setFormData({ ...formData, orangeburg: !!checked })}
+              />
+              <Label htmlFor="orangeburg" className="text-foreground cursor-pointer">
+                Orangeburg Fiber
+              </Label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="fiberco"
+                checked={formData.fiberco}
+                onCheckedChange={(checked) => setFormData({ ...formData, fiberco: !!checked })}
+              />
+              <Label htmlFor="fiberco" className="text-foreground cursor-pointer">
+                FiberCo Networks
+              </Label>
+            </div>
+          </div>
+        </ModalSection>
+
+        {/* Services Configuration */}
+        <ModalSection
+          title="Services Configuration"
+          description="Enable services this vendor can perform"
+          showDivider
+        >
+          <div className="space-y-3">
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="installationEnabled"
+                checked={formData.installationEnabled}
+                onCheckedChange={(checked) => setFormData({ ...formData, installationEnabled: !!checked })}
+              />
+              <div>
+                <Label htmlFor="installationEnabled" className="text-foreground cursor-pointer font-medium">
+                  Installation Services
+                </Label>
+                <p className="text-xs text-muted-foreground">Allow this vendor to perform network installations</p>
               </div>
-            ))}
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="salesEnabled"
+                checked={formData.salesEnabled}
+                onCheckedChange={(checked) => setFormData({ ...formData, salesEnabled: !!checked })}
+              />
+              <div>
+                <Label htmlFor="salesEnabled" className="text-foreground cursor-pointer font-medium">
+                  Sales Services
+                </Label>
+                <p className="text-xs text-muted-foreground">Allow this vendor to manage sales activities</p>
+              </div>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="supportEnabled"
+                checked={formData.supportEnabled}
+                onCheckedChange={(checked) => setFormData({ ...formData, supportEnabled: !!checked })}
+              />
+              <div>
+                <Label htmlFor="supportEnabled" className="text-foreground cursor-pointer font-medium">
+                  Support Services
+                </Label>
+                <p className="text-xs text-muted-foreground">Allow this vendor to provide customer support</p>
+              </div>
+            </div>
+          </div>
+        </ModalSection>
+
+        {/* Status & Additional Information */}
+        <ModalSection
+          title="Status & Additional Information"
+          description="Vendor status and notes"
+          showDivider
+        >
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="isActive"
+              checked={formData.isActive}
+              onCheckedChange={(checked) => setFormData({ ...formData, isActive: !!checked })}
+            />
+            <Label htmlFor="isActive" className="text-foreground cursor-pointer">
+              Active Vendor
+            </Label>
           </div>
 
-          <ModalInfoBox
-            title="Network Access"
-            description="Access permissions are controlled by user roles in Clerk. Network assignment determines which networks the vendor can access, while their specific permissions are based on their role within the organization."
-            icon={<Info className="w-5 h-5 text-[#147FFF]" />}
-          />
+          <div className="space-y-2">
+            <Label htmlFor="notes" className="text-foreground">Notes</Label>
+            <Textarea
+              id="notes"
+              placeholder="Additional notes or special instructions for this vendor"
+              value={formData.notes}
+              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              className="bg-input-background border-input text-foreground placeholder:text-muted-foreground min-h-[100px]"
+            />
+          </div>
         </ModalSection>
 
         {/* Actions */}

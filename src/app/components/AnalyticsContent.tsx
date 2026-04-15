@@ -31,8 +31,8 @@ export function AnalyticsContent({ onNavigateBack }: AnalyticsContentProps) {
   return (
     <div className="p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-[#F8FAFC] mb-2">Subscription Analytics</h1>
-        <p className="text-[#94A3B8]">
+        <h1 className="text-3xl font-bold text-foreground mb-2">Subscription Analytics</h1>
+        <p className="text-muted-foreground">
           Comprehensive insights into subscriber metrics • Orangeburg Fiber
         </p>
       </div>
@@ -81,38 +81,38 @@ function GrowthTrendsTab() {
     <div className="space-y-6">
       {/* Growth Analytics Header */}
       <div className="flex items-start gap-3 mb-6">
-        <div className="p-2 bg-[#1E293B] rounded-lg">
-          <TrendingUp className="w-5 h-5 text-[#147FFF]" />
+        <div className="p-2 bg-secondary rounded-lg">
+          <TrendingUp className="w-5 h-5 text-[var(--info)]" />
         </div>
         <div>
-          <h2 className="text-xl font-semibold text-[#F8FAFC] mb-1">Growth Analytics</h2>
-          <p className="text-sm text-[#94A3B8]">Track subscription growth over time</p>
+          <h2 className="text-xl font-semibold text-foreground mb-1">Growth Analytics</h2>
+          <p className="text-sm text-muted-foreground">Track subscription growth over time</p>
         </div>
       </div>
 
       {/* Subscription Growth Trend Card */}
-      <Card className="bg-[#0F172A] border-[#1E293B] p-6">
+      <Card className="bg-card border-border p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h3 className="text-base font-semibold text-[#F8FAFC] mb-1">
+            <h3 className="text-base font-semibold text-card-foreground mb-1">
               Subscription Growth Trend
             </h3>
-            <p className="text-sm text-[#94A3B8]">
+            <p className="text-sm text-muted-foreground">
               Net new subscriptions over the selected time period
             </p>
           </div>
 
           {/* Time View Toggle */}
           <div className="flex gap-2">
-            <span className="text-sm text-[#94A3B8] mr-2 self-center">View by:</span>
+            <span className="text-sm text-muted-foreground mr-2 self-center">View by:</span>
             <Button
               variant={timeView === 'daily' ? 'default' : 'outline'}
               size="sm"
               onClick={() => setTimeView('daily')}
               className={
                 timeView === 'daily'
-                  ? 'bg-[#1E293B] text-[#F8FAFC] border-[#1E293B]'
-                  : 'bg-transparent text-[#94A3B8] border-[#1E293B] hover:bg-[#1E293B] hover:text-[#F8FAFC]'
+                  ? 'bg-secondary text-foreground border-border'
+                  : 'bg-transparent text-muted-foreground border-border hover:bg-secondary hover:text-foreground'
               }
             >
               Daily
@@ -123,8 +123,8 @@ function GrowthTrendsTab() {
               onClick={() => setTimeView('weekly')}
               className={
                 timeView === 'weekly'
-                  ? 'bg-[#1E293B] text-[#F8FAFC] border-[#1E293B]'
-                  : 'bg-transparent text-[#94A3B8] border-[#1E293B] hover:bg-[#1E293B] hover:text-[#F8FAFC]'
+                  ? 'bg-secondary text-foreground border-border'
+                  : 'bg-transparent text-muted-foreground border-border hover:bg-secondary hover:text-foreground'
               }
             >
               Weekly
@@ -135,8 +135,8 @@ function GrowthTrendsTab() {
               onClick={() => setTimeView('monthly')}
               className={
                 timeView === 'monthly'
-                  ? 'bg-[#F8FAFC] text-[#020817] border-[#F8FAFC]'
-                  : 'bg-transparent text-[#94A3B8] border-[#1E293B] hover:bg-[#1E293B] hover:text-[#F8FAFC]'
+                  ? 'bg-primary text-primary-foreground border-primary'
+                  : 'bg-transparent text-muted-foreground border-border hover:bg-secondary hover:text-foreground'
               }
             >
               Monthly
@@ -151,323 +151,312 @@ function GrowthTrendsTab() {
               data={growthData}
               margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
             >
-              <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
+              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
               <XAxis
                 dataKey="month"
-                stroke="#94A3B8"
-                tick={{ fill: '#94A3B8', fontSize: 12 }}
+                stroke="var(--muted-foreground)"
+                tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }}
               />
-              <YAxis stroke="#94A3B8" tick={{ fill: '#94A3B8', fontSize: 12 }} />
+              <YAxis stroke="var(--muted-foreground)" tick={{ fill: 'var(--muted-foreground)', fontSize: 12 }} />
               <Tooltip
                 contentStyle={{
-                  backgroundColor: '#0F172A',
-                  border: '1px solid #1E293B',
+                  backgroundColor: 'var(--popover)',
+                  border: '1px solid var(--border)',
                   borderRadius: '8px',
-                  color: '#F8FAFC',
+                  color: 'var(--foreground)',
                 }}
-                labelStyle={{ color: '#F8FAFC' }}
+                labelStyle={{ color: 'var(--foreground)' }}
               />
               <Legend
-                wrapperStyle={{ color: '#F8FAFC' }}
+                wrapperStyle={{ color: 'var(--foreground)' }}
                 iconType="circle"
                 formatter={(value) => (
-                  <span style={{ color: '#94A3B8', fontSize: '14px' }}>{value}</span>
+                  <span style={{ color: 'var(--muted-foreground)', fontSize: '14px' }}>{value}</span>
                 )}
               />
               <Line
                 type="monotone"
                 dataKey="cancelled"
-                stroke="#FF5C5C"
+                stroke="var(--error)"
                 strokeWidth={2}
-                dot={{ fill: '#FF5C5C', r: 4 }}
+                dot={{ fill: 'var(--error)', r: 4 }}
                 name="Cancelled"
               />
               <Line
                 type="monotone"
                 dataKey="netGrowth"
-                stroke="#147FFF"
+                stroke="var(--info)"
                 strokeWidth={2}
-                dot={{ fill: '#147FFF', r: 4 }}
+                dot={{ fill: 'var(--info)', r: 4 }}
                 name="Net Growth"
               />
               <Line
                 type="monotone"
                 dataKey="new"
-                stroke="#21DB00"
+                stroke="var(--success)"
                 strokeWidth={2}
-                dot={{ fill: '#21DB00', r: 4 }}
+                dot={{ fill: 'var(--success)', r: 4 }}
                 name="New"
               />
             </LineChart>
           </ResponsiveContainer>
         </div>
+
+        {/* Legend */}
+        <div className="flex items-center justify-center gap-6 mt-6 pt-6 border-t border-border">
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-[var(--success)] rounded-full" />
+            <span className="text-sm text-muted-foreground">New Subscriptions</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-[var(--error)] rounded-full" />
+            <span className="text-sm text-muted-foreground">Cancelled</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-3 h-3 bg-[var(--info)] rounded-full" />
+            <span className="text-sm text-muted-foreground">Net Growth</span>
+          </div>
+        </div>
       </Card>
+
+      {/* Metrics Row */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <Card className="bg-card border-border p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-[var(--success)]/10 rounded-lg">
+              <Users className="w-5 h-5 text-[var(--success)]" />
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Total Growth</p>
+              <p className="text-2xl font-bold text-foreground">+128</p>
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground">Last 12 months</p>
+        </Card>
+
+        <Card className="bg-card border-border p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-[var(--info)]/10 rounded-lg">
+              <TrendingUp className="w-5 h-5 text-[var(--info)]" />
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Avg Monthly Growth</p>
+              <p className="text-2xl font-bold text-foreground">10.7</p>
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground">Per month average</p>
+        </Card>
+
+        <Card className="bg-card border-border p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-[var(--error)]/10 rounded-lg">
+              <UserX className="w-5 h-5 text-[var(--error)]" />
+            </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Total Churned</p>
+              <p className="text-2xl font-bold text-foreground">-47</p>
+            </div>
+          </div>
+          <p className="text-xs text-muted-foreground">Last 12 months</p>
+        </Card>
+      </div>
     </div>
   );
 }
 
 // Churn Analysis Tab Component
 function ChurnAnalysisTab() {
-  const [searchQuery, setSearchQuery] = useState('');
-
-  // Mock data for pie chart
+  // Mock data for churn reasons pie chart
   const churnReasons = [
-    { name: 'Customer Request', value: 45, color: '#94A3B8' },
-    { name: 'Moved Out Of Service Area', value: 30, color: '#64748B' },
-    { name: 'Other', value: 25, color: '#475569' },
+    { name: 'Price too high', value: 35, color: 'var(--error)' },
+    { name: 'Switched providers', value: 25, color: 'var(--warning)' },
+    { name: 'Service issues', value: 20, color: 'var(--info)' },
+    { name: 'Moving/Relocation', value: 15, color: 'var(--accent)' },
+    { name: 'Other', value: 5, color: 'var(--muted)' },
   ];
-
-  // Mock data for recently cancelled subscriptions
-  const cancelledSubscriptions = [
-    {
-      id: '1',
-      name: 'Shameka Rouse',
-      email: 'sweetcakerou@yahoo.com',
-      accountNumber: 'OF-2025-216943',
-      plan: '1GB + Phone Bundle',
-      planDetail: 'via Advanced Stream',
-      mrrLost: '-$90.90',
-      reason: 'Customer Request',
-      cancelled: 'Jan 26, 2026',
-      cancelledTime: '10:11 AM',
-    },
-    {
-      id: '2',
-      name: 'Kenneth Glover',
-      email: 'gloverfkconsult@gmail.com',
-      accountNumber: 'OF-2025-242148',
-      plan: '1GB/1GB',
-      planDetail: 'via Advanced Stream',
-      mrrLost: '-$65.95',
-      reason: 'Customer Request',
-      cancelled: 'Jan 23, 2026',
-      cancelledTime: '12:31 PM',
-    },
-    {
-      id: '3',
-      name: 'Martin Ravi',
-      email: 'helpauimartin@gmail.com',
-      accountNumber: 'OF-2025-828163',
-      plan: '100M/100M w/limited support',
-      planDetail: 'via Sumo Fiber',
-      mrrLost: '-$59.99',
-      reason: 'Customer Request',
-      cancelled: 'Jan 20, 2026',
-      cancelledTime: '2:51 PM',
-    },
-    {
-      id: '4',
-      name: 'Jerome Rhett',
-      email: 'jrhette@gmail.com',
-      accountNumber: 'OF-2025-555958',
-      plan: '2.5GB/2.5GB',
-      planDetail: 'via Sumo Fiber',
-      mrrLost: '-$99.99',
-      reason: 'Moved Out Of Service Area',
-      cancelled: 'Jan 20, 2026',
-      cancelledTime: '1:42 PM',
-    },
-    {
-      id: '5',
-      name: 'Timothy Johnson',
-      email: 'waitingforchange1989@gmail.com',
-      accountNumber: 'OF-2025-564874',
-      plan: '1GB/1GB',
-      planDetail: 'via Sumo Fiber',
-      mrrLost: '-$69.99',
-      reason: 'Other',
-      cancelled: 'Jan 15, 2026',
-      cancelledTime: '4:22 PM',
-    },
-    {
-      id: '6',
-      name: 'Shannon Mccants',
-      email: 'shannonmccants80@gmail.com',
-      accountNumber: 'OF-2025-981125',
-      plan: '1GB/1GB',
-      planDetail: 'via Advanced Stream',
-      mrrLost: '-$65.95',
-      reason: 'Customer Request',
-      cancelled: 'Jan 15, 2026',
-      cancelledTime: '3:41 PM',
-    },
-    {
-      id: '7',
-      name: 'Tamieka Bookhart',
-      email: 'tamiekab0981@hotmail.com',
-      accountNumber: 'OF-2025-754177',
-      plan: '2.5GB/2.5GB',
-      planDetail: 'via Sumo Fiber',
-      mrrLost: '-$99.99',
-      reason: 'Customer Request',
-      cancelled: 'Dec 31, 2025',
-      cancelledTime: '4:12 PM',
-    },
-  ];
-
-  const filteredSubscriptions = cancelledSubscriptions.filter(
-    (sub) =>
-      sub.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      sub.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      sub.reason.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   return (
     <div className="space-y-6">
       {/* Churn Analysis Header */}
-      <div className="flex items-start justify-between mb-6">
-        <div className="flex items-start gap-3">
-          <div className="p-2 bg-[#1E293B] rounded-lg">
-            <UserX className="w-5 h-5 text-[#FF5C5C]" />
-          </div>
-          <div>
-            <h2 className="text-xl font-semibold text-[#F8FAFC] mb-1">Churn Analysis</h2>
-            <p className="text-sm text-[#94A3B8]">Understand why customers are leaving</p>
-          </div>
+      <div className="flex items-start gap-3 mb-6">
+        <div className="p-2 bg-secondary rounded-lg">
+          <UserX className="w-5 h-5 text-[var(--error)]" />
         </div>
-        <Button
-          variant="outline"
-          size="sm"
-          className="bg-transparent text-[#94A3B8] border-[#1E293B] hover:bg-[#1E293B] hover:text-[#F8FAFC]"
-        >
-          <RefreshCw className="w-4 h-4 mr-2" />
-          Refresh
-        </Button>
+        <div>
+          <h2 className="text-xl font-semibold text-foreground mb-1">Churn Analysis</h2>
+          <p className="text-sm text-muted-foreground">
+            Understand why customers are leaving and identify patterns
+          </p>
+        </div>
       </div>
 
-      {/* Cancellation Reasons Card */}
-      <Card className="bg-[#0F172A] border-[#1E293B] p-6">
-        <div className="mb-6">
-          <h3 className="text-base font-semibold text-[#F8FAFC] mb-1">
-            Cancellation Reasons
-          </h3>
-          <p className="text-sm text-[#94A3B8]">
-            Distribution of cancellation reasons in the last 30 days
-          </p>
-        </div>
-
-        {/* Pie Chart */}
-        <div className="h-[400px] flex items-center justify-center">
-          <ResponsiveContainer width="100%" height="100%">
-            <PieChart>
-              <Pie
-                data={churnReasons}
-                cx="50%"
-                cy="50%"
-                innerRadius={120}
-                outerRadius={180}
-                paddingAngle={2}
-                dataKey="value"
-              >
-                {churnReasons.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip
-                contentStyle={{
-                  backgroundColor: '#0F172A',
-                  border: '1px solid #1E293B',
-                  borderRadius: '8px',
-                  color: '#F8FAFC',
-                }}
-              />
-              <Legend
-                verticalAlign="bottom"
-                height={36}
-                iconType="square"
-                formatter={(value) => (
-                  <span style={{ color: '#94A3B8', fontSize: '14px' }}>{value}</span>
-                )}
-              />
-            </PieChart>
-          </ResponsiveContainer>
-        </div>
-      </Card>
-
-      {/* Recently Cancelled Card */}
-      <Card className="bg-[#0F172A] border-[#1E293B] p-6">
-        <div className="mb-6">
-          <h3 className="text-base font-semibold text-[#F8FAFC] mb-1">
-            Recently Cancelled
-          </h3>
-          <p className="text-sm text-[#94A3B8] mb-4">
-            Subscriptions cancelled in the last 30 days
-          </p>
-
-          {/* Search */}
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
-            <Input
-              placeholder="Search by name, email, or reason..."
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className="pl-10 bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#94A3B8]"
-            />
+      {/* Churn Metrics Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card className="bg-card border-border p-6">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-sm text-muted-foreground">Churn Rate</p>
+            <UserX className="w-4 h-4 text-muted-foreground" />
           </div>
+          <p className="text-3xl font-bold text-[var(--error)]">2.4%</p>
+          <p className="text-xs text-muted-foreground mt-1">This month</p>
+        </Card>
+
+        <Card className="bg-card border-border p-6">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-sm text-muted-foreground">Churned Users</p>
+            <Users className="w-4 h-4 text-muted-foreground" />
+          </div>
+          <p className="text-3xl font-bold text-foreground">12</p>
+          <p className="text-xs text-muted-foreground mt-1">Last 30 days</p>
+        </Card>
+
+        <Card className="bg-card border-border p-6">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-sm text-muted-foreground">At Risk</p>
+            <TrendingUp className="w-4 h-4 text-muted-foreground" />
+          </div>
+          <p className="text-3xl font-bold text-[var(--warning)]">24</p>
+          <p className="text-xs text-muted-foreground mt-1">Low engagement</p>
+        </Card>
+
+        <Card className="bg-card border-border p-6">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-sm text-muted-foreground">Avg Lifetime</p>
+            <Info className="w-4 h-4 text-muted-foreground" />
+          </div>
+          <p className="text-3xl font-bold text-foreground">18mo</p>
+          <p className="text-xs text-muted-foreground mt-1">Before churning</p>
+        </Card>
+      </div>
+
+      {/* Churn Reasons Analysis */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Pie Chart */}
+        <Card className="bg-card border-border p-6">
+          <h3 className="text-base font-semibold text-card-foreground mb-4">
+            Churn Reasons Distribution
+          </h3>
+          <div className="h-[300px] flex items-center justify-center">
+            <ResponsiveContainer width="100%" height="100%">
+              <PieChart>
+                <Pie
+                  data={churnReasons}
+                  cx="50%"
+                  cy="50%"
+                  labelLine={false}
+                  label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                  outerRadius={100}
+                  fill="#8884d8"
+                  dataKey="value"
+                >
+                  {churnReasons.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={`var(--${entry.color.replace('var(--', '').replace(')', '')})`} />
+                  ))}
+                </Pie>
+                <Tooltip
+                  contentStyle={{
+                    backgroundColor: 'var(--popover)',
+                    border: '1px solid var(--border)',
+                    borderRadius: '8px',
+                    color: 'var(--foreground)',
+                  }}
+                />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </Card>
+
+        {/* Top Reasons List */}
+        <Card className="bg-card border-border p-6">
+          <h3 className="text-base font-semibold text-card-foreground mb-4">Top Churn Reasons</h3>
+          <div className="space-y-4">
+            {churnReasons.map((reason, index) => (
+              <div key={index} className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg font-medium text-muted-foreground">{index + 1}</span>
+                    <div>
+                      <p className="text-sm font-medium text-foreground">{reason.name}</p>
+                      <p className="text-xs text-muted-foreground">
+                        {reason.value}% of total churn
+                      </p>
+                    </div>
+                  </div>
+                  <span className="text-sm font-medium text-foreground">{reason.value}</span>
+                </div>
+                <div className="w-full bg-muted h-2 rounded-full overflow-hidden">
+                  <div
+                    className="h-full"
+                    style={{
+                      width: `${reason.value}%`,
+                      backgroundColor: reason.color,
+                    }}
+                  />
+                </div>
+              </div>
+            ))}
+          </div>
+        </Card>
+      </div>
+
+      {/* At-Risk Customers */}
+      <Card className="bg-card border-border p-6">
+        <div className="flex items-center justify-between mb-6">
+          <div>
+            <h3 className="text-base font-semibold text-card-foreground mb-1">
+              At-Risk Customers
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              Customers showing signs of potential churn
+            </p>
+          </div>
+          <Button variant="outline" size="sm" className="border-border text-muted-foreground hover:text-foreground">
+            <Mail className="w-4 h-4 mr-2" />
+            Send Campaign
+          </Button>
         </div>
 
-        {/* Table */}
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b border-[#1E293B]">
-                <th className="text-left py-3 px-4 text-sm font-medium text-[#94A3B8]">
-                  Customer
-                </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-[#94A3B8]">
-                  Plan
-                </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-[#94A3B8]">
-                  MRR Lost
-                </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-[#94A3B8]">
-                  Reason
-                </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-[#94A3B8]">
-                  Cancelled
-                </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-[#94A3B8]"></th>
+              <tr className="border-b border-border">
+                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Customer</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Plan</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Risk Score</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Last Active</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Action</th>
               </tr>
             </thead>
             <tbody>
-              {filteredSubscriptions.map((sub) => (
-                <tr key={sub.id} className="border-b border-[#1E293B] hover:bg-[#1E293B]/30">
-                  <td className="py-4 px-4">
+              {[
+                { name: 'John Doe', email: 'john@example.com', plan: '1GB/1GB', riskScore: 85, lastActive: '30 days ago' },
+                { name: 'Jane Smith', email: 'jane@example.com', plan: '100M/100M', riskScore: 72, lastActive: '25 days ago' },
+                { name: 'Bob Johnson', email: 'bob@example.com', plan: '2.5GB/2.5GB', riskScore: 68, lastActive: '20 days ago' },
+              ].map((customer, index) => (
+                <tr key={index} className="border-b border-border hover:bg-muted/50">
+                  <td className="px-4 py-4">
                     <div>
-                      <p className="text-sm font-medium text-[#F8FAFC]">{sub.name}</p>
-                      <p className="text-xs text-[#94A3B8]">{sub.email}</p>
-                      <p className="text-xs text-[#64748B]">{sub.accountNumber}</p>
+                      <p className="text-sm font-medium text-foreground">{customer.name}</p>
+                      <p className="text-xs text-muted-foreground">{customer.email}</p>
                     </div>
                   </td>
-                  <td className="py-4 px-4">
-                    <div>
-                      <p className="text-sm font-medium text-[#F8FAFC]">{sub.plan}</p>
-                      <p className="text-xs text-[#94A3B8]">{sub.planDetail}</p>
-                    </div>
+                  <td className="px-4 py-4 text-sm text-foreground">{customer.plan}</td>
+                  <td className="px-4 py-4">
+                    <span className={`px-2 py-1 text-xs rounded-full font-medium ${
+                      customer.riskScore > 80
+                        ? 'bg-destructive/10 text-destructive'
+                        : customer.riskScore > 60
+                        ? 'bg-[var(--warning)]/10 text-[var(--warning)]'
+                        : 'bg-[var(--info)]/10 text-[var(--info)]'
+                    }`}>
+                      {customer.riskScore}%
+                    </span>
                   </td>
-                  <td className="py-4 px-4">
-                    <p className="text-sm font-medium text-[#FF5C5C]">{sub.mrrLost}</p>
-                  </td>
-                  <td className="py-4 px-4">
-                    <div className="flex items-center gap-2">
-                      <span className="px-3 py-1 text-xs font-medium bg-[#1E293B] text-[#F8FAFC] rounded-full">
-                        {sub.reason}
-                      </span>
-                      {sub.reason !== 'Other' && (
-                        <Info className="w-4 h-4 text-[#94A3B8]" />
-                      )}
-                    </div>
-                  </td>
-                  <td className="py-4 px-4">
-                    <div>
-                      <p className="text-sm font-medium text-[#F8FAFC]">{sub.cancelled}</p>
-                      <p className="text-xs text-[#94A3B8]">{sub.cancelledTime}</p>
-                    </div>
-                  </td>
-                  <td className="py-4 px-4">
-                    <button className="p-2 hover:bg-[#1E293B] rounded">
-                      <Mail className="w-4 h-4 text-[#94A3B8]" />
-                    </button>
+                  <td className="px-4 py-4 text-sm text-muted-foreground">{customer.lastActive}</td>
+                  <td className="px-4 py-4">
+                    <Button variant="outline" size="sm" className="border-border text-foreground">
+                      Contact
+                    </Button>
                   </td>
                 </tr>
               ))}
@@ -487,132 +476,114 @@ function CohortRetentionTab() {
     { cohort: 'Oct 2025', size: 33, month0: 100, month1: 100, month2: null, month3: null },
     { cohort: 'Sep 2025', size: 44, month0: 100, month1: 100, month2: 100, month3: null },
     { cohort: 'Aug 2025', size: 51, month0: 100, month1: 100, month2: 100, month3: 100 },
+    { cohort: 'Jul 2025', size: 47, month0: 100, month1: 100, month2: 100, month3: 98 },
+    { cohort: 'Jun 2025', size: 11, month0: 100, month1: 100, month2: 100, month3: 100 },
+    { cohort: 'May 2025', size: 4, month0: 100, month1: 100, month2: 100, month3: 100 },
+    { cohort: 'Apr 2025', size: 7, month0: 100, month1: 100, month2: 100, month3: 100 },
   ];
 
-  const getRetentionColor = (rate: number | null) => {
-    if (rate === null) return 'bg-[#0F172A]';
-    if (rate >= 95) return 'bg-[#21DB00]/80';
-    if (rate >= 80) return 'bg-[#21DB00]/60';
-    if (rate >= 60) return 'bg-[#DC6300]/60';
-    return 'bg-[#FF5C5C]/60';
+  // Function to determine cell color based on retention rate
+  const getCellColor = (value: number | null) => {
+    if (value === null) return 'bg-muted';
+    if (value >= 95) return 'bg-[var(--success)]/20 text-[var(--success)]';
+    if (value >= 85) return 'bg-[var(--info)]/20 text-[var(--info)]';
+    if (value >= 70) return 'bg-[var(--warning)]/20 text-[var(--warning)]';
+    return 'bg-[var(--error)]/20 text-[var(--error)]';
   };
 
   return (
     <div className="space-y-6">
       {/* Cohort Retention Header */}
       <div className="flex items-start gap-3 mb-6">
-        <div className="p-2 bg-[#1E293B] rounded-lg">
-          <Users className="w-5 h-5 text-[#9333EA]" />
+        <div className="p-2 bg-secondary rounded-lg">
+          <TrendingUp className="w-5 h-5 text-[var(--success)]" />
         </div>
         <div>
-          <h2 className="text-xl font-semibold text-[#F8FAFC] mb-1">Cohort Retention</h2>
-          <p className="text-sm text-[#94A3B8]">Track retention rates by signup cohort</p>
+          <h2 className="text-xl font-semibold text-foreground mb-1">Cohort Retention Analysis</h2>
+          <p className="text-sm text-muted-foreground">
+            Track how different customer cohorts retain over time
+          </p>
         </div>
       </div>
 
-      {/* Retention Heatmap Card */}
-      <Card className="bg-[#0F172A] border-[#1E293B] p-6">
-        <div className="mb-6">
-          <h3 className="text-base font-semibold text-[#F8FAFC] mb-1">Retention Heatmap</h3>
-          <p className="text-sm text-[#94A3B8] mb-4">
-            Monthly retention rates for each signup cohort
-          </p>
-
-          {/* Legend */}
-          <div className="flex items-center gap-6 text-xs">
-            <span className="text-[#94A3B8]">Retention:</span>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-[#21DB00]/80"></div>
-              <span className="text-[#94A3B8]">&gt;95%</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-[#21DB00]/60"></div>
-              <span className="text-[#94A3B8]">80-95%</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-[#DC6300]/60"></div>
-              <span className="text-[#94A3B8]">60-80%</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <div className="w-4 h-4 rounded bg-[#FF5C5C]/60"></div>
-              <span className="text-[#94A3B8]">&lt;60%</span>
-            </div>
+      {/* Summary Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        <Card className="bg-card border-border p-6">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-sm text-muted-foreground">Overall Retention</p>
+            <TrendingUp className="w-4 h-4 text-muted-foreground" />
           </div>
+          <p className="text-3xl font-bold text-[var(--success)]">97.6%</p>
+          <p className="text-xs text-muted-foreground mt-1">All cohorts</p>
+        </Card>
+
+        <Card className="bg-card border-border p-6">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-sm text-muted-foreground">Best Cohort</p>
+            <Users className="w-4 h-4 text-muted-foreground" />
+          </div>
+          <p className="text-3xl font-bold text-foreground">100%</p>
+          <p className="text-xs text-muted-foreground mt-1">Sep 2025</p>
+        </Card>
+
+        <Card className="bg-card border-border p-6">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-sm text-muted-foreground">Avg 3-Month</p>
+            <Info className="w-4 h-4 text-muted-foreground" />
+          </div>
+          <p className="text-3xl font-bold text-foreground">98.5%</p>
+          <p className="text-xs text-muted-foreground mt-1">Retention rate</p>
+        </Card>
+
+        <Card className="bg-card border-border p-6">
+          <div className="flex items-center justify-between mb-2">
+            <p className="text-sm text-muted-foreground">Total Cohorts</p>
+            <Users className="w-4 h-4 text-muted-foreground" />
+          </div>
+          <p className="text-3xl font-bold text-foreground">8</p>
+          <p className="text-xs text-muted-foreground mt-1">Active cohorts</p>
+        </Card>
+      </div>
+
+      {/* Cohort Retention Table */}
+      <Card className="bg-card border-border p-6">
+        <div className="mb-6">
+          <h3 className="text-base font-semibold text-card-foreground mb-1">
+            Cohort Retention Heatmap
+          </h3>
+          <p className="text-sm text-muted-foreground">
+            Percentage of customers retained each month after signup
+          </p>
         </div>
 
-        {/* Heatmap Table */}
         <div className="overflow-x-auto">
-          <table className="w-full">
+          <table className="w-full border-collapse">
             <thead>
-              <tr className="border-b border-[#1E293B]">
-                <th className="text-left py-3 px-4 text-sm font-medium text-[#94A3B8]">
-                  Cohort
-                </th>
-                <th className="text-left py-3 px-4 text-sm font-medium text-[#94A3B8]">Size</th>
-                <th className="text-center py-3 px-4 text-sm font-medium text-[#94A3B8]">
-                  Month 0
-                </th>
-                <th className="text-center py-3 px-4 text-sm font-medium text-[#94A3B8]">
-                  Month 1
-                </th>
-                <th className="text-center py-3 px-4 text-sm font-medium text-[#94A3B8]">
-                  Month 2
-                </th>
-                <th className="text-center py-3 px-4 text-sm font-medium text-[#94A3B8]">
-                  Month 3
-                </th>
+              <tr className="border-b border-border">
+                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Cohort</th>
+                <th className="text-left px-4 py-3 text-xs font-medium text-muted-foreground">Size</th>
+                <th className="text-center px-4 py-3 text-xs font-medium text-muted-foreground">Month 0</th>
+                <th className="text-center px-4 py-3 text-xs font-medium text-muted-foreground">Month 1</th>
+                <th className="text-center px-4 py-3 text-xs font-medium text-muted-foreground">Month 2</th>
+                <th className="text-center px-4 py-3 text-xs font-medium text-muted-foreground">Month 3</th>
               </tr>
             </thead>
             <tbody>
               {cohortData.map((cohort, index) => (
-                <tr key={index} className="border-b border-[#1E293B]">
-                  <td className="py-4 px-4 text-sm font-medium text-[#F8FAFC]">
-                    {cohort.cohort}
+                <tr key={index} className="border-b border-border hover:bg-muted/30">
+                  <td className="px-4 py-3 text-sm font-medium text-foreground">{cohort.cohort}</td>
+                  <td className="px-4 py-3 text-sm text-muted-foreground">{cohort.size}</td>
+                  <td className={`px-4 py-3 text-sm font-medium text-center ${getCellColor(cohort.month0)}`}>
+                    {cohort.month0 !== null ? `${cohort.month0}%` : '—'}
                   </td>
-                  <td className="py-4 px-4 text-sm text-[#94A3B8]">{cohort.size}</td>
-                  <td className="py-4 px-4">
-                    <div
-                      className={`${getRetentionColor(
-                        cohort.month0
-                      )} h-12 flex items-center justify-center rounded`}
-                    >
-                      <span className="text-sm font-medium text-[#F8FAFC]">
-                        {cohort.month0 !== null ? `${cohort.month0}%` : ''}
-                      </span>
-                    </div>
+                  <td className={`px-4 py-3 text-sm font-medium text-center ${getCellColor(cohort.month1)}`}>
+                    {cohort.month1 !== null ? `${cohort.month1}%` : '—'}
                   </td>
-                  <td className="py-4 px-4">
-                    <div
-                      className={`${getRetentionColor(
-                        cohort.month1
-                      )} h-12 flex items-center justify-center rounded`}
-                    >
-                      <span className="text-sm font-medium text-[#F8FAFC]">
-                        {cohort.month1 !== null ? `${cohort.month1}%` : ''}
-                      </span>
-                    </div>
+                  <td className={`px-4 py-3 text-sm font-medium text-center ${getCellColor(cohort.month2)}`}>
+                    {cohort.month2 !== null ? `${cohort.month2}%` : '—'}
                   </td>
-                  <td className="py-4 px-4">
-                    <div
-                      className={`${getRetentionColor(
-                        cohort.month2
-                      )} h-12 flex items-center justify-center rounded`}
-                    >
-                      <span className="text-sm font-medium text-[#F8FAFC]">
-                        {cohort.month2 !== null ? `${cohort.month2}%` : ''}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="py-4 px-4">
-                    <div
-                      className={`${getRetentionColor(
-                        cohort.month3
-                      )} h-12 flex items-center justify-center rounded`}
-                    >
-                      <span className="text-sm font-medium text-[#F8FAFC]">
-                        {cohort.month3 !== null ? `${cohort.month3}%` : ''}
-                      </span>
-                    </div>
+                  <td className={`px-4 py-3 text-sm font-medium text-center ${getCellColor(cohort.month3)}`}>
+                    {cohort.month3 !== null ? `${cohort.month3}%` : '—'}
                   </td>
                 </tr>
               ))}
@@ -620,19 +591,53 @@ function CohortRetentionTab() {
           </table>
         </div>
 
-        {/* Summary Stats */}
-        <div className="grid grid-cols-3 gap-6 mt-8 pt-6 border-t border-[#1E293B]">
-          <div>
-            <p className="text-sm text-[#94A3B8] mb-2">Average Month 1 Retention</p>
-            <p className="text-3xl font-bold text-[#F8FAFC]">100.0%</p>
+        {/* Legend */}
+        <div className="flex items-center justify-center gap-6 mt-6 pt-6 border-t border-border">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded bg-[var(--success)]/20" />
+            <span className="text-xs text-muted-foreground">Excellent (95-100%)</span>
           </div>
-          <div>
-            <p className="text-sm text-[#94A3B8] mb-2">Average Month 3 Retention</p>
-            <p className="text-3xl font-bold text-[#F8FAFC]">100.0%</p>
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded bg-[var(--info)]/20" />
+            <span className="text-xs text-muted-foreground">Good (85-94%)</span>
           </div>
-          <div>
-            <p className="text-sm text-[#94A3B8] mb-2">Total Cohort Customers</p>
-            <p className="text-3xl font-bold text-[#F8FAFC]">160</p>
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded bg-[var(--warning)]/20" />
+            <span className="text-xs text-muted-foreground">Fair (70-84%)</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded bg-[var(--error)]/20" />
+            <span className="text-xs text-muted-foreground">Poor (&lt;70%)</span>
+          </div>
+        </div>
+      </Card>
+
+      {/* Insights Card */}
+      <Card className="bg-card border-border p-6">
+        <h3 className="text-base font-semibold text-card-foreground mb-4">Key Insights</h3>
+        <div className="space-y-3">
+          <div className="flex items-start gap-3 p-4 bg-[var(--success)]/10 border border-[var(--success)]/20 rounded-lg">
+            <div className="p-2 bg-[var(--success)]/20 rounded">
+              <TrendingUp className="w-4 h-4 text-[var(--success)]" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-foreground mb-1">Strong Overall Retention</p>
+              <p className="text-xs text-muted-foreground">
+                Your overall retention rate of 97.6% is excellent. Most cohorts maintain 100% retention through their first 3 months.
+              </p>
+            </div>
+          </div>
+
+          <div className="flex items-start gap-3 p-4 bg-[var(--info)]/10 border border-[var(--info)]/20 rounded-lg">
+            <div className="p-2 bg-[var(--info)]/20 rounded">
+              <Info className="w-4 h-4 text-[var(--info)]" />
+            </div>
+            <div>
+              <p className="text-sm font-medium text-foreground mb-1">Consistent Performance</p>
+              <p className="text-xs text-muted-foreground">
+                Recent cohorts (Sep-Nov 2025) are showing 100% retention, indicating improved onboarding or customer satisfaction.
+              </p>
+            </div>
           </div>
         </div>
       </Card>

@@ -4,7 +4,6 @@ import { TopBar } from '@/app/components/TopBar';
 import { SubscriptionsContent } from '@/app/pages/SubscriptionsContent';
 import { DashboardContent } from '@/app/pages/DashboardContent';
 import { GenericContent } from '@/app/components/GenericContent';
-import { ActiveSubscriptionsContent } from '@/app/pages/ActiveSubscriptionsContent';
 import { PendingSubscriptionsContent } from '@/app/components/PendingSubscriptionsContent';
 import { CancelledSubscriptionsContent } from '@/app/components/CancelledSubscriptionsContent';
 import { OnboardingContent } from '@/app/components/OnboardingContent';
@@ -28,8 +27,9 @@ import { OperatorContent } from '@/app/components/OperatorContent';
 import { ProvidersContent } from '@/app/components/ProvidersContent';
 import { PlansServicesContent } from '@/app/components/PlansServicesContent';
 import { ThemeProvider } from '@/contexts/ThemeContext';
+import { PrimaryColorProvider } from '@/contexts/PrimaryColorContext';
 import { ThemePreviewProvider, useThemePreview } from '@/contexts/ThemePreviewContext';
-import { DarkModeTheme } from '@/app/pages/DarkModeTheme';
+import { ThemeManagement } from '@/app/pages/ThemeManagement';
 
 function AppContent() {
   const [activeSection, setActiveSection] = useState('dashboard');
@@ -149,8 +149,6 @@ function AppContent() {
         return <AllSubscribersContent />;
       case 'subscription-management':
         return <SubscriptionsContent onNavigate={setActiveSection} />;
-      case 'active-subscriptions':
-        return <ActiveSubscriptionsContent onNavigateBack={() => setActiveSection('subscription-management')} />;
       case 'pending-subscriptions':
         return <PendingSubscriptionsContent onNavigateBack={() => setActiveSection('subscription-management')} />;
       case 'cancelled-subscriptions':
@@ -252,45 +250,47 @@ function AppContent() {
         return <ProvidersContent />;
       case 'plans-services':
         return <PlansServicesContent />;
-      case 'dark-mode-theme':
-        return <DarkModeTheme />;
+      case 'theme-management':
+        return <ThemeManagement />;
       default:
         return <SubscriptionsContent />;
     }
   };
 
   return (
-    <ThemeProvider>
-      <div className="h-screen w-screen bg-background" style={getThemeStyles()}>
-        {/* Sidebar - Always visible */}
-        <Sidebar 
-          activeSection={activeSection} 
-          onSectionChange={setActiveSection}
-          isCollapsed={isSidebarCollapsed}
-          onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
-        />
+    <div className="h-screen w-screen bg-background" style={getThemeStyles()}>
+      {/* Sidebar - Always visible */}
+      <Sidebar 
+        activeSection={activeSection} 
+        onSectionChange={setActiveSection}
+        isCollapsed={isSidebarCollapsed}
+        onToggleCollapse={() => setIsSidebarCollapsed(!isSidebarCollapsed)}
+      />
 
-        {/* Main Content Area */}
-        <div 
-          className={`h-full flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'pl-16' : 'pl-64'}`}
-        >
-          {/* Top Bar */}
-          <TopBar activeSection={activeSection} onSectionChange={setActiveSection} />
+      {/* Main Content Area */}
+      <div 
+        className={`h-full flex flex-col transition-all duration-300 ${isSidebarCollapsed ? 'pl-16' : 'pl-64'}`}
+      >
+        {/* Top Bar */}
+        <TopBar activeSection={activeSection} onSectionChange={setActiveSection} />
 
-          {/* Content */}
-          <div className="flex-1 overflow-y-auto">
-            {renderContent()}
-          </div>
+        {/* Content */}
+        <div className="flex-1 overflow-y-auto">
+          {renderContent()}
         </div>
       </div>
-    </ThemeProvider>
+    </div>
   );
 }
 
 export default function App() {
   return (
-    <ThemePreviewProvider>
-      <AppContent />
-    </ThemePreviewProvider>
+    <ThemeProvider>
+      <PrimaryColorProvider>
+        <ThemePreviewProvider>
+          <AppContent />
+        </ThemePreviewProvider>
+      </PrimaryColorProvider>
+    </ThemeProvider>
   );
 }

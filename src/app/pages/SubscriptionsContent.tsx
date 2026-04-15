@@ -13,15 +13,6 @@ const subscriptionCards = [
     route: 'all-subscribers',
   },
   {
-    id: 'active',
-    title: 'Active Subscriptions',
-    description: 'Monitor active subscribers, revenue metrics, and service status',
-    icon: CheckCircle,
-    iconColor: 'text-[#21DB00]',
-    iconBg: 'bg-[#21DB00]/10',
-    route: 'active-subscriptions',
-  },
-  {
     id: 'pending',
     title: 'Pending Subscriptions',
     description: 'Manage pending installations, subscription setups, and scheduled work',

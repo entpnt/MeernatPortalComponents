@@ -1,5 +1,6 @@
 import { GripVertical, Eye, EyeOff } from 'lucide-react';
 import { Checkbox } from '@/app/components/ui/checkbox';
+import { Switch } from '@/app/components/ui/switch';
 import { useDrag, useDrop } from 'react-dnd';
 import { useRef } from 'react';
 
@@ -73,22 +74,17 @@ function DraggableColumnItem({ column, index, moveColumn, toggleColumn }: Dragga
     <div
       ref={ref}
       data-handler-id={handlerId}
-      className={`flex items-center gap-3 p-2 rounded-lg hover:bg-[#1E293B] cursor-pointer transition-colors ${
+      className={`flex items-center gap-3 py-3 px-2 border-b border-[var(--border)] cursor-pointer transition-colors ${
         isDragging ? 'opacity-50' : 'opacity-100'
       }`}
     >
-      <GripVertical className="w-4 h-4 text-[#64748B] cursor-grab active:cursor-grabbing" />
-      <Checkbox
+      <GripVertical className="w-4 h-4 text-[var(--muted-foreground)] cursor-grab active:cursor-grabbing flex-shrink-0" />
+      <span className="flex-1 text-sm text-[var(--foreground)] font-medium">{column.label}</span>
+      <span className="text-xs text-[var(--muted-foreground)] uppercase mr-2">Text</span>
+      <Switch
         checked={column.visible}
         onCheckedChange={() => toggleColumn(column.id)}
-        className="border-[#475569] data-[state=checked]:bg-[#147FFF] data-[state=checked]:border-[#147FFF]"
       />
-      <span className="flex-1 text-sm text-[#E2E8F0]">{column.label}</span>
-      {column.visible ? (
-        <Eye className="w-4 h-4 text-[#147FFF]" />
-      ) : (
-        <EyeOff className="w-4 h-4 text-[#64748B]" />
-      )}
     </div>
   );
 }
@@ -123,30 +119,8 @@ export function ColumnManager({ columns, onColumnsChange }: ColumnManagerProps) 
   };
 
   return (
-    <div className="w-80 space-y-4">
-      <div>
-        <h3 className="text-sm font-semibold text-[#F8FAFC] mb-1">Customize Columns</h3>
-        <p className="text-xs text-[#94A3B8]">
-          Drag to reorder • Click checkbox to show/hide
-        </p>
-      </div>
-
-      <div className="flex items-center gap-2">
-        <button
-          onClick={showAll}
-          className="flex-1 px-3 py-1.5 text-xs bg-[#1E293B] hover:bg-[#334155] text-[#F8FAFC] rounded transition-colors"
-        >
-          Show All
-        </button>
-        <button
-          onClick={hideAll}
-          className="flex-1 px-3 py-1.5 text-xs bg-[#1E293B] hover:bg-[#334155] text-[#F8FAFC] rounded transition-colors"
-        >
-          Hide All
-        </button>
-      </div>
-
-      <div className="space-y-1 max-h-96 overflow-y-auto">
+    <div className="flex flex-col h-full">
+      <div className="flex-1 overflow-y-auto">
         {columns.map((column, index) => (
           <DraggableColumnItem
             key={column.id}
@@ -156,12 +130,6 @@ export function ColumnManager({ columns, onColumnsChange }: ColumnManagerProps) 
             toggleColumn={toggleColumn}
           />
         ))}
-      </div>
-
-      <div className="pt-3 border-t border-[#1E293B]">
-        <p className="text-xs text-[#64748B]">
-          {columns.filter((col) => col.visible).length} of {columns.length} columns visible
-        </p>
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { X, User, Home, Phone, Mail, Calendar, Package, Wrench, Router, CheckCircle2, XCircle, Clock, DollarSign, FileText, Download, CreditCard, Tag, Activity, Power, Link, Wifi, AlertTriangle, BookOpen, ExternalLink, Zap, MessageSquare, Plus } from 'lucide-react';
+import { X, User, Home, Phone, Mail, Calendar, Package, Wrench, Router, CheckCircle2, XCircle, Clock, DollarSign, FileText, Download, CreditCard, Tag, Activity, Power, Link, Wifi, AlertTriangle, BookOpen, ExternalLink, Zap, MessageSquare, Plus, Image as ImageIcon, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useState } from 'react';
 import { Button } from '@/app/components/ui/button';
 import { Card } from '@/app/components/ui/card';
@@ -21,6 +21,7 @@ import {
   TableRow,
 } from '@/app/components/ui/table';
 import { CustomerNotesTab } from '@/app/components/CustomerNotesTab';
+import installPhoto1 from 'figma:asset/f727ffb06036f80973400ed4bce2f5f065b21d9d.png';
 
 interface CustomerDetailModalProps {
   isOpen: boolean;
@@ -30,23 +31,25 @@ interface CustomerDetailModalProps {
 
 export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetailModalProps) {
   const [activeTab, setActiveTab] = useState('info');
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
+  const [currentInstallPhotos, setCurrentInstallPhotos] = useState<any[]>([]);
 
   if (!isOpen || !customer) return null;
 
-  const tabs = [
-    { id: 'info', label: 'Customer Info', icon: User },
-    { id: 'subscriptions', label: 'Subscriptions', icon: Package },
-    { id: 'billing', label: 'Billing', icon: DollarSign },
-    { id: 'installs', label: 'Install History', icon: Wrench },
-    { id: 'devices', label: 'Devices & Diagnostics', icon: Router },
-    { id: 'notes', label: 'Notes & Activity', icon: MessageSquare },
-    { id: 'documents', label: 'Documents', icon: FileText },
-  ];
-
-  // Mock data - in real app this would come from API
   const mockSubscriptions = [
     {
       id: 'SUB-001',
+      provider: 'Orangeburg Fiber',
+      plan: '1 Gigabit Internet',
+      status: 'Active',
+      startDate: '1/10/2026',
+      monthlyRate: '$65.95',
+      contractType: 'Month-to-Month',
+      contractStatus: 'Active',
+    },
+    {
+      id: 'SUB-002',
       provider: 'Sumo Fiber',
       plan: '2 Gigabit Internet',
       status: 'Active',
@@ -66,6 +69,12 @@ export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetai
       completedDate: '1/10/2026',
       technician: 'Mike Johnson',
       notes: 'Fiber drop installed successfully. ONT configured and tested.',
+      photos: [
+        { id: '1', url: installPhoto1, type: 'Drop Photo', caption: 'Fiber drop installation from pole to building', timestamp: '1/10/2026 10:30 AM' },
+        { id: '2', url: installPhoto1, type: 'ONT Installation', caption: 'ONT mounted and configured in utility closet', timestamp: '1/10/2026 2:15 PM' },
+        { id: '3', url: installPhoto1, type: 'Cable Management', caption: 'Clean cable routing to ONT location', timestamp: '1/10/2026 2:45 PM' },
+        { id: '4', url: installPhoto1, type: 'Final Setup', caption: 'Speed test verification - 1Gbps achieved', timestamp: '1/10/2026 3:30 PM' },
+      ],
     },
     {
       id: 'WO-2026-002',
@@ -75,6 +84,7 @@ export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetai
       completedDate: null,
       technician: 'TBD',
       notes: 'Upgrade to 2Gig service',
+      photos: [],
     },
   ];
 
@@ -87,96 +97,17 @@ export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetai
       status: 'Online',
       ipAddress: '192.168.1.1',
       macAddress: 'A0:B1:C2:D3:E4:F5',
-      lastSeen: '2 minutes ago',
-      uptime: '45 days',
+      lastSeen: '2 minutes ago'
     },
     {
       id: 'DEV-002',
       type: 'Router',
-      model: 'TP-Link AX3000',
-      serialNumber: 'TPL987654321',
+      model: 'Eero Pro 6E',
+      serialNumber: 'EERO556677',
       status: 'Online',
       ipAddress: '192.168.1.254',
-      macAddress: 'B1:C2:D3:E4:F5:A0',
-      lastSeen: '1 minute ago',
-      uptime: '30 days',
-    },
-    {
-      id: 'DEV-003',
-      type: 'Extender',
-      model: 'TP-Link RE505X',
-      serialNumber: 'TPL555666777',
-      status: 'Offline',
-      ipAddress: 'N/A',
-      macAddress: 'C2:D3:E4:F5:A0:B1',
-      lastSeen: '3 hours ago',
-      uptime: 'N/A',
-    },
-  ];
-
-  const mockBillingHistory = [
-    {
-      id: 'INV-2026-001',
-      date: '1/15/2026',
-      description: '2 Gigabit Internet - Monthly Service',
-      amount: '$89.99',
-      status: 'Paid',
-      dueDate: '1/15/2026',
-      paidDate: '1/14/2026',
-      paymentMethod: 'Auto-pay (Visa ****1234)',
-    },
-    {
-      id: 'INV-2025-012',
-      date: '12/15/2025',
-      description: '2 Gigabit Internet - Monthly Service',
-      amount: '$89.99',
-      status: 'Paid',
-      dueDate: '12/15/2025',
-      paidDate: '12/14/2025',
-      paymentMethod: 'Auto-pay (Visa ****1234)',
-    },
-    {
-      id: 'INV-2025-011',
-      date: '11/15/2025',
-      description: '2 Gigabit Internet - Monthly Service',
-      amount: '$89.99',
-      status: 'Paid',
-      dueDate: '11/15/2025',
-      paidDate: '11/13/2025',
-      paymentMethod: 'Auto-pay (Visa ****1234)',
-    },
-  ];
-
-  const mockPromotion = {
-    active: true,
-    name: 'New Customer Discount',
-    description: '$10 off monthly service for 12 months',
-    discount: '$10.00',
-    remainingMonths: 11,
-    expirationDate: '12/15/2026',
-  };
-
-  const mockDocuments = [
-    {
-      id: 'DOC-001',
-      type: 'Property Access Agreement',
-      signedDate: '12/10/2025',
-      status: 'Signed',
-      fileName: 'property-access-agreement-2025.pdf',
-    },
-    {
-      id: 'DOC-002',
-      type: 'Service Agreement',
-      signedDate: '12/10/2025',
-      status: 'Signed',
-      fileName: 'service-agreement-2025.pdf',
-    },
-    {
-      id: 'DOC-003',
-      type: 'Installation Waiver',
-      signedDate: '1/10/2026',
-      status: 'Signed',
-      fileName: 'installation-waiver-2026.pdf',
+      macAddress: 'B1:C2:D3:E4:F5:A6',
+      lastSeen: '1 minute ago'
     },
   ];
 
@@ -185,680 +116,489 @@ export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetai
       case 'active':
       case 'completed':
       case 'online':
-        return 'text-[var(--success)] bg-[var(--success)]/10';
-      case 'pending':
+        return 'bg-[var(--success)]/10 text-[var(--success)]';
       case 'scheduled':
-        return 'text-[var(--warning)] bg-[var(--warning)]/10';
-      case 'offline':
+      case 'pending':
+        return 'bg-[var(--warning)]/10 text-[var(--warning)]';
       case 'cancelled':
-        return 'text-[var(--error)] bg-[var(--error)]/10';
+      case 'offline':
+        return 'bg-destructive/10 text-destructive';
       default:
-        return 'text-[#64748B] bg-[#64748B]/10';
+        return 'bg-secondary text-foreground';
     }
   };
 
-  return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div className="bg-[var(--card)] border border-[var(--border)] rounded-lg w-full max-w-4xl max-h-[90vh] flex flex-col">
-        {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4">
-          <div>
-            <h2 className="text-xl font-semibold text-[var(--foreground)]">{customer.customerName}</h2>
-            <p className="text-sm text-[var(--muted-foreground)] mt-1">{customer.accountId}</p>
-          </div>
-          <button
-            onClick={onClose}
-            className="text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        </div>
+  const openLightbox = (photos: any[], index: number) => {
+    setCurrentInstallPhotos(photos);
+    setCurrentPhotoIndex(index);
+    setLightboxOpen(true);
+  };
 
-        {/* Tabs */}
-        <div className="px-6">
+  const nextPhoto = () => {
+    setCurrentPhotoIndex((prev) => (prev + 1) % currentInstallPhotos.length);
+  };
+
+  const previousPhoto = () => {
+    setCurrentPhotoIndex((prev) => (prev - 1 + currentInstallPhotos.length) % currentInstallPhotos.length);
+  };
+
+  return (
+    <>
+      <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={onClose}>
+        <div
+          className="bg-card border border-border rounded-lg max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-xl"
+          onClick={(e) => e.stopPropagation()}
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between p-6 border-b border-border">
+            <div>
+              <h2 className="text-2xl font-bold text-foreground">{customer.name}</h2>
+              <p className="text-sm text-muted-foreground">{customer.accountId}</p>
+            </div>
+            <button
+              onClick={onClose}
+              className="p-2 hover:bg-secondary rounded-lg transition-colors"
+            >
+              <X className="w-5 h-5 text-muted-foreground" />
+            </button>
+          </div>
+
+          {/* Tabs */}
           <TabMenu
             activeTab={activeTab}
             onTabChange={setActiveTab}
-            tabs={tabs.map(tab => ({ id: tab.id, label: tab.label }))}
+            tabs={[
+              { id: 'info', label: 'Customer Info', icon: User },
+              { id: 'subscriptions', label: 'Subscriptions', icon: Package },
+              { id: 'billing', label: 'Billing', icon: DollarSign },
+              { id: 'installs', label: 'Install History', icon: Wrench },
+              { id: 'devices', label: 'Devices & Diagnostics', icon: Router },
+              { id: 'notes', label: 'Notes & Activity', icon: MessageSquare },
+              { id: 'documents', label: 'Documents', icon: FileText },
+            ]}
           />
-        </div>
 
-        {/* Content */}
-        <div className="flex-1 overflow-y-auto px-6 pb-6">
-          {/* Customer Info Tab */}
-          <TabContent activeTab={activeTab} tabId="info">
-            <div className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Personal Information */}
-                <Card className="bg-[var(--secondary)] border-[var(--border)] p-4">
-                  <h3 className="text-sm font-semibold text-[var(--foreground)] mb-4 flex items-center gap-2">
-                    <User className="w-4 h-4" />
-                    Personal Information
-                  </h3>
-                  <div className="space-y-3">
+          {/* Tab Content */}
+          <div className="p-6 overflow-y-auto max-h-[calc(90vh-180px)]">
+            {/* Customer Info Tab */}
+            <TabContent activeTab={activeTab} tabId="info">
+              <div className="space-y-6">
+                <Card className="bg-secondary border-border p-6">
+                  <h3 className="text-base font-semibold text-foreground mb-4">Contact Information</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Full Name</label>
-                      <p className="text-sm text-[var(--foreground)] mt-1">{customer.customerName}</p>
+                      <label className="text-xs text-muted-foreground">Name</label>
+                      <p className="text-sm text-foreground mt-1">{customer.name}</p>
                     </div>
                     <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Email</label>
-                      <p className="text-sm text-[var(--foreground)] mt-1 flex items-center gap-2">
-                        <Mail className="w-3 h-3 text-[var(--muted-foreground)]" />
-                        {customer.customerName.toLowerCase().replace(' ', '.')}@email.com
-                      </p>
+                      <label className="text-xs text-muted-foreground">Email</label>
+                      <p className="text-sm text-foreground mt-1">{customer.email}</p>
                     </div>
                     <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Phone</label>
-                      <p className="text-sm text-[var(--foreground)] mt-1 flex items-center gap-2">
-                        <Phone className="w-3 h-3 text-[var(--muted-foreground)]" />
-                        (716) 555-0123
-                      </p>
+                      <label className="text-xs text-muted-foreground">Phone</label>
+                      <p className="text-sm text-foreground mt-1">{customer.phone || 'N/A'}</p>
                     </div>
                     <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Customer Since</label>
-                      <p className="text-sm text-[var(--foreground)] mt-1 flex items-center gap-2">
-                        <Calendar className="w-3 h-3 text-[var(--muted-foreground)]" />
-                        {customer.addressCreated}
-                      </p>
+                      <label className="text-xs text-muted-foreground">Status</label>
+                      <p className="text-sm text-foreground mt-1">{customer.status}</p>
                     </div>
                   </div>
                 </Card>
 
-                {/* Service Address */}
-                <Card className="bg-[var(--secondary)] border-[var(--border)] p-4">
-                  <h3 className="text-sm font-semibold text-[var(--foreground)] mb-4 flex items-center gap-2">
-                    <Home className="w-4 h-4" />
-                    Service Address
-                  </h3>
-                  <div className="space-y-3">
+                <Card className="bg-secondary border-border p-6">
+                  <h3 className="text-base font-semibold text-foreground mb-4">Service Address</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Address</label>
-                      <p className="text-sm text-[var(--foreground)] mt-1">{customer.fullAddress}</p>
+                      <label className="text-xs text-muted-foreground">Address</label>
+                      <p className="text-sm text-foreground mt-1">{customer.address}</p>
                     </div>
                     <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Ownership Status</label>
-                      <p className="text-sm text-[var(--foreground)] mt-1 capitalize">{customer.ownership || 'N/A'}</p>
+                      <label className="text-xs text-muted-foreground">City, State ZIP</label>
+                      <p className="text-sm text-foreground mt-1">{customer.city || 'Orangeburg, SC 29115'}</p>
                     </div>
-                    <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Current Status</label>
-                      <div className="mt-1">
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge(customer.currentStatus)}`}>
-                          {customer.currentStatus}
-                        </span>
+                  </div>
+                </Card>
+              </div>
+            </TabContent>
+
+            {/* Subscriptions Tab */}
+            <TabContent activeTab={activeTab} tabId="subscriptions">
+              <div className="space-y-4">
+                {mockSubscriptions.map((sub) => (
+                  <Card key={sub.id} className="bg-secondary border-border p-4">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground">{sub.plan}</h3>
+                        <p className="text-xs text-muted-foreground mt-1">{sub.provider}</p>
+                      </div>
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge(sub.status)}`}>
+                        {sub.status}
+                      </span>
+                    </div>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div>
+                        <label className="text-xs text-muted-foreground">Start Date</label>
+                        <p className="text-sm text-foreground mt-1">{sub.startDate}</p>
+                      </div>
+                      <div>
+                        <label className="text-xs text-muted-foreground">Monthly Rate</label>
+                        <p className="text-sm text-foreground mt-1">{sub.monthlyRate}</p>
+                      </div>
+                      <div>
+                        <label className="text-xs text-muted-foreground">Contract Type</label>
+                        <p className="text-sm text-foreground mt-1">{sub.contractType}</p>
+                      </div>
+                      <div>
+                        <label className="text-xs text-muted-foreground">Contract Status</label>
+                        <p className="text-sm text-foreground mt-1">{sub.contractStatus}</p>
                       </div>
                     </div>
-                    <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Status at Signup</label>
-                      <div className="mt-1">
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge(customer.statusAtSignup)}`}>
-                          {customer.statusAtSignup}
-                        </span>
+                  </Card>
+                ))}
+              </div>
+            </TabContent>
+
+            {/* Billing Tab */}
+            <TabContent activeTab={activeTab} tabId="billing">
+              <div className="space-y-6">
+                <Card className="bg-secondary border-border p-6">
+                  <h3 className="text-base font-semibold text-foreground mb-4">Billing Summary</h3>
+                  <div className="space-y-4">
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Current Balance</span>
+                      <span className="text-sm font-medium text-foreground">$0.00</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Next Bill Date</span>
+                      <span className="text-sm font-medium text-foreground">2/10/2026</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-sm text-muted-foreground">Monthly Total</span>
+                      <span className="text-sm font-medium text-foreground">$155.94</span>
+                    </div>
+                  </div>
+                </Card>
+
+                <Card className="bg-secondary border-border p-6">
+                  <h3 className="text-base font-semibold text-foreground mb-4">Recent Invoices</h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between py-2 border-b border-border last:border-0">
+                      <div>
+                        <p className="text-sm text-foreground">Invoice #INV-2026-001</p>
+                        <p className="text-xs text-muted-foreground">1/10/2026</p>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm font-medium text-foreground">$155.94</span>
+                        <span className="px-2 py-1 bg-[var(--success)]/10 text-[var(--success)] text-xs rounded">Paid</span>
                       </div>
                     </div>
                   </div>
                 </Card>
               </div>
-            </div>
-          </TabContent>
+            </TabContent>
 
-          {/* Subscriptions Tab */}
-          <TabContent activeTab={activeTab} tabId="subscriptions">
-            <div className="space-y-4">
-              {mockSubscriptions.map((subscription) => (
-                <Card key={subscription.id} className="bg-[var(--secondary)] border-[var(--border)] p-4">
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3 className="text-sm font-semibold text-[var(--foreground)]">{subscription.plan}</h3>
-                      <p className="text-xs text-[var(--muted-foreground)] mt-1">{subscription.provider}</p>
-                    </div>
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge(subscription.status)}`}>
-                      {subscription.status}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Subscription ID</label>
-                      <p className="text-sm text-[var(--foreground)] mt-1">{subscription.id}</p>
-                    </div>
-                    <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Start Date</label>
-                      <p className="text-sm text-[var(--foreground)] mt-1">{subscription.startDate}</p>
-                    </div>
-                    <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Monthly Rate</label>
-                      <p className="text-sm text-[var(--foreground)] mt-1 font-semibold">{subscription.monthlyRate}</p>
-                    </div>
-                    <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Contract</label>
-                      <p className="text-sm text-[var(--foreground)] mt-1">{subscription.contractType}</p>
-                      <p className="text-xs text-[var(--success)] mt-0.5">{subscription.contractStatus}</p>
-                    </div>
-                  </div>
-                </Card>
-              ))}
-              {mockSubscriptions.length === 0 && (
-                <div className="text-center py-12">
-                  <Package className="w-12 h-12 text-[var(--muted-foreground)] mx-auto mb-3" />
-                  <p className="text-sm text-[var(--muted-foreground)]">No active subscriptions</p>
-                </div>
-              )}
-            </div>
-          </TabContent>
-
-          {/* Billing Tab */}
-          <TabContent activeTab={activeTab} tabId="billing">
-            <div className="space-y-6">
-              {/* Active Promotion */}
-              {mockPromotion.active && (
-                <Card className="bg-[var(--secondary)] border-[var(--border)] p-4 border-l-4 border-l-[var(--success)]">
-                  <div className="flex items-start gap-3">
-                    <div className="p-2 bg-[var(--success)]/10 rounded-lg">
-                      <Tag className="w-5 h-5 text-[var(--success)]" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between mb-2">
-                        <div>
-                          <h3 className="text-sm font-semibold text-[var(--foreground)]">{mockPromotion.name}</h3>
-                          <p className="text-xs text-[var(--muted-foreground)] mt-1">{mockPromotion.description}</p>
-                        </div>
-                        <span className="px-2 py-1 rounded text-xs font-medium bg-[var(--success)]/10 text-[var(--success)]">
-                          Active
-                        </span>
+            {/* Install History Tab */}
+            <TabContent activeTab={activeTab} tabId="installs">
+              <div className="space-y-4">
+                {mockInstalls.map((install) => (
+                  <Card key={install.id} className="bg-secondary border-border p-4">
+                    <div className="flex items-start justify-between mb-4">
+                      <div>
+                        <h3 className="text-sm font-semibold text-foreground">{install.type}</h3>
+                        <p className="text-xs text-muted-foreground mt-1">Work Order: {install.id}</p>
                       </div>
-                      <div className="grid grid-cols-3 gap-4 mt-3">
-                        <div>
-                          <label className="text-xs text-[var(--muted-foreground)]">Discount Amount</label>
-                          <p className="text-sm text-[var(--foreground)] mt-1 font-semibold">{mockPromotion.discount}/month</p>
-                        </div>
-                        <div>
-                          <label className="text-xs text-[var(--muted-foreground)]">Remaining Months</label>
-                          <p className="text-sm text-[var(--foreground)] mt-1">{mockPromotion.remainingMonths} months</p>
-                        </div>
-                        <div>
-                          <label className="text-xs text-[var(--muted-foreground)]">Expires</label>
-                          <p className="text-sm text-[var(--foreground)] mt-1">{mockPromotion.expirationDate}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </Card>
-              )}
-
-              {/* Billing History */}
-              <div>
-                <h3 className="text-sm font-semibold text-[var(--foreground)] mb-4 flex items-center gap-2">
-                  <CreditCard className="w-4 h-4" />
-                  Billing History
-                </h3>
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Invoice ID</TableHead>
-                        <TableHead>Description</TableHead>
-                        <TableHead>Invoice Date</TableHead>
-                        <TableHead>Due Date</TableHead>
-                        <TableHead>Paid Date</TableHead>
-                        <TableHead>Payment Method</TableHead>
-                        <TableHead>Amount</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead></TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {mockBillingHistory.map((invoice) => (
-                        <TableRow key={invoice.id}>
-                          <TableCell>
-                            <span className="text-sm font-mono text-[var(--foreground)]">{invoice.id}</span>
-                          </TableCell>
-                          <TableCell>
-                            <span className="text-sm text-[var(--foreground)]">{invoice.description}</span>
-                          </TableCell>
-                          <TableCell>
-                            <span className="text-sm text-[var(--foreground)]">{invoice.date}</span>
-                          </TableCell>
-                          <TableCell>
-                            <span className="text-sm text-[var(--foreground)]">{invoice.dueDate}</span>
-                          </TableCell>
-                          <TableCell>
-                            <span className="text-sm text-[var(--foreground)]">{invoice.paidDate}</span>
-                          </TableCell>
-                          <TableCell>
-                            <span className="text-sm text-[var(--foreground)]">{invoice.paymentMethod}</span>
-                          </TableCell>
-                          <TableCell>
-                            <span className="text-sm font-semibold text-[var(--foreground)]">{invoice.amount}</span>
-                          </TableCell>
-                          <TableCell>
-                            <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge(invoice.status)}`}>
-                              {invoice.status}
-                            </span>
-                          </TableCell>
-                          <TableCell>
-                            <Button variant="outline" size="sm" className="text-xs">
-                              <Download className="w-3 h-3 mr-1" />
-                              Download
-                            </Button>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </div>
-            </div>
-          </TabContent>
-
-          {/* Install History Tab */}
-          <TabContent activeTab={activeTab} tabId="installs">
-            <div className="space-y-4">
-              {mockInstalls.map((install) => (
-                <Card key={install.id} className="bg-[var(--secondary)] border-[var(--border)] p-4">
-                  <div className="flex items-start justify-between mb-4">
-                    <div>
-                      <h3 className="text-sm font-semibold text-[var(--foreground)]">{install.type}</h3>
-                      <p className="text-xs text-[var(--muted-foreground)] mt-1">Work Order: {install.id}</p>
-                    </div>
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge(install.status)}`}>
-                      {install.status}
-                    </span>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
-                    <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Scheduled Date</label>
-                      <p className="text-sm text-[var(--foreground)] mt-1">{install.scheduledDate}</p>
-                    </div>
-                    <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Completed Date</label>
-                      <p className="text-sm text-[var(--foreground)] mt-1">{install.completedDate || 'N/A'}</p>
-                    </div>
-                    <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Technician</label>
-                      <p className="text-sm text-[var(--foreground)] mt-1">{install.technician}</p>
-                    </div>
-                  </div>
-                  {install.notes && (
-                    <div>
-                      <label className="text-xs text-[var(--muted-foreground)]">Notes</label>
-                      <p className="text-sm text-[var(--foreground)] mt-1">{install.notes}</p>
-                    </div>
-                  )}
-                </Card>
-              ))}
-            </div>
-          </TabContent>
-
-          {/* Devices Tab */}
-          <TabContent activeTab={activeTab} tabId="devices">
-            <div className="space-y-6">
-              {/* ONU Status Card */}
-              <Card className="bg-[var(--secondary)] border-[var(--border)] p-5">
-                <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-base font-semibold text-[var(--foreground)] flex items-center gap-2">
-                    <Activity className="w-5 h-5 text-[#147FFF]" />
-                    ONU Status
-                  </h3>
-                  <div className="flex items-center gap-2">
-                    <div className="w-3 h-3 bg-[var(--success)] rounded-full animate-pulse"></div>
-                    <span className="text-sm font-semibold text-[var(--success)]">Online</span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                  <div className="p-3 bg-[var(--background)] rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Power className="w-4 h-4 text-[var(--success)]" />
-                      <label className="text-xs text-[var(--muted-foreground)]">Power Status</label>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
-                      <p className="text-sm font-semibold text-[var(--foreground)]">Powered On</p>
-                    </div>
-                  </div>
-
-                  <div className="p-3 bg-[var(--background)] rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Link className="w-4 h-4 text-[var(--success)]" />
-                      <label className="text-xs text-[var(--muted-foreground)]">OLT Link Status</label>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
-                      <p className="text-sm font-semibold text-[var(--foreground)]">Linked to OLT</p>
-                    </div>
-                  </div>
-
-                  <div className="p-3 bg-[var(--background)] rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <Clock className="w-4 h-4 text-[#147FFF]" />
-                      <label className="text-xs text-[var(--muted-foreground)]">Last Seen</label>
-                    </div>
-                    <p className="text-sm font-semibold text-[var(--foreground)]">2 minutes ago</p>
-                    <p className="text-xs text-[var(--muted-foreground)] mt-0.5">Uptime: 45 days</p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-xs text-[var(--muted-foreground)] mb-1.5 block">ONU Model</label>
-                    <p className="text-sm text-[var(--foreground)] font-medium">Calix 716GE-I</p>
-                  </div>
-                  <div>
-                    <label className="text-xs text-[var(--muted-foreground)] mb-1.5 block">Serial Number</label>
-                    <p className="text-sm text-[var(--foreground)] font-mono">CXNK00112233</p>
-                  </div>
-                  <div>
-                    <label className="text-xs text-[var(--muted-foreground)] mb-1.5 block">IP Address</label>
-                    <p className="text-sm text-[var(--foreground)] font-mono">192.168.1.1</p>
-                  </div>
-                  <div>
-                    <label className="text-xs text-[var(--muted-foreground)] mb-1.5 block">MAC Address</label>
-                    <p className="text-sm text-[var(--foreground)] font-mono">A0:B1:C2:D3:E4:F5</p>
-                  </div>
-                </div>
-              </Card>
-
-              {/* Service Assignment Validation Card */}
-              <Card className="bg-[var(--secondary)] border-[var(--border)] p-5">
-                <h3 className="text-base font-semibold text-[var(--foreground)] mb-4 flex items-center gap-2">
-                  <Zap className="w-5 h-5 text-[#147FFF]" />
-                  Service Assignment Validation
-                </h3>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                  <div className="p-3 bg-[var(--background)] rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
-                      <label className="text-xs text-[var(--muted-foreground)]">Service Assignment</label>
-                    </div>
-                    <p className="text-sm font-semibold text-[var(--foreground)]">Properly Assigned</p>
-                    <p className="text-xs text-[var(--muted-foreground)] mt-1">Service matched to ONU</p>
-                  </div>
-
-                  <div className="p-3 bg-[var(--background)] rounded-lg">
-                    <div className="flex items-center gap-2 mb-2">
-                      <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
-                      <label className="text-xs text-[var(--muted-foreground)]">Service State</label>
-                    </div>
-                    <p className="text-sm font-semibold text-[var(--success)]">Active</p>
-                    <p className="text-xs text-[var(--muted-foreground)] mt-1">Service provisioned and live</p>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
-                    <label className="text-xs text-[var(--muted-foreground)] mb-1.5 block">ONU Port In Use</label>
-                    <p className="text-sm text-[var(--foreground)] font-medium">Port 1 (GE)</p>
-                  </div>
-                  <div>
-                    <label className="text-xs text-[var(--muted-foreground)] mb-1.5 block">Service Plan</label>
-                    <p className="text-sm text-[var(--foreground)] font-medium">2 Gigabit Internet</p>
-                  </div>
-                  <div>
-                    <label className="text-xs text-[var(--muted-foreground)] mb-1.5 block">Provisioning Status</label>
-                    <div className="flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
-                      <p className="text-sm font-medium text-[var(--success)]">Synchronized</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-4 p-3 bg-[var(--background)] rounded-lg border border-[var(--border)]">
-                  <div className="flex items-start gap-2">
-                    <CheckCircle2 className="w-5 h-5 text-[var(--success)] mt-0.5" />
-                    <div>
-                      <p className="text-sm font-medium text-[var(--foreground)]">CRM/NOC Reconciliation Status</p>
-                      <p className="text-xs text-[var(--muted-foreground)] mt-1">
-                        Service records match network provisioning. No discrepancies detected.
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-
-              {/* Router & Equipment Documentation Card */}
-              <Card className="bg-[var(--secondary)] border-[var(--border)] p-5">
-                <h3 className="text-base font-semibold text-[var(--foreground)] mb-4 flex items-center gap-2">
-                  <BookOpen className="w-5 h-5 text-[#147FFF]" />
-                  Router & Equipment Documentation
-                </h3>
-
-                <div className="space-y-4">
-                  {/* Router Documentation */}
-                  <div className="p-4 bg-[var(--background)] rounded-lg border border-[var(--border)]">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-[var(--secondary)] rounded-lg">
-                          <Wifi className="w-5 h-5 text-[#147FFF]" />
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold text-[var(--foreground)]">Customer Router</p>
-                          <p className="text-xs text-[var(--muted-foreground)] mt-0.5">TP-Link AX3000 WiFi 6</p>
-                        </div>
-                      </div>
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge('online')}`}>
-                        Online
+                      <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge(install.status)}`}>
+                        {install.status}
                       </span>
                     </div>
-
-                    <div className="grid grid-cols-2 gap-3 mb-3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
                       <div>
-                        <label className="text-xs text-[var(--muted-foreground)]">MAC Address</label>
-                        <p className="text-xs text-[var(--foreground)] font-mono mt-1">B1:C2:D3:E4:F5:A0</p>
+                        <label className="text-xs text-muted-foreground">Scheduled Date</label>
+                        <p className="text-sm text-foreground mt-1">{install.scheduledDate}</p>
                       </div>
                       <div>
-                        <label className="text-xs text-[var(--muted-foreground)]">Connection Type</label>
-                        <p className="text-xs text-[var(--foreground)] mt-1">Direct to ONU Port 1</p>
+                        <label className="text-xs text-muted-foreground">Completed Date</label>
+                        <p className="text-sm text-foreground mt-1">{install.completedDate || 'N/A'}</p>
+                      </div>
+                      <div>
+                        <label className="text-xs text-muted-foreground">Technician</label>
+                        <p className="text-sm text-foreground mt-1">{install.technician}</p>
                       </div>
                     </div>
+                    {install.notes && (
+                      <div className="mb-4">
+                        <label className="text-xs text-muted-foreground">Notes</label>
+                        <p className="text-sm text-foreground mt-1">{install.notes}</p>
+                      </div>
+                    )}
 
-                    <div className="flex flex-wrap gap-2 mt-4">
-                      <Button variant="outline" size="sm" className="text-xs">
-                        <ExternalLink className="w-3 h-3 mr-1.5" />
-                        LED Behavior Guide
-                      </Button>
-                      <Button variant="outline" size="sm" className="text-xs">
-                        <ExternalLink className="w-3 h-3 mr-1.5" />
-                        Setup & Mesh Guide
-                      </Button>
-                      <Button variant="outline" size="sm" className="text-xs">
-                        <ExternalLink className="w-3 h-3 mr-1.5" />
-                        Troubleshooting Steps
-                      </Button>
-                      <Button variant="outline" size="sm" className="text-xs">
-                        <ExternalLink className="w-3 h-3 mr-1.5" />
-                        User Manual (PDF)
-                      </Button>
-                    </div>
-                  </div>
-
-                  {/* ONU Documentation */}
-                  <div className="p-4 bg-[var(--background)] rounded-lg border border-[var(--border)]">
-                    <div className="flex items-start justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="p-2 bg-[var(--secondary)] rounded-lg">
-                          <Router className="w-5 h-5 text-[#147FFF]" />
+                    {/* Installation Photos */}
+                    {install.photos && install.photos.length > 0 && (
+                      <div className="mt-4">
+                        <div className="flex items-center justify-between mb-3">
+                          <label className="text-xs text-muted-foreground flex items-center gap-2">
+                            <ImageIcon className="w-4 h-4" />
+                            Installation Photos ({install.photos.length})
+                          </label>
                         </div>
-                        <div>
-                          <p className="text-sm font-semibold text-[var(--foreground)]">ONU Device</p>
-                          <p className="text-xs text-[var(--muted-foreground)] mt-0.5">Calix 716GE-I GigaCenter</p>
-                        </div>
-                      </div>
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge('online')}`}>
-                        Online
-                      </span>
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-3 mb-3">
-                      <div>
-                        <label className="text-xs text-[var(--muted-foreground)]">Serial Number</label>
-                        <p className="text-xs text-[var(--foreground)] font-mono mt-1">CXNK00112233</p>
-                      </div>
-                      <div>
-                        <label className="text-xs text-[var(--muted-foreground)]">Firmware Version</label>
-                        <p className="text-xs text-[var(--foreground)] mt-1">v4.2.8 (Latest)</p>
-                      </div>
-                    </div>
-
-                    <div className="flex flex-wrap gap-2 mt-4">
-                      <Button variant="outline" size="sm" className="text-xs">
-                        <ExternalLink className="w-3 h-3 mr-1.5" />
-                        LED Status Meanings
-                      </Button>
-                      <Button variant="outline" size="sm" className="text-xs">
-                        <ExternalLink className="w-3 h-3 mr-1.5" />
-                        Basic Troubleshooting
-                      </Button>
-                      <Button variant="outline" size="sm" className="text-xs">
-                        <ExternalLink className="w-3 h-3 mr-1.5" />
-                        Technical Specifications
-                      </Button>
-                      <Button variant="outline" size="sm" className="text-xs">
-                        <ExternalLink className="w-3 h-3 mr-1.5" />
-                        Installation Guide
-                      </Button>
-                    </div>
-                  </div>
-                </div>
-              </Card>
-
-              {/* Connected Devices Table */}
-              <div>
-                <h3 className="text-sm font-semibold text-[var(--foreground)] mb-3 flex items-center gap-2">
-                  <Router className="w-4 h-4" />
-                  All Connected Devices
-                </h3>
-                <div className="overflow-x-auto">
-                  <Table>
-                    <TableHeader>
-                      <TableRow>
-                        <TableHead>Device</TableHead>
-                        <TableHead>Serial Number</TableHead>
-                        <TableHead>IP Address</TableHead>
-                        <TableHead>MAC Address</TableHead>
-                        <TableHead>Last Seen</TableHead>
-                        <TableHead>Uptime</TableHead>
-                        <TableHead>Status</TableHead>
-                      </TableRow>
-                    </TableHeader>
-                    <TableBody>
-                      {mockDevices.map((device) => (
-                        <TableRow key={device.id}>
-                          <TableCell>
-                            <div className="flex items-center gap-3">
-                              <div className="p-2 bg-[var(--background)] rounded-lg">
-                                <Router className="w-4 h-4 text-[#147FFF]" />
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                          {install.photos.map((photo: any, index: number) => (
+                            <div
+                              key={photo.id}
+                              className="relative group cursor-pointer rounded-lg overflow-hidden border border-border hover:border-primary transition-all"
+                              onClick={() => openLightbox(install.photos, index)}
+                            >
+                              <img
+                                src={photo.url}
+                                alt={photo.caption}
+                                className="w-full h-32 object-cover"
+                              />
+                              <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                <div className="text-center px-2">
+                                  <p className="text-xs font-medium text-white mb-1">{photo.type}</p>
+                                  <p className="text-xs text-white/80 line-clamp-2">{photo.caption}</p>
+                                </div>
                               </div>
-                              <div>
-                                <p className="text-sm font-medium text-[var(--foreground)]">{device.model}</p>
-                                <p className="text-xs text-[var(--muted-foreground)]">{device.type}</p>
+                              <div className="absolute top-2 right-2 bg-black/70 px-2 py-1 rounded text-xs text-white">
+                                {index + 1}/{install.photos.length}
                               </div>
                             </div>
-                          </TableCell>
-                          <TableCell>
-                            <span className="text-sm font-mono text-[var(--foreground)]">{device.serialNumber}</span>
-                          </TableCell>
-                          <TableCell>
-                            <span className="text-sm font-mono text-[var(--foreground)]">{device.ipAddress}</span>
-                          </TableCell>
-                          <TableCell>
-                            <span className="text-sm font-mono text-[var(--foreground)]">{device.macAddress}</span>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-1">
-                              <Clock className="w-3 h-3 text-[var(--muted-foreground)]" />
-                              <span className="text-sm text-[var(--foreground)]">{device.lastSeen}</span>
-                            </div>
-                          </TableCell>
-                          <TableCell>
-                            <span className="text-sm text-[var(--foreground)]">{device.uptime}</span>
-                          </TableCell>
-                          <TableCell>
-                            <div className="flex items-center gap-2">
-                              {device.status.toLowerCase() === 'online' ? (
-                                <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
-                              ) : (
-                                <XCircle className="w-4 h-4 text-[var(--error)]" />
-                              )}
-                              <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge(device.status)}`}>
-                                {device.status}
-                              </span>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </div>
-              </div>
-            </div>
-          </TabContent>
-
-          {/* Documents Tab */}
-          <TabContent activeTab={activeTab} tabId="documents">
-            <div className="space-y-4">
-              <h3 className="text-sm font-semibold text-[var(--foreground)] mb-4 flex items-center gap-2">
-                <FileText className="w-4 h-4" />
-                Signed Documents
-              </h3>
-              {mockDocuments.map((document) => (
-                <Card key={document.id} className="bg-[var(--secondary)] border-[var(--border)] p-4">
-                  <div className="flex items-start justify-between">
-                    <div className="flex items-start gap-3 flex-1">
-                      <div className="p-2 bg-[var(--background)] rounded-lg">
-                        <FileText className="w-5 h-5 text-[#147FFF]" />
-                      </div>
-                      <div className="flex-1">
-                        <h4 className="text-sm font-semibold text-[var(--foreground)]">{document.type}</h4>
-                        <p className="text-xs text-[var(--muted-foreground)] mt-1">{document.fileName}</p>
-                        <div className="grid grid-cols-2 gap-4 mt-3">
-                          <div>
-                            <label className="text-xs text-[var(--muted-foreground)]">Document ID</label>
-                            <p className="text-xs text-[var(--foreground)] mt-1">{document.id}</p>
-                          </div>
-                          <div>
-                            <label className="text-xs text-[var(--muted-foreground)]">Signed Date</label>
-                            <p className="text-xs text-[var(--foreground)] mt-1">{document.signedDate}</p>
-                          </div>
+                          ))}
                         </div>
                       </div>
+                    )}
+                  </Card>
+                ))}
+              </div>
+            </TabContent>
+
+            {/* Devices Tab */}
+            <TabContent activeTab={activeTab} tabId="devices">
+              <div className="space-y-6">
+                {/* ONU Status Card */}
+                <Card className="bg-secondary border-border p-5">
+                  <div className="flex items-start justify-between mb-4">
+                    <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
+                      <Activity className="w-5 h-5 text-[var(--info)]" />
+                      ONU Status
+                    </h3>
+                    <div className="flex items-center gap-2">
+                      <div className="w-3 h-3 bg-[var(--success)] rounded-full animate-pulse"></div>
+                      <span className="text-sm font-semibold text-[var(--success)]">Online</span>
                     </div>
-                    <div className="flex flex-col items-end gap-2">
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge(document.status)}`}>
-                        {document.status}
-                      </span>
-                      <Button variant="outline" size="sm" className="text-xs">
-                        <Download className="w-3 h-3 mr-1" />
-                        Download
-                      </Button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                    <div className="p-3 bg-background rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Power className="w-4 h-4 text-[var(--success)]" />
+                        <label className="text-xs text-muted-foreground">Power Status</label>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
+                        <p className="text-sm font-semibold text-foreground">Powered On</p>
+                      </div>
+                    </div>
+
+                    <div className="p-3 bg-background rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Link className="w-4 h-4 text-[var(--success)]" />
+                        <label className="text-xs text-muted-foreground">OLT Link Status</label>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
+                        <p className="text-sm font-semibold text-foreground">Linked to OLT</p>
+                      </div>
+                    </div>
+
+                    <div className="p-3 bg-background rounded-lg">
+                      <div className="flex items-center gap-2 mb-2">
+                        <Zap className="w-4 h-4 text-[var(--success)]" />
+                        <label className="text-xs text-muted-foreground">Signal Strength</label>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
+                        <p className="text-sm font-semibold text-foreground">Excellent (-18 dBm)</p>
+                      </div>
                     </div>
                   </div>
                 </Card>
-              ))}
-              {mockDocuments.length === 0 && (
-                <div className="text-center py-12">
-                  <FileText className="w-12 h-12 text-[var(--muted-foreground)] mx-auto mb-3" />
-                  <p className="text-sm text-[var(--muted-foreground)]">No documents available</p>
+
+                {/* Devices List */}
+                <div className="space-y-3">
+                  {mockDevices.map((device) => (
+                    <Card key={device.id} className="bg-secondary border-border p-4">
+                      <div className="flex items-start justify-between mb-3">
+                        <div className="flex items-center gap-3">
+                          <div className="p-2 bg-background rounded-lg">
+                            <Router className="w-5 h-5 text-[var(--info)]" />
+                          </div>
+                          <div>
+                            <h4 className="text-sm font-semibold text-foreground">{device.type}</h4>
+                            <p className="text-xs text-muted-foreground">{device.model}</p>
+                          </div>
+                        </div>
+                        <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge(device.status)}`}>
+                          {device.status}
+                        </span>
+                      </div>
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
+                        <div>
+                          <label className="text-muted-foreground">Serial Number</label>
+                          <p className="text-foreground mt-1">{device.serialNumber}</p>
+                        </div>
+                        <div>
+                          <label className="text-muted-foreground">IP Address</label>
+                          <p className="text-foreground mt-1">{device.ipAddress}</p>
+                        </div>
+                        <div>
+                          <label className="text-muted-foreground">MAC Address</label>
+                          <p className="text-foreground mt-1">{device.macAddress}</p>
+                        </div>
+                        <div>
+                          <label className="text-muted-foreground">Last Seen</label>
+                          <p className="text-foreground mt-1">{device.lastSeen}</p>
+                        </div>
+                      </div>
+                    </Card>
+                  ))}
                 </div>
-              )}
-            </div>
-          </TabContent>
+              </div>
+            </TabContent>
 
-          {/* Notes Tab */}
-          <TabContent activeTab={activeTab} tabId="notes">
-            <CustomerNotesTab customer={customer} />
-          </TabContent>
-        </div>
+            {/* Notes & Activity Tab */}
+            <TabContent activeTab={activeTab} tabId="notes">
+              <CustomerNotesTab customerId={customer.accountId} />
+            </TabContent>
 
-        {/* Footer */}
-        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[var(--border)]">
-          <Button variant="outline" onClick={onClose}>
-            Close
-          </Button>
-          <Button className="bg-[#147FFF] text-white hover:bg-[#147FFF]/90">
-            Edit Customer
-          </Button>
+            {/* Documents Tab */}
+            <TabContent activeTab={activeTab} tabId="documents">
+              <Card className="bg-secondary border-border p-6">
+                <h3 className="text-base font-semibold text-foreground mb-4">Customer Documents</h3>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between py-3 border-b border-border last:border-0">
+                    <div className="flex items-center gap-3">
+                      <FileText className="w-5 h-5 text-[var(--info)]" />
+                      <div>
+                        <p className="text-sm text-foreground">Property Access Agreement</p>
+                        <p className="text-xs text-muted-foreground">Signed on 1/5/2026</p>
+                      </div>
+                    </div>
+                    <Button variant="outline" size="sm">
+                      <Download className="w-4 h-4 mr-2" />
+                      Download
+                    </Button>
+                  </div>
+                  <div className="flex items-center justify-between py-3 border-b border-border last:border-0">
+                    <div className="flex items-center gap-3">
+                      <FileText className="w-5 h-5 text-[var(--info)]" />
+                      <div>
+                        <p className="text-sm text-foreground">Service Agreement</p>
+                        <p className="text-xs text-muted-foreground">Signed on 1/5/2026</p>
+                      </div>
+                    </div>
+                    <Button variant="outline" size="sm">
+                      <Download className="w-4 h-4 mr-2" />
+                      Download
+                    </Button>
+                  </div>
+                </div>
+              </Card>
+            </TabContent>
+          </div>
+
+          {/* Footer */}
+          <div className="p-6 border-t border-border flex justify-end gap-3">
+            <Button variant="outline" onClick={onClose}>
+              Close
+            </Button>
+            <Button variant="default">
+              Edit Customer
+            </Button>
+          </div>
         </div>
       </div>
-    </div>
+
+      {/* Photo Lightbox Modal */}
+      {lightboxOpen && currentInstallPhotos.length > 0 && (
+        <div
+          className="fixed inset-0 bg-black/90 z-[60] flex items-center justify-center p-4"
+          onClick={() => setLightboxOpen(false)}
+        >
+          <button
+            onClick={() => setLightboxOpen(false)}
+            className="absolute top-4 right-4 p-2 bg-white/10 hover:bg-white/20 rounded-lg transition-colors z-10"
+          >
+            <X className="w-6 h-6 text-white" />
+          </button>
+
+          {/* Navigation Arrows */}
+          {currentInstallPhotos.length > 1 && (
+            <>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  previousPhoto();
+                }}
+                className="absolute left-4 p-3 bg-white/10 hover:bg-white/20 rounded-lg transition-colors z-10"
+              >
+                <ChevronLeft className="w-6 h-6 text-white" />
+              </button>
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  nextPhoto();
+                }}
+                className="absolute right-4 p-3 bg-white/10 hover:bg-white/20 rounded-lg transition-colors z-10"
+              >
+                <ChevronRight className="w-6 h-6 text-white" />
+              </button>
+            </>
+          )}
+
+          {/* Photo Container */}
+          <div className="max-w-5xl w-full max-h-[90vh] flex flex-col" onClick={(e) => e.stopPropagation()}>
+            <img
+              src={currentInstallPhotos[currentPhotoIndex].url}
+              alt={currentInstallPhotos[currentPhotoIndex].caption}
+              className="w-full h-auto max-h-[75vh] object-contain rounded-lg"
+            />
+
+            {/* Photo Info */}
+            <div className="mt-4 bg-white/10 backdrop-blur-sm rounded-lg p-4">
+              <div className="flex items-start justify-between mb-2">
+                <div>
+                  <p className="text-white font-semibold">{currentInstallPhotos[currentPhotoIndex].type}</p>
+                  <p className="text-white/80 text-sm mt-1">{currentInstallPhotos[currentPhotoIndex].caption}</p>
+                </div>
+                <span className="text-white/60 text-sm">
+                  {currentPhotoIndex + 1} / {currentInstallPhotos.length}
+                </span>
+              </div>
+              <p className="text-white/60 text-xs">{currentInstallPhotos[currentPhotoIndex].timestamp}</p>
+            </div>
+
+            {/* Thumbnail Strip */}
+            {currentInstallPhotos.length > 1 && (
+              <div className="flex gap-2 mt-3 overflow-x-auto pb-2">
+                {currentInstallPhotos.map((photo: any, index: number) => (
+                  <button
+                    key={photo.id}
+                    onClick={() => setCurrentPhotoIndex(index)}
+                    className={`flex-shrink-0 w-20 h-20 rounded-lg overflow-hidden border-2 transition-all ${
+                      index === currentPhotoIndex
+                        ? 'border-primary scale-105'
+                        : 'border-white/20 hover:border-white/40'
+                    }`}
+                  >
+                    <img src={photo.url} alt={photo.type} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </>
   );
 }

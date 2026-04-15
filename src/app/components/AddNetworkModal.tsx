@@ -60,87 +60,87 @@ export function AddNetworkModal({ open, onOpenChange }: AddNetworkModalProps) {
         >
           {/* Organization */}
           <div className="space-y-2">
-            <Label htmlFor="organization" className="text-[#F8FAFC]">
-              Organization <span className="text-red-500">*</span>
+            <Label htmlFor="organization" className="text-foreground">
+              Organization <span className="text-destructive">*</span>
             </Label>
             <Select value={formData.organization} onValueChange={(value) => setFormData({ ...formData, organization: value })}>
-              <SelectTrigger className="bg-[#020817] border-[#1E293B] text-[#F8FAFC]">
+              <SelectTrigger className="bg-input-background border-input text-foreground">
                 <SelectValue placeholder="Jamestown BPU Fiber" />
               </SelectTrigger>
-              <SelectContent className="bg-[#0F172A] border-[#1E293B]">
+              <SelectContent className="bg-popover border-border">
                 <SelectItem value="jamestown">Jamestown BPU Fiber</SelectItem>
                 <SelectItem value="orangeburg">Orangeburg Fiber</SelectItem>
               </SelectContent>
             </Select>
-            <p className="text-xs text-[#64748B]">Choose which organization this network belongs to</p>
+            <p className="text-xs text-muted-foreground">Choose which organization this network belongs to</p>
           </div>
 
           {/* Database Schema Name & Internal Name */}
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="databaseSchemaName" className="text-[#F8FAFC]">
-                Database Schema Name <span className="text-red-500">*</span>
+              <Label htmlFor="databaseSchemaName" className="text-foreground">
+                Database Schema Name <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="databaseSchemaName"
                 placeholder="e.g., subscribers, jamestown_bpu"
                 value={formData.databaseSchemaName}
                 onChange={(e) => setFormData({ ...formData, databaseSchemaName: e.target.value })}
-                className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B]"
+                className="bg-input-background border-input text-foreground placeholder:text-muted-foreground"
               />
-              <p className="text-xs text-[#64748B]">Must be lowercase, start with letter, use underscores only</p>
+              <p className="text-xs text-muted-foreground">Must be lowercase, start with letter, use underscores only</p>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="internalName" className="text-[#F8FAFC]">
-                Internal Name <span className="text-red-500">*</span>
+              <Label htmlFor="internalName" className="text-foreground">
+                Internal Name <span className="text-destructive">*</span>
               </Label>
               <Input
                 id="internalName"
                 placeholder="e.g., subscribers, jamestown_bpu"
                 value={formData.internalName}
                 onChange={(e) => setFormData({ ...formData, internalName: e.target.value })}
-                className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B]"
+                className="bg-input-background border-input text-foreground placeholder:text-muted-foreground"
               />
             </div>
           </div>
 
           {/* Display Name */}
           <div className="space-y-2">
-            <Label htmlFor="displayName" className="text-[#F8FAFC]">
-              Display Name <span className="text-red-500">*</span>
+            <Label htmlFor="displayName" className="text-foreground">
+              Display Name <span className="text-destructive">*</span>
             </Label>
             <Input
               id="displayName"
               placeholder="e.g., Orangeburg Fiber, Jamestown BPU"
               value={formData.displayName}
               onChange={(e) => setFormData({ ...formData, displayName: e.target.value })}
-              className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B]"
+              className="bg-input-background border-input text-foreground placeholder:text-muted-foreground"
             />
-            <p className="text-xs text-[#64748B]">User-friendly name shown in the interface</p>
+            <p className="text-xs text-muted-foreground">User-friendly name shown in the interface</p>
           </div>
 
           {/* Location */}
           <div className="space-y-2">
-            <Label htmlFor="location" className="text-[#F8FAFC]">Location</Label>
+            <Label htmlFor="location" className="text-foreground">Location</Label>
             <Input
               id="location"
               placeholder="e.g., Orangeburg, SC"
               value={formData.location}
               onChange={(e) => setFormData({ ...formData, location: e.target.value })}
-              className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B]"
+              className="bg-input-background border-input text-foreground placeholder:text-muted-foreground"
             />
           </div>
 
           {/* Description */}
           <div className="space-y-2">
-            <Label htmlFor="description" className="text-[#F8FAFC]">Description</Label>
+            <Label htmlFor="description" className="text-foreground">Description</Label>
             <Textarea
               id="description"
               placeholder="Brief description of the network and services"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B] min-h-[80px]"
+              className="bg-input-background border-input text-foreground placeholder:text-muted-foreground min-h-[80px]"
             />
           </div>
         </ModalSection>
@@ -154,8 +154,8 @@ export function AddNetworkModal({ open, onOpenChange }: AddNetworkModalProps) {
           <div className="space-y-3">
             <div className="flex items-center justify-between py-2">
               <div>
-                <Label className="text-[#F8FAFC] font-medium">Has Installation Requests</Label>
-                <p className="text-xs text-[#64748B]">Include installation request data in reports and analytics</p>
+                <Label className="text-foreground font-medium">Has Installation Requests</Label>
+                <p className="text-xs text-muted-foreground">Include installation request data in reports and analytics</p>
               </div>
               <Switch
                 checked={formData.hasInstallationRequests}
@@ -165,8 +165,8 @@ export function AddNetworkModal({ open, onOpenChange }: AddNetworkModalProps) {
 
             <div className="flex items-center justify-between py-2">
               <div>
-                <Label className="text-[#F8FAFC] font-medium">Has Service Subscriptions</Label>
-                <p className="text-xs text-[#64748B]">Include service subscription data in reports and analytics</p>
+                <Label className="text-foreground font-medium">Has Service Subscriptions</Label>
+                <p className="text-xs text-muted-foreground">Include service subscription data in reports and analytics</p>
               </div>
               <Switch
                 checked={formData.hasServiceSubscriptions}
@@ -176,8 +176,8 @@ export function AddNetworkModal({ open, onOpenChange }: AddNetworkModalProps) {
 
             <div className="flex items-center justify-between py-2">
               <div>
-                <Label className="text-[#F8FAFC] font-medium">Has Contracts</Label>
-                <p className="text-xs text-[#64748B]">Include contract and signature data in reports and analytics</p>
+                <Label className="text-foreground font-medium">Has Contracts</Label>
+                <p className="text-xs text-muted-foreground">Include contract and signature data in reports and analytics</p>
               </div>
               <Switch
                 checked={formData.hasContracts}
@@ -187,8 +187,8 @@ export function AddNetworkModal({ open, onOpenChange }: AddNetworkModalProps) {
 
             <div className="flex items-center justify-between py-2">
               <div>
-                <Label className="text-[#F8FAFC] font-medium">Has Onboarding</Label>
-                <p className="text-xs text-[#64748B]">Include onboarding progress data in reports and analytics</p>
+                <Label className="text-foreground font-medium">Has Onboarding</Label>
+                <p className="text-xs text-muted-foreground">Include onboarding progress data in reports and analytics</p>
               </div>
               <Switch
                 checked={formData.hasOnboarding}
@@ -206,37 +206,37 @@ export function AddNetworkModal({ open, onOpenChange }: AddNetworkModalProps) {
         >
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="email" className="text-[#F8FAFC]">Email</Label>
+              <Label htmlFor="email" className="text-foreground">Email</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="contact@example.com"
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B]"
+                className="bg-input-background border-input text-foreground placeholder:text-muted-foreground"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="phone" className="text-[#F8FAFC]">Phone</Label>
+              <Label htmlFor="phone" className="text-foreground">Phone</Label>
               <Input
                 id="phone"
                 placeholder="(555) 123-4567"
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B]"
+                className="bg-input-background border-input text-foreground placeholder:text-muted-foreground"
               />
             </div>
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="hours" className="text-[#F8FAFC]">Hours</Label>
+            <Label htmlFor="hours" className="text-foreground">Hours</Label>
             <Input
               id="hours"
               placeholder="Mon-Fri 8AM-5PM EST"
               value={formData.hours}
               onChange={(e) => setFormData({ ...formData, hours: e.target.value })}
-              className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B]"
+              className="bg-input-background border-input text-foreground placeholder:text-muted-foreground"
             />
           </div>
         </ModalSection>
@@ -249,35 +249,35 @@ export function AddNetworkModal({ open, onOpenChange }: AddNetworkModalProps) {
         >
           <div className="grid grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="facebook" className="text-[#F8FAFC]">Facebook</Label>
+              <Label htmlFor="facebook" className="text-foreground">Facebook</Label>
               <Input
                 id="facebook"
                 placeholder="https://facebook.com/your..."
                 value={formData.facebook}
                 onChange={(e) => setFormData({ ...formData, facebook: e.target.value })}
-                className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B]"
+                className="bg-input-background border-input text-foreground placeholder:text-muted-foreground"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="twitter" className="text-[#F8FAFC]">Twitter</Label>
+              <Label htmlFor="twitter" className="text-foreground">Twitter</Label>
               <Input
                 id="twitter"
                 placeholder="https://twitter.com/your..."
                 value={formData.twitter}
                 onChange={(e) => setFormData({ ...formData, twitter: e.target.value })}
-                className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B]"
+                className="bg-input-background border-input text-foreground placeholder:text-muted-foreground"
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="instagram" className="text-[#F8FAFC]">Instagram</Label>
+              <Label htmlFor="instagram" className="text-foreground">Instagram</Label>
               <Input
                 id="instagram"
                 placeholder="https://instagram.com/your..."
                 value={formData.instagram}
                 onChange={(e) => setFormData({ ...formData, instagram: e.target.value })}
-                className="bg-[#020817] border-[#1E293B] text-[#F8FAFC] placeholder:text-[#64748B]"
+                className="bg-input-background border-input text-foreground placeholder:text-muted-foreground"
               />
             </div>
           </div>
@@ -285,7 +285,7 @@ export function AddNetworkModal({ open, onOpenChange }: AddNetworkModalProps) {
           <ModalInfoBox
             title="Database Schema"
             description="After creating this network, you'll need to set up the corresponding database schema and tables."
-            icon={<Info className="w-5 h-5 text-[#147FFF]" />}
+            icon={<Info className="w-5 h-5 text-[var(--info)]" />}
           />
         </ModalSection>
 

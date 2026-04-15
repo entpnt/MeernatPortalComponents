@@ -213,8 +213,8 @@ export function DashboardContent() {
                   <stop offset="95%" stopColor="#147FFF" stopOpacity={0}/>
                 </linearGradient>
                 <linearGradient id="colorEgress" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#21DB00" stopOpacity={0.3}/>
-                  <stop offset="95%" stopColor="#21DB00" stopOpacity={0}/>
+                  <stop offset="5%" stopColor="var(--success)" stopOpacity={0.3}/>
+                  <stop offset="95%" stopColor="var(--success)" stopOpacity={0}/>
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
@@ -224,8 +224,8 @@ export function DashboardContent() {
                 contentStyle={{ backgroundColor: '#0F172A', border: '1px solid #1E293B', borderRadius: '8px' }}
                 labelStyle={{ color: '#F8FAFC' }}
               />
-              <Area type="monotone" dataKey="ingress" stroke="#147FFF" fillOpacity={1} fill="url(#colorIngress)" />
-              <Area type="monotone" dataKey="egress" stroke="#21DB00" fillOpacity={1} fill="url(#colorEgress)" />
+              <Area key="area-ingress" type="monotone" dataKey="ingress" stroke="#147FFF" fillOpacity={1} fill="url(#colorIngress)" />
+              <Area key="area-egress" type="monotone" dataKey="egress" stroke="var(--success)" fillOpacity={1} fill="url(#colorEgress)" />
             </AreaChart>
           </ResponsiveContainer>
           <div className="flex items-center justify-center gap-6 mt-3">
@@ -234,7 +234,7 @@ export function DashboardContent() {
               <span className="text-xs text-[#94A3B8]">Ingress</span>
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-3 h-3 bg-[#21DB00] rounded-full"></div>
+              <div className="w-3 h-3 bg-[var(--success)] rounded-full"></div>
               <span className="text-xs text-[#94A3B8]">Egress</span>
             </div>
           </div>
@@ -313,8 +313,8 @@ export function DashboardContent() {
                 contentStyle={{ backgroundColor: '#0F172A', border: '1px solid #1E293B', borderRadius: '8px' }}
                 labelStyle={{ color: '#F8FAFC' }}
               />
-              <Line type="monotone" dataKey="latency" stroke="#147FFF" strokeWidth={2} dot={{ fill: '#147FFF', r: 3 }} />
-              <Line type="monotone" dataKey="jitter" stroke="#DC6300" strokeWidth={2} dot={{ fill: '#DC6300', r: 3 }} />
+              <Line key="line-latency" type="monotone" dataKey="latency" stroke="#147FFF" strokeWidth={2} dot={{ fill: '#147FFF', r: 3 }} />
+              <Line key="line-jitter" type="monotone" dataKey="jitter" stroke="#DC6300" strokeWidth={2} dot={{ fill: '#DC6300', r: 3 }} />
             </LineChart>
           </ResponsiveContainer>
           <div className="flex items-center justify-center gap-6 mt-3">

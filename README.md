@@ -1,7 +1,7 @@
 
-  # Redesign Subscriptions Dashboard
+  # Management Portal Design
 
-  This is a code bundle for Redesign Subscriptions Dashboard. The original project is available at https://www.figma.com/design/HIXRfENT8c07Bm7RtKBaFx/Redesign-Subscriptions-Dashboard.
+  This is a code bundle for Management Portal Design. The original project is available at https://www.figma.com/design/HIXRfENT8c07Bm7RtKBaFx/Management-Portal-Design.
 
   ## Running the code
 

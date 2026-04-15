@@ -30,7 +30,7 @@ import {
   Percent,
   PanelLeftClose,
   PanelLeft,
-  Moon
+  Palette
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import {
@@ -78,7 +78,6 @@ const navigationItems: NavItem[] = [
     icon: Users,
     children: [
       { id: 'all-subscribers', label: 'All Subscribers', icon: Users },
-      { id: 'active-subscriptions', label: 'Active Subscriptions', icon: CheckCircle },
       { id: 'pending-subscriptions', label: 'Pending Subscriptions', icon: Clock },
       { id: 'cancelled-subscriptions', label: 'Cancelled Subscriptions', icon: XCircle },
       { id: 'onboarding-pipeline', label: 'Onboarding Pipeline', icon: Users },
@@ -115,7 +114,7 @@ const bottomItems: NavItem[] = [
       { id: 'settings-overview', label: 'Overview', icon: Settings },
       { id: 'vendors', label: 'Vendors', icon: FolderOpen },
       { id: 'networks', label: 'Networks', icon: Network },
-      { id: 'dark-mode-theme', label: 'Dark Mode Theme', icon: Moon },
+      { id: 'theme-management', label: 'Theme Management', icon: Palette },
     ]
   },
 ];
@@ -141,7 +140,7 @@ export function Sidebar({ activeSection, onSectionChange, isCollapsed = false, o
   // Auto-open menus if their sub-sections are active (only in expanded mode)
   useEffect(() => {
     if (!isCollapsed) {
-      if (activeSection === 'settings-overview' || activeSection === 'vendors' || activeSection === 'networks' || activeSection === 'dark-mode-theme' || activeSection === 'settings') {
+      if (activeSection === 'settings-overview' || activeSection === 'vendors' || activeSection === 'networks' || activeSection === 'theme-management' || activeSection === 'settings') {
         setOpenMenus(prev => new Set([...prev, 'settings']));
       }
       if (activeSection === 'device-import-config' || activeSection === 'enabled-features' || activeSection === 'external-configuration' || 
@@ -237,8 +236,8 @@ export function Sidebar({ activeSection, onSectionChange, isCollapsed = false, o
             isActive && 'text-[var(--sidebar-primary-foreground)]',
             !isActive && hasActiveChild && 'bg-[var(--sidebar-accent)] text-[var(--sidebar-accent-foreground)] hover:bg-[var(--sidebar-accent)]',
             !isActive && !hasActiveChild && 'text-[var(--muted-foreground)] hover:text-[var(--sidebar-foreground)] hover:bg-[var(--sidebar-accent)]',
-            level === 1 && 'text-xs',
-            level === 2 && 'text-xs py-1.5'
+            level === 1 && 'text-sm',
+            level === 2 && 'text-sm py-1.5'
           )}
           style={{
             paddingLeft: level > 0 ? `${12 + level * 8}px` : undefined,
@@ -249,7 +248,7 @@ export function Sidebar({ activeSection, onSectionChange, isCollapsed = false, o
           }}
         >
           <Icon className={cn('flex-shrink-0', level === 0 ? 'w-5 h-5' : 'w-4 h-4')} />
-          <span className={cn('font-medium flex-1 text-left', level === 0 ? 'text-sm' : 'text-xs')}>
+          <span className={cn('font-medium flex-1 text-left', 'text-sm')}>
             {item.label}
           </span>
           {item.badge !== undefined && item.badge > 0 && (
