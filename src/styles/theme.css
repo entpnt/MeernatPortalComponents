@@ -38,13 +38,18 @@
   --primary-foreground: var(--primary-light-foreground);
   --muted: #F1F5F9;
   --muted-foreground: #475569;
+  --accent-subtle: #F1F5F9;
+  --accent-subtle-foreground: #020817;
+  --accent-brand: var(--primary-light);
+  --accent-brand-foreground: var(--primary-light-foreground);
+
+  /* Legacy accent token for backward compatibility - maps to subtle */
   --accent: #F1F5F9;
   --accent-foreground: #020817;
   
-  /* Light Mode - Borders & Dividers */
+  /* Light Mode - Borders & Inputs */
   --border: #F1F5F9;
-  --divider: #F1F5F9;
-  --input: transparent;
+  --input: #F1F5F9;
   --input-background: #F3F3F5;
   --switch-background: #CBD5E1;
   --ring: #147FFF;
@@ -75,24 +80,20 @@
   --sidebar-active-gradient-from: var(--primary-light);
   --sidebar-active-gradient-to: var(--primary-light-hover);
   --sidebar-active-shadow: rgba(0, 0, 0, 0.1);
-  
-  /* Neutrals (same for both modes) */
-  --neutral-white: #FFFFFF;
-  --neutral-lightest: #F2F2F2;
-  --neutral-lighter: #D1D3D6;
-  --neutral-light: #A3A6AC;
-  --neutral: #71777E;
-  --neutral-dark: #626368;
-  --neutral-darker: #383A3D;
-  --neutral-darkest: #0C0900;
-  
+
   /* Semantic Colors - Light Mode */
   --focus: #147FFF;
+  --focus-hover: #0369a1;
   --success: #15803D;
+  --success-hover: #166534;
   --warning: #D97706;
+  --warning-hover: #b45309;
   --error: #DC2626;
+  --error-hover: #b91c1c;
   --info: #2563EB;
-  --disabled: #B6B6B6;
+  --info-hover: #1d4ed8;
+  --disabled: #94A3B8;
+  --disabled-foreground: #64748B;
   --destructive: #DC2626;
   --destructive-foreground: #FFFFFF;
   
@@ -127,17 +128,22 @@
   --primary: var(--primary-dark);
   --primary-foreground: var(--primary-dark-foreground);
   --muted: #2e2e2e;
-  --muted-foreground: #cbd5e1;
-  --accent: var(--primary-dark-hover);
+  --muted-foreground: #94a3b8;
+  --accent-subtle: #2e2e2e;
+  --accent-subtle-foreground: #ffffff;
+  --accent-brand: var(--primary-dark);
+  --accent-brand-foreground: var(--primary-dark-foreground);
+
+  /* Legacy accent token for backward compatibility - maps to subtle */
+  --accent: #2e2e2e;
   --accent-foreground: #ffffff;
   
-  /* Borders & Dividers */
+  /* Borders & Inputs */
   --border: #2e2e2e;
-  --divider: #2e2e2e;
   --input: #2e2e2e;
   --input-background: #212121;
   --switch-background: #475569;
-  --ring: var(--primary-dark);
+  --ring: #147FFF;
   
   /* Charts */
   --chart-1: oklch(0.488 0.243 264.376);
@@ -161,13 +167,19 @@
   --sidebar-active-gradient-to: var(--primary-dark-hover);
   --sidebar-active-shadow: rgba(0, 0, 0, 0.3);
   
-  /* Semantic Colors */
-  --focus: var(--primary-dark);
+  /* Semantic Colors - Dark Mode */
+  --focus: #0ea5e9;
+  --focus-hover: #38bdf8;
   --success: #22c55e;
+  --success-hover: #4ade80;
   --warning: #f59e0b;
+  --warning-hover: #fbbf24;
   --error: #ef4444;
-  --info: var(--primary-dark);
-  --disabled: #cbd5e1;
+  --error-hover: #f87171;
+  --info: #0ea5e9;
+  --info-hover: #38bdf8;
+  --disabled: #64748b;
+  --disabled-foreground: #475569;
   --destructive: #ef4444;
   --destructive-foreground: #ffffff;
   
@@ -201,8 +213,24 @@
   --color-muted-foreground: var(--muted-foreground);
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-accent-subtle-foreground: var(--accent-subtle-foreground);
+  --color-accent-brand: var(--accent-brand);
+  --color-accent-brand-foreground: var(--accent-brand-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-focus: var(--focus);
+  --color-focus-hover: var(--focus-hover);
+  --color-success: var(--success);
+  --color-success-hover: var(--success-hover);
+  --color-warning: var(--warning);
+  --color-warning-hover: var(--warning-hover);
+  --color-error: var(--error);
+  --color-error-hover: var(--error-hover);
+  --color-info: var(--info);
+  --color-info-hover: var(--info-hover);
+  --color-disabled: var(--disabled);
+  --color-disabled-foreground: var(--disabled-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-input-background: var(--input-background);
@@ -477,12 +505,24 @@
     box-shadow: inset 0 1px 2px var(--sidebar-active-shadow);
     color: var(--primary-foreground);
   }
-  
+
   .btn-primary-gradient:hover {
     opacity: 0.9;
   }
-  
+
   .btn-primary-gradient:disabled {
     opacity: 0.5;
+  }
+}
+
+/* Utility Classes */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }

@@ -31,9 +31,9 @@ export function AnalyticsContent({ onNavigateBack }: AnalyticsContentProps) {
   return (
     <div className="p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-foreground mb-2">Subscription Analytics</h1>
+        <h1 className="text-3xl font-bold text-foreground mb-2">Account Analytics</h1>
         <p className="text-muted-foreground">
-          Comprehensive insights into subscriber metrics • Orangeburg Fiber
+          Comprehensive insights into account metrics • Orangeburg Fiber
         </p>
       </div>
 
@@ -90,15 +90,15 @@ function GrowthTrendsTab() {
         </div>
       </div>
 
-      {/* Subscription Growth Trend Card */}
+      {/* Account Growth Trend Card */}
       <Card className="bg-card border-border p-6">
         <div className="flex items-center justify-between mb-6">
           <div>
             <h3 className="text-base font-semibold text-card-foreground mb-1">
-              Subscription Growth Trend
+              Account Growth Trend
             </h3>
             <p className="text-sm text-muted-foreground">
-              Net new subscriptions over the selected time period
+              Net new accounts over the selected time period
             </p>
           </div>
 
@@ -206,7 +206,7 @@ function GrowthTrendsTab() {
         <div className="flex items-center justify-center gap-6 mt-6 pt-6 border-t border-border">
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-[var(--success)] rounded-full" />
-            <span className="text-sm text-muted-foreground">New Subscriptions</span>
+            <span className="text-sm text-muted-foreground">New Accounts</span>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-3 h-3 bg-[var(--error)] rounded-full" />

@@ -134,7 +134,7 @@ const defaultColumns: Column[] = [
   { id: 'serialNumber', label: 'Serial Number', visible: true },
   { id: 'serviceProvider', label: 'Service Provider', visible: true },
   { id: 'planName', label: 'Plan Name', visible: true },
-  { id: 'subscriptionStatus', label: 'Subscription Status', visible: true },
+  { id: 'subscriptionStatus', label: 'Account Status', visible: true },
   { 
     id: 'contract', 
     label: 'Contract', 
@@ -154,9 +154,12 @@ const defaultColumns: Column[] = [
   { id: 'installationStatus', label: 'Installation Status', visible: true },
 ];
 
+type AccountFilterType = 'all' | 'active' | 'pending' | 'cancelled';
+
 export function AllSubscribersContent() {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [showStats, setShowStats] = useState(true);
+  const [accountFilter, setAccountFilter] = useState<AccountFilterType>('all');
   const [columns, setColumns] = useState<Column[]>(defaultColumns);
   const [entriesPerPage, setEntriesPerPage] = useState('50');
   const [currentPage, setCurrentPage] = useState(1);
@@ -205,10 +208,28 @@ export function AllSubscribersContent() {
         return 'text-[var(--warning)] bg-[var(--warning)]/10';
       case 'active':
         return 'text-[var(--success)] bg-[var(--success)]/10';
+      case 'cancelled':
+        return 'text-[var(--error)] bg-[var(--error)]/10';
       default:
         return 'text-[#64748B] bg-[#64748B]/10';
     }
   };
+
+  // Filter data based on account filter
+  const getFilteredData = () => {
+    switch (accountFilter) {
+      case 'active':
+        return subscriberData.filter(sub => sub.subscriptionStatus.toLowerCase() === 'active');
+      case 'pending':
+        return subscriberData.filter(sub => sub.subscriptionStatus.toLowerCase() === 'pending');
+      case 'cancelled':
+        return subscriberData.filter(sub => sub.subscriptionStatus.toLowerCase() === 'cancelled');
+      default:
+        return subscriberData;
+    }
+  };
+
+  const filteredData = getFilteredData();
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -217,8 +238,8 @@ export function AllSubscribersContent() {
           {/* Header */}
           <div className="mb-6 flex items-start justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-[var(--foreground)] mb-2">All Subscribers</h1>
-              <p className="text-[var(--muted-foreground)]">Comprehensive directory of all subscriber accounts</p>
+              <h1 className="text-3xl font-bold text-[var(--foreground)] mb-2">All Accounts</h1>
+              <p className="text-[var(--muted-foreground)]">Comprehensive directory of all customer accounts</p>
             </div>
             <button
               onClick={() => setShowStats(!showStats)}
@@ -230,7 +251,51 @@ export function AllSubscribersContent() {
             </button>
           </div>
 
-          {/* Active Subscription Stats */}
+          {/* Account Filter Tabs */}
+          <div className="flex gap-2 mb-6 border-b border-[var(--border)]">
+            <button
+              onClick={() => setAccountFilter('all')}
+              className={`px-4 py-2.5 text-sm font-medium transition-all relative ${
+                accountFilter === 'all'
+                  ? 'text-[var(--foreground)] bg-[var(--secondary)] rounded-t-lg'
+                  : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+              }`}
+            >
+              All Accounts
+            </button>
+            <button
+              onClick={() => setAccountFilter('active')}
+              className={`px-4 py-2.5 text-sm font-medium transition-all relative ${
+                accountFilter === 'active'
+                  ? 'text-[var(--foreground)] bg-[var(--secondary)] rounded-t-lg'
+                  : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+              }`}
+            >
+              Active
+            </button>
+            <button
+              onClick={() => setAccountFilter('pending')}
+              className={`px-4 py-2.5 text-sm font-medium transition-all relative ${
+                accountFilter === 'pending'
+                  ? 'text-[var(--foreground)] bg-[var(--secondary)] rounded-t-lg'
+                  : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+              }`}
+            >
+              Pending
+            </button>
+            <button
+              onClick={() => setAccountFilter('cancelled')}
+              className={`px-4 py-2.5 text-sm font-medium transition-all relative ${
+                accountFilter === 'cancelled'
+                  ? 'text-[var(--foreground)] bg-[var(--secondary)] rounded-t-lg'
+                  : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+              }`}
+            >
+              Cancelled
+            </button>
+          </div>
+
+          {/* Account Statistics */}
           {showStats && (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
               {/* Total Active */}
@@ -240,7 +305,7 @@ export function AllSubscribersContent() {
                   <Users className="w-5 h-5 text-[var(--muted-foreground)]" />
                 </div>
                 <div className="text-3xl font-bold text-[var(--foreground)] mb-1">0</div>
-                <div className="text-sm text-[var(--muted-foreground)]">Active subscriptions</div>
+                <div className="text-sm text-[var(--muted-foreground)]">Active accounts</div>
               </Card>
 
               {/* New This Month */}
@@ -260,7 +325,7 @@ export function AllSubscribersContent() {
                   <TrendingDown className="w-5 h-5 text-[var(--error)]" />
                 </div>
                 <div className="text-3xl font-bold text-[var(--error)] mb-1">-0</div>
-                <div className="text-sm text-[var(--muted-foreground)]">Net 0 subscribers</div>
+                <div className="text-sm text-[var(--muted-foreground)]">Net 0 accounts</div>
               </Card>
 
               {/* Monthly Revenue */}
@@ -283,7 +348,7 @@ export function AllSubscribersContent() {
                   <Search className="w-5 h-5 text-[var(--muted-foreground)]" />
                   <input
                     type="text"
-                    placeholder="Search subscribers..."
+                    placeholder="Search accounts..."
                     className="flex-1 bg-transparent text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] outline-none text-sm"
                   />
                 </div>
@@ -681,9 +746,9 @@ export function AllSubscribersContent() {
             
             <DataTable
               columns={columns}
-              data={subscriberData}
+              data={filteredData}
               onColumnsChange={setColumns}
-              totalCount={1302}
+              totalCount={filteredData.length}
               showColumnManager={false}
               showPagination={false}
               onRowClick={setSelectedCustomer}

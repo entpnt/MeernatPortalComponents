@@ -6,6 +6,13 @@ import { TabMenu, TabContent } from '@/app/components/ui/tab-menu';
 import { Textarea } from '@/app/components/ui/textarea';
 import { Label } from '@/app/components/ui/label';
 import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from '@/app/components/ui/sheet';
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -35,7 +42,12 @@ export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetai
   const [currentPhotoIndex, setCurrentPhotoIndex] = useState(0);
   const [currentInstallPhotos, setCurrentInstallPhotos] = useState<any[]>([]);
 
-  if (!isOpen || !customer) return null;
+  if (!customer) return null;
+
+  // Map customer data to support both field naming conventions
+  const customerName = customer.name || customer.customerName;
+  const customerEmail = customer.email || 'Not provided';
+  const customerAddress = customer.address || customer.fullAddress;
 
   const mockSubscriptions = [
     {
@@ -144,191 +156,187 @@ export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetai
 
   return (
     <>
-      <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4" onClick={onClose}>
-        <div
-          className="bg-card border border-border rounded-lg max-w-6xl w-full max-h-[90vh] overflow-hidden shadow-xl"
-          onClick={(e) => e.stopPropagation()}
+      <Sheet open={isOpen} onOpenChange={(open) => !open && onClose()}>
+        <SheetContent
+          side="right"
+          className="w-[45vw] max-w-none p-0 flex flex-col"
         >
           {/* Header */}
-          <div className="flex items-center justify-between p-6 border-b border-border">
-            <div>
-              <h2 className="text-2xl font-bold text-foreground">{customer.name}</h2>
-              <p className="text-sm text-muted-foreground">{customer.accountId}</p>
-            </div>
-            <button
-              onClick={onClose}
-              className="p-2 hover:bg-secondary rounded-lg transition-colors"
-            >
-              <X className="w-5 h-5 text-muted-foreground" />
-            </button>
-          </div>
+          <SheetHeader className="px-6 py-5 border-b border-border">
+            <SheetTitle className="text-2xl font-bold text-foreground">{customerName}</SheetTitle>
+            <SheetDescription className="text-sm text-muted-foreground">
+              {customer.accountId}
+            </SheetDescription>
+          </SheetHeader>
 
           {/* Tabs */}
-          <TabMenu
-            activeTab={activeTab}
-            onTabChange={setActiveTab}
-            tabs={[
-              { id: 'info', label: 'Customer Info', icon: User },
-              { id: 'subscriptions', label: 'Subscriptions', icon: Package },
-              { id: 'billing', label: 'Billing', icon: DollarSign },
-              { id: 'installs', label: 'Install History', icon: Wrench },
-              { id: 'devices', label: 'Devices & Diagnostics', icon: Router },
-              { id: 'notes', label: 'Notes & Activity', icon: MessageSquare },
-              { id: 'documents', label: 'Documents', icon: FileText },
-            ]}
-          />
+          <div className="px-6 pt-4">
+            <TabMenu
+              activeTab={activeTab}
+              onTabChange={setActiveTab}
+              tabs={[
+                { id: 'info', label: 'Customer Info', icon: User },
+                { id: 'subscriptions', label: 'Subscriptions', icon: Package },
+                { id: 'billing', label: 'Billing', icon: DollarSign },
+                { id: 'installs', label: 'Install History', icon: Wrench },
+                { id: 'devices', label: 'Devices & Diagnostics', icon: Router },
+                { id: 'notes', label: 'Notes & Activity', icon: MessageSquare },
+                { id: 'documents', label: 'Documents', icon: FileText },
+              ]}
+            />
+          </div>
 
           {/* Tab Content */}
-          <div className="p-6 overflow-y-auto max-h-[calc(90vh-180px)]">
+          <div className="flex-1 p-6 overflow-y-auto">
             {/* Customer Info Tab */}
             <TabContent activeTab={activeTab} tabId="info">
-              <div className="space-y-6">
-                <Card className="bg-secondary border-border p-6">
-                  <h3 className="text-base font-semibold text-foreground mb-4">Contact Information</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground mb-5 pb-3 border-b border-border">Contact Information</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5">
                     <div>
-                      <label className="text-xs text-muted-foreground">Name</label>
-                      <p className="text-sm text-foreground mt-1">{customer.name}</p>
+                      <label className="text-xs text-muted-foreground uppercase tracking-wide">Name</label>
+                      <p className="text-sm text-foreground mt-2">{customerName}</p>
                     </div>
                     <div>
-                      <label className="text-xs text-muted-foreground">Email</label>
-                      <p className="text-sm text-foreground mt-1">{customer.email}</p>
+                      <label className="text-xs text-muted-foreground uppercase tracking-wide">Email</label>
+                      <p className="text-sm text-foreground mt-2">{customerEmail}</p>
                     </div>
                     <div>
-                      <label className="text-xs text-muted-foreground">Phone</label>
-                      <p className="text-sm text-foreground mt-1">{customer.phone || 'N/A'}</p>
+                      <label className="text-xs text-muted-foreground uppercase tracking-wide">Phone</label>
+                      <p className="text-sm text-foreground mt-2">{customer.phone || 'N/A'}</p>
                     </div>
                     <div>
-                      <label className="text-xs text-muted-foreground">Status</label>
-                      <p className="text-sm text-foreground mt-1">{customer.status}</p>
+                      <label className="text-xs text-muted-foreground uppercase tracking-wide">Status</label>
+                      <p className="text-sm text-foreground mt-2">{customer.subscriptionStatus || customer.status || 'N/A'}</p>
                     </div>
                   </div>
-                </Card>
+                </div>
 
-                <Card className="bg-secondary border-border p-6">
-                  <h3 className="text-base font-semibold text-foreground mb-4">Service Address</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground mb-5 pb-3 border-b border-border">Service Address</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-5">
                     <div>
-                      <label className="text-xs text-muted-foreground">Address</label>
-                      <p className="text-sm text-foreground mt-1">{customer.address}</p>
+                      <label className="text-xs text-muted-foreground uppercase tracking-wide">Address</label>
+                      <p className="text-sm text-foreground mt-2">{customerAddress}</p>
                     </div>
                     <div>
-                      <label className="text-xs text-muted-foreground">City, State ZIP</label>
-                      <p className="text-sm text-foreground mt-1">{customer.city || 'Orangeburg, SC 29115'}</p>
+                      <label className="text-xs text-muted-foreground uppercase tracking-wide">City, State ZIP</label>
+                      <p className="text-sm text-foreground mt-2">{customer.city || 'Jamestown, NY 14701'}</p>
                     </div>
                   </div>
-                </Card>
+                </div>
               </div>
             </TabContent>
 
             {/* Subscriptions Tab */}
             <TabContent activeTab={activeTab} tabId="subscriptions">
-              <div className="space-y-4">
-                {mockSubscriptions.map((sub) => (
-                  <Card key={sub.id} className="bg-secondary border-border p-4">
-                    <div className="flex items-start justify-between mb-4">
+              <div className="space-y-6">
+                {mockSubscriptions.map((sub, index) => (
+                  <div key={sub.id} className={index > 0 ? 'pt-6 border-t border-border' : ''}>
+                    <div className="flex items-start justify-between mb-5">
                       <div>
                         <h3 className="text-sm font-semibold text-foreground">{sub.plan}</h3>
                         <p className="text-xs text-muted-foreground mt-1">{sub.provider}</p>
                       </div>
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge(sub.status)}`}>
+                      <span className={`px-2.5 py-1 rounded-md text-xs font-medium ${getStatusBadge(sub.status)}`}>
                         {sub.status}
                       </span>
                     </div>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4">
                       <div>
-                        <label className="text-xs text-muted-foreground">Start Date</label>
-                        <p className="text-sm text-foreground mt-1">{sub.startDate}</p>
+                        <label className="text-xs text-muted-foreground uppercase tracking-wide">Start Date</label>
+                        <p className="text-sm text-foreground mt-2">{sub.startDate}</p>
                       </div>
                       <div>
-                        <label className="text-xs text-muted-foreground">Monthly Rate</label>
-                        <p className="text-sm text-foreground mt-1">{sub.monthlyRate}</p>
+                        <label className="text-xs text-muted-foreground uppercase tracking-wide">Monthly Rate</label>
+                        <p className="text-sm text-foreground mt-2">{sub.monthlyRate}</p>
                       </div>
                       <div>
-                        <label className="text-xs text-muted-foreground">Contract Type</label>
-                        <p className="text-sm text-foreground mt-1">{sub.contractType}</p>
+                        <label className="text-xs text-muted-foreground uppercase tracking-wide">Contract Type</label>
+                        <p className="text-sm text-foreground mt-2">{sub.contractType}</p>
                       </div>
                       <div>
-                        <label className="text-xs text-muted-foreground">Contract Status</label>
-                        <p className="text-sm text-foreground mt-1">{sub.contractStatus}</p>
+                        <label className="text-xs text-muted-foreground uppercase tracking-wide">Contract Status</label>
+                        <p className="text-sm text-foreground mt-2">{sub.contractStatus}</p>
                       </div>
                     </div>
-                  </Card>
+                  </div>
                 ))}
               </div>
             </TabContent>
 
             {/* Billing Tab */}
             <TabContent activeTab={activeTab} tabId="billing">
-              <div className="space-y-6">
-                <Card className="bg-secondary border-border p-6">
-                  <h3 className="text-base font-semibold text-foreground mb-4">Billing Summary</h3>
+              <div className="space-y-8">
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground mb-5 pb-3 border-b border-border">Billing Summary</h3>
                   <div className="space-y-4">
-                    <div className="flex justify-between">
+                    <div className="flex justify-between py-2">
                       <span className="text-sm text-muted-foreground">Current Balance</span>
-                      <span className="text-sm font-medium text-foreground">$0.00</span>
+                      <span className="text-sm font-semibold text-foreground">$0.00</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between py-2">
                       <span className="text-sm text-muted-foreground">Next Bill Date</span>
-                      <span className="text-sm font-medium text-foreground">2/10/2026</span>
+                      <span className="text-sm font-semibold text-foreground">2/10/2026</span>
                     </div>
-                    <div className="flex justify-between">
+                    <div className="flex justify-between py-2">
                       <span className="text-sm text-muted-foreground">Monthly Total</span>
-                      <span className="text-sm font-medium text-foreground">$155.94</span>
+                      <span className="text-sm font-semibold text-foreground">$155.94</span>
                     </div>
                   </div>
-                </Card>
+                </div>
 
-                <Card className="bg-secondary border-border p-6">
-                  <h3 className="text-base font-semibold text-foreground mb-4">Recent Invoices</h3>
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between py-2 border-b border-border last:border-0">
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground mb-5 pb-3 border-b border-border">Recent Invoices</h3>
+                  <div className="space-y-0">
+                    <div className="flex items-center justify-between py-4 border-b border-border last:border-0">
                       <div>
-                        <p className="text-sm text-foreground">Invoice #INV-2026-001</p>
-                        <p className="text-xs text-muted-foreground">1/10/2026</p>
+                        <p className="text-sm font-medium text-foreground">Invoice #INV-2026-001</p>
+                        <p className="text-xs text-muted-foreground mt-1">1/10/2026</p>
                       </div>
-                      <div className="flex items-center gap-3">
-                        <span className="text-sm font-medium text-foreground">$155.94</span>
-                        <span className="px-2 py-1 bg-[var(--success)]/10 text-[var(--success)] text-xs rounded">Paid</span>
+                      <div className="flex items-center gap-4">
+                        <span className="text-sm font-semibold text-foreground">$155.94</span>
+                        <span className="px-2.5 py-1 bg-[var(--success)]/10 text-[var(--success)] text-xs rounded-md font-medium">Paid</span>
                       </div>
                     </div>
                   </div>
-                </Card>
+                </div>
               </div>
             </TabContent>
 
             {/* Install History Tab */}
             <TabContent activeTab={activeTab} tabId="installs">
-              <div className="space-y-4">
-                {mockInstalls.map((install) => (
-                  <Card key={install.id} className="bg-secondary border-border p-4">
-                    <div className="flex items-start justify-between mb-4">
+              <div className="space-y-6">
+                {mockInstalls.map((install, index) => (
+                  <div key={install.id} className={index > 0 ? 'pt-6 border-t border-border' : ''}>
+                    <div className="flex items-start justify-between mb-5">
                       <div>
                         <h3 className="text-sm font-semibold text-foreground">{install.type}</h3>
                         <p className="text-xs text-muted-foreground mt-1">Work Order: {install.id}</p>
                       </div>
-                      <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge(install.status)}`}>
+                      <span className={`px-2.5 py-1 rounded-md text-xs font-medium ${getStatusBadge(install.status)}`}>
                         {install.status}
                       </span>
                     </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-x-6 gap-y-4 mb-5">
                       <div>
-                        <label className="text-xs text-muted-foreground">Scheduled Date</label>
-                        <p className="text-sm text-foreground mt-1">{install.scheduledDate}</p>
+                        <label className="text-xs text-muted-foreground uppercase tracking-wide">Scheduled Date</label>
+                        <p className="text-sm text-foreground mt-2">{install.scheduledDate}</p>
                       </div>
                       <div>
-                        <label className="text-xs text-muted-foreground">Completed Date</label>
-                        <p className="text-sm text-foreground mt-1">{install.completedDate || 'N/A'}</p>
+                        <label className="text-xs text-muted-foreground uppercase tracking-wide">Completed Date</label>
+                        <p className="text-sm text-foreground mt-2">{install.completedDate || 'N/A'}</p>
                       </div>
                       <div>
-                        <label className="text-xs text-muted-foreground">Technician</label>
-                        <p className="text-sm text-foreground mt-1">{install.technician}</p>
+                        <label className="text-xs text-muted-foreground uppercase tracking-wide">Technician</label>
+                        <p className="text-sm text-foreground mt-2">{install.technician}</p>
                       </div>
                     </div>
                     {install.notes && (
-                      <div className="mb-4">
-                        <label className="text-xs text-muted-foreground">Notes</label>
-                        <p className="text-sm text-foreground mt-1">{install.notes}</p>
+                      <div className="mb-5">
+                        <label className="text-xs text-muted-foreground uppercase tracking-wide">Notes</label>
+                        <p className="text-sm text-foreground mt-2">{install.notes}</p>
                       </div>
                     )}
 
@@ -367,32 +375,32 @@ export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetai
                         </div>
                       </div>
                     )}
-                  </Card>
+                  </div>
                 ))}
               </div>
             </TabContent>
 
             {/* Devices Tab */}
             <TabContent activeTab={activeTab} tabId="devices">
-              <div className="space-y-6">
-                {/* ONU Status Card */}
-                <Card className="bg-secondary border-border p-5">
-                  <div className="flex items-start justify-between mb-4">
-                    <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
-                      <Activity className="w-5 h-5 text-[var(--info)]" />
+              <div className="space-y-8">
+                {/* ONU Status */}
+                <div>
+                  <div className="flex items-start justify-between mb-5 pb-3 border-b border-border">
+                    <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                      <Activity className="w-4 h-4 text-[var(--info)]" />
                       ONU Status
                     </h3>
                     <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 bg-[var(--success)] rounded-full animate-pulse"></div>
+                      <div className="w-2.5 h-2.5 bg-[var(--success)] rounded-full animate-pulse"></div>
                       <span className="text-sm font-semibold text-[var(--success)]">Online</span>
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                    <div className="p-3 bg-background rounded-lg">
-                      <div className="flex items-center gap-2 mb-2">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div>
+                      <div className="flex items-center gap-2 mb-3">
                         <Power className="w-4 h-4 text-[var(--success)]" />
-                        <label className="text-xs text-muted-foreground">Power Status</label>
+                        <label className="text-xs text-muted-foreground uppercase tracking-wide">Power Status</label>
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
@@ -400,10 +408,10 @@ export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetai
                       </div>
                     </div>
 
-                    <div className="p-3 bg-background rounded-lg">
-                      <div className="flex items-center gap-2 mb-2">
+                    <div>
+                      <div className="flex items-center gap-2 mb-3">
                         <Link className="w-4 h-4 text-[var(--success)]" />
-                        <label className="text-xs text-muted-foreground">OLT Link Status</label>
+                        <label className="text-xs text-muted-foreground uppercase tracking-wide">OLT Link Status</label>
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
@@ -411,10 +419,10 @@ export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetai
                       </div>
                     </div>
 
-                    <div className="p-3 bg-background rounded-lg">
-                      <div className="flex items-center gap-2 mb-2">
+                    <div>
+                      <div className="flex items-center gap-2 mb-3">
                         <Zap className="w-4 h-4 text-[var(--success)]" />
-                        <label className="text-xs text-muted-foreground">Signal Strength</label>
+                        <label className="text-xs text-muted-foreground uppercase tracking-wide">Signal Strength</label>
                       </div>
                       <div className="flex items-center gap-2">
                         <CheckCircle2 className="w-4 h-4 text-[var(--success)]" />
@@ -422,46 +430,47 @@ export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetai
                       </div>
                     </div>
                   </div>
-                </Card>
+                </div>
 
                 {/* Devices List */}
-                <div className="space-y-3">
-                  {mockDevices.map((device) => (
-                    <Card key={device.id} className="bg-secondary border-border p-4">
-                      <div className="flex items-start justify-between mb-3">
-                        <div className="flex items-center gap-3">
-                          <div className="p-2 bg-background rounded-lg">
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground mb-5 pb-3 border-b border-border">Connected Devices</h3>
+                  <div className="space-y-6">
+                    {mockDevices.map((device, index) => (
+                      <div key={device.id} className={index > 0 ? 'pt-6 border-t border-border' : ''}>
+                        <div className="flex items-start justify-between mb-4">
+                          <div className="flex items-center gap-3">
                             <Router className="w-5 h-5 text-[var(--info)]" />
+                            <div>
+                              <h4 className="text-sm font-semibold text-foreground">{device.type}</h4>
+                              <p className="text-xs text-muted-foreground mt-1">{device.model}</p>
+                            </div>
+                          </div>
+                          <span className={`px-2.5 py-1 rounded-md text-xs font-medium ${getStatusBadge(device.status)}`}>
+                            {device.status}
+                          </span>
+                        </div>
+                        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-4">
+                          <div>
+                            <label className="text-xs text-muted-foreground uppercase tracking-wide">Serial Number</label>
+                            <p className="text-sm text-foreground mt-2">{device.serialNumber}</p>
                           </div>
                           <div>
-                            <h4 className="text-sm font-semibold text-foreground">{device.type}</h4>
-                            <p className="text-xs text-muted-foreground">{device.model}</p>
+                            <label className="text-xs text-muted-foreground uppercase tracking-wide">IP Address</label>
+                            <p className="text-sm text-foreground mt-2">{device.ipAddress}</p>
+                          </div>
+                          <div>
+                            <label className="text-xs text-muted-foreground uppercase tracking-wide">MAC Address</label>
+                            <p className="text-sm text-foreground mt-2">{device.macAddress}</p>
+                          </div>
+                          <div>
+                            <label className="text-xs text-muted-foreground uppercase tracking-wide">Last Seen</label>
+                            <p className="text-sm text-foreground mt-2">{device.lastSeen}</p>
                           </div>
                         </div>
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${getStatusBadge(device.status)}`}>
-                          {device.status}
-                        </span>
                       </div>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-xs">
-                        <div>
-                          <label className="text-muted-foreground">Serial Number</label>
-                          <p className="text-foreground mt-1">{device.serialNumber}</p>
-                        </div>
-                        <div>
-                          <label className="text-muted-foreground">IP Address</label>
-                          <p className="text-foreground mt-1">{device.ipAddress}</p>
-                        </div>
-                        <div>
-                          <label className="text-muted-foreground">MAC Address</label>
-                          <p className="text-foreground mt-1">{device.macAddress}</p>
-                        </div>
-                        <div>
-                          <label className="text-muted-foreground">Last Seen</label>
-                          <p className="text-foreground mt-1">{device.lastSeen}</p>
-                        </div>
-                      </div>
-                    </Card>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             </TabContent>
@@ -473,15 +482,15 @@ export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetai
 
             {/* Documents Tab */}
             <TabContent activeTab={activeTab} tabId="documents">
-              <Card className="bg-secondary border-border p-6">
-                <h3 className="text-base font-semibold text-foreground mb-4">Customer Documents</h3>
-                <div className="space-y-3">
-                  <div className="flex items-center justify-between py-3 border-b border-border last:border-0">
+              <div>
+                <h3 className="text-sm font-semibold text-foreground mb-5 pb-3 border-b border-border">Customer Documents</h3>
+                <div className="space-y-0">
+                  <div className="flex items-center justify-between py-4 border-b border-border last:border-0">
                     <div className="flex items-center gap-3">
                       <FileText className="w-5 h-5 text-[var(--info)]" />
                       <div>
-                        <p className="text-sm text-foreground">Property Access Agreement</p>
-                        <p className="text-xs text-muted-foreground">Signed on 1/5/2026</p>
+                        <p className="text-sm font-medium text-foreground">Property Access Agreement</p>
+                        <p className="text-xs text-muted-foreground mt-1">Signed on 1/5/2026</p>
                       </div>
                     </div>
                     <Button variant="outline" size="sm">
@@ -489,12 +498,12 @@ export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetai
                       Download
                     </Button>
                   </div>
-                  <div className="flex items-center justify-between py-3 border-b border-border last:border-0">
+                  <div className="flex items-center justify-between py-4 border-b border-border last:border-0">
                     <div className="flex items-center gap-3">
                       <FileText className="w-5 h-5 text-[var(--info)]" />
                       <div>
-                        <p className="text-sm text-foreground">Service Agreement</p>
-                        <p className="text-xs text-muted-foreground">Signed on 1/5/2026</p>
+                        <p className="text-sm font-medium text-foreground">Service Agreement</p>
+                        <p className="text-xs text-muted-foreground mt-1">Signed on 1/5/2026</p>
                       </div>
                     </div>
                     <Button variant="outline" size="sm">
@@ -503,12 +512,12 @@ export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetai
                     </Button>
                   </div>
                 </div>
-              </Card>
+              </div>
             </TabContent>
           </div>
 
           {/* Footer */}
-          <div className="p-6 border-t border-border flex justify-end gap-3">
+          <div className="p-6 border-t border-border flex justify-end gap-3 mt-auto">
             <Button variant="outline" onClick={onClose}>
               Close
             </Button>
@@ -516,8 +525,8 @@ export function CustomerDetailModal({ isOpen, onClose, customer }: CustomerDetai
               Edit Customer
             </Button>
           </div>
-        </div>
-      </div>
+        </SheetContent>
+      </Sheet>
 
       {/* Photo Lightbox Modal */}
       {lightboxOpen && currentInstallPhotos.length > 0 && (

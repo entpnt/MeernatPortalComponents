@@ -72,16 +72,14 @@ const navigationItems: NavItem[] = [
   },
   { id: 'operator', label: 'Operator', icon: UserCog },
   { id: 'providers', label: 'Providers', icon: Building2 },
-  { 
-    id: 'subscription-management', 
-    label: 'Subscription Management', 
+  {
+    id: 'account-management',
+    label: 'Account Management',
     icon: Users,
     children: [
-      { id: 'all-subscribers', label: 'All Subscribers', icon: Users },
-      { id: 'pending-subscriptions', label: 'Pending Subscriptions', icon: Clock },
-      { id: 'cancelled-subscriptions', label: 'Cancelled Subscriptions', icon: XCircle },
+      { id: 'all-accounts', label: 'All Accounts', icon: Users },
       { id: 'onboarding-pipeline', label: 'Onboarding Pipeline', icon: Users },
-      { id: 'subscription-analytics', label: 'Subscription Analytics', icon: TrendingUp },
+      { id: 'account-analytics', label: 'Account Analytics', icon: TrendingUp },
     ]
   },
   { id: 'plans-services', label: 'Plans & Services', icon: Tag },
@@ -127,7 +125,7 @@ interface SidebarProps {
 }
 
 export function Sidebar({ activeSection, onSectionChange, isCollapsed = false, onToggleCollapse }: SidebarProps) {
-  const [openMenus, setOpenMenus] = useState<Set<string>>(new Set(['subscribers', 'subscription-management']));
+  const [openMenus, setOpenMenus] = useState<Set<string>>(new Set(['subscribers', 'account-management']));
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
   const [flyoutPosition, setFlyoutPosition] = useState<{ top: number; item: NavItem } | null>(null);
   const [closeTimeout, setCloseTimeout] = useState<NodeJS.Timeout | null>(null);

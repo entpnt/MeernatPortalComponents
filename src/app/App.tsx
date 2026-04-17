@@ -1,11 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Sidebar } from '@/app/components/Sidebar';
 import { TopBar } from '@/app/components/TopBar';
-import { SubscriptionsContent } from '@/app/pages/SubscriptionsContent';
 import { DashboardContent } from '@/app/pages/DashboardContent';
 import { GenericContent } from '@/app/components/GenericContent';
-import { PendingSubscriptionsContent } from '@/app/components/PendingSubscriptionsContent';
-import { CancelledSubscriptionsContent } from '@/app/components/CancelledSubscriptionsContent';
 import { OnboardingContent } from '@/app/components/OnboardingContent';
 import { AllSubscribersContent } from '@/app/components/AllSubscribersContent';
 import { CommunicationsPage } from '@/app/components/communications/CommunicationsPage';
@@ -75,7 +72,6 @@ function AppContent() {
         --destructive: ${activeTheme.colors.destructive} !important;
         --destructive-foreground: ${activeTheme.colors.destructiveForeground} !important;
         --border: ${activeTheme.colors.border} !important;
-        --divider: ${activeTheme.colors.border} !important;
         --input: ${activeTheme.colors.input} !important;
         --input-background: ${activeTheme.colors.muted} !important;
         --ring: ${activeTheme.colors.ring} !important;
@@ -123,7 +119,6 @@ function AppContent() {
       '--destructive': activeTheme.colors.destructive,
       '--destructive-foreground': activeTheme.colors.destructiveForeground,
       '--border': activeTheme.colors.border,
-      '--divider': activeTheme.colors.border,
       '--input': activeTheme.colors.input,
       '--input-background': activeTheme.colors.muted,
       '--ring': activeTheme.colors.ring,
@@ -145,17 +140,13 @@ function AppContent() {
     switch (activeSection) {
       case 'dashboard':
         return <DashboardContent />;
-      case 'all-subscribers':
+      case 'all-accounts':
         return <AllSubscribersContent />;
-      case 'subscription-management':
-        return <SubscriptionsContent onNavigate={setActiveSection} />;
-      case 'pending-subscriptions':
-        return <PendingSubscriptionsContent onNavigateBack={() => setActiveSection('subscription-management')} />;
-      case 'cancelled-subscriptions':
-        return <CancelledSubscriptionsContent onNavigateBack={() => setActiveSection('subscription-management')} />;
+      case 'account-management':
+        return <AllSubscribersContent />;
       case 'onboarding-pipeline':
         return <OnboardingContent />;
-      case 'subscription-analytics':
+      case 'account-analytics':
         return <AnalyticsContent />;
       case 'trends':
         return (
@@ -253,7 +244,7 @@ function AppContent() {
       case 'theme-management':
         return <ThemeManagement />;
       default:
-        return <SubscriptionsContent />;
+        return <DashboardContent />;
     }
   };
 
