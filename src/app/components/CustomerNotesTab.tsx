@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Phone, Mail, AlertCircle, CheckCircle2, Clock, MessageSquare, User } from 'lucide-react';
+import { Plus, Phone, Mail, AlertCircle, CheckCircle2, Clock, MessageSquare, User, Wrench, Package, Truck, Ban, Pause, XCircle, AlertTriangle } from 'lucide-react';
 import { Button } from '@/app/components/ui/button';
 import { Card } from '@/app/components/ui/card';
 import { Textarea } from '@/app/components/ui/textarea';
@@ -14,56 +14,83 @@ import {
 
 interface Note {
   id: string;
-  type: 'Phone Call' | 'Email' | 'Support Ticket' | 'Service Issue' | 'Billing Inquiry' | 'General Note';
-  category: 'Support' | 'Billing' | 'Technical' | 'Sales' | 'General';
+  type: 'Phone Call' | 'Email' | 'Support Ticket' | 'Service Issue' | 'Billing Inquiry' | 'General Note' | 'Equipment Damage' | 'Repair Required' | 'Technician Dispatch' | 'Service Change' | 'Service Move' | 'Service Cancellation' | 'Service Suspension';
+  category: 'Support' | 'Billing' | 'Technical' | 'Sales' | 'General' | 'Service Action' | 'Equipment';
   subject: string;
   content: string;
   author: string;
   timestamp: string;
   resolved?: boolean;
+  priority?: 'Low' | 'Normal' | 'High' | 'Urgent';
 }
 
 // Mock notes data
 const mockNotes: Note[] = [
   {
     id: 'NOTE-001',
-    type: 'Phone Call',
-    category: 'Technical',
-    subject: 'Slow internet speeds reported',
-    content: 'Customer called regarding slow internet speeds during evening hours. Ran diagnostics remotely - ONU signal strength is good. Advised customer to reboot router and check for background downloads. Will monitor for 24 hours.',
-    author: 'Sarah Johnson',
-    timestamp: '1/28/2026 2:45 PM',
+    type: 'Service Suspension',
+    category: 'Service Action',
+    subject: 'Service suspended - payment past due',
+    content: 'Service suspended due to payment 45 days past due. Account balance $311.88 (2 months). Customer contacted via phone and email on 3/10 and 3/12. Auto-suspension triggered on 3/15. Customer has 30 days before cancellation.',
+    author: 'Billing System',
+    timestamp: '3/15/2026 12:01 AM',
     resolved: false,
+    priority: 'High',
   },
   {
     id: 'NOTE-002',
+    type: 'Equipment Damage',
+    category: 'Equipment',
+    subject: 'ONT damaged by lightning strike',
+    content: 'Customer reported ONT not powering on after lightning storm. Visual inspection shows scorch marks on power supply. Replacement ONT (Calix 716GE-I) shipped overnight. Technician scheduled for installation 3/18/2026 at 2 PM. No charge to customer - covered under warranty.',
+    author: 'Sarah Johnson',
+    timestamp: '3/16/2026 9:30 AM',
+    resolved: false,
+    priority: 'Urgent',
+  },
+  {
+    id: 'NOTE-003',
+    type: 'Service Move',
+    category: 'Service Action',
+    subject: 'Customer moving to new property',
+    content: 'Customer relocating from 123 Main St to 456 Oak Ave on 4/1/2026. New address is serviceable - fiber already installed to building. Move scheduled for 4/1. Will transfer existing service, no installation fee. Customer keeping same 1Gig plan.',
+    author: 'Customer Service',
+    timestamp: '3/14/2026 11:15 AM',
+    resolved: false,
+    priority: 'Normal',
+  },
+  {
+    id: 'NOTE-004',
+    type: 'Repair Required',
+    category: 'Technical',
+    subject: 'Fiber drop needs repair at pole',
+    content: 'Technician inspection revealed fiber drop sagging at pole connection point. Not affecting service currently but requires repair to prevent future outage. Aerial crew scheduled for 3/20/2026. Customer notified - no service interruption expected.',
+    author: 'Field Tech - Mike Wilson',
+    timestamp: '3/12/2026 3:45 PM',
+    resolved: false,
+    priority: 'Normal',
+  },
+  {
+    id: 'NOTE-005',
+    type: 'Phone Call',
+    category: 'Technical',
+    subject: 'Slow internet speeds reported',
+    content: 'Customer called regarding slow internet speeds during evening hours. Ran diagnostics remotely - ONU signal strength is good (-18 dBm). Advised customer to reboot router and check for background downloads. Will monitor for 24 hours.',
+    author: 'Tech Support - Sarah Johnson',
+    timestamp: '3/10/2026 2:45 PM',
+    resolved: true,
+    priority: 'Normal',
+  },
+  {
+    id: 'NOTE-006',
     type: 'Email',
     category: 'Billing',
     subject: 'Question about promotional discount',
     content: 'Customer inquired via email about when their promotional discount expires. Confirmed discount is active for 11 more months (expires 12/15/2026). Customer satisfied with response.',
-    author: 'Mike Chen',
-    timestamp: '1/25/2026 10:30 AM',
+    author: 'Billing - Mike Chen',
+    timestamp: '3/8/2026 10:30 AM',
     resolved: true,
-  },
-  {
-    id: 'NOTE-003',
-    type: 'Support Ticket',
-    category: 'Technical',
-    subject: 'Service outage during storm',
-    content: 'Customer reported service outage during storm on 1/20. Fiber drop was damaged by fallen tree branch. Dispatch team sent same day - fiber repaired and service restored by 6 PM. Customer appreciative of quick response.',
-    author: 'Tech Support Team',
-    timestamp: '1/20/2026 8:15 AM',
-    resolved: true,
-  },
-  {
-    id: 'NOTE-004',
-    type: 'Phone Call',
-    category: 'Sales',
-    subject: 'Interested in upgrading to 2Gig service',
-    content: 'Customer called asking about upgrade options. Currently on 1Gig plan, interested in 2Gig for home office needs. Provided pricing information ($89.99/mo). Customer will decide by end of month.',
-    author: 'James Wilson',
-    timestamp: '1/15/2026 3:20 PM',
-    resolved: false,
+    priority: 'Low',
   },
 ];
 
@@ -75,6 +102,7 @@ export function CustomerNotesTab() {
     category: 'General' as Note['category'],
     subject: '',
     content: '',
+    priority: 'Normal' as Note['priority'],
   });
 
   const handleAddNote = () => {
@@ -96,6 +124,7 @@ export function CustomerNotesTab() {
         hour12: true,
       }),
       resolved: false,
+      priority: newNote.priority,
     };
 
     setNotes([note, ...notes]);
@@ -104,6 +133,7 @@ export function CustomerNotesTab() {
       category: 'General',
       subject: '',
       content: '',
+      priority: 'Normal',
     });
     setIsAddingNote(false);
   };
@@ -115,6 +145,20 @@ export function CustomerNotesTab() {
       case 'Email':
         return <Mail className="w-4 h-4" />;
       case 'Service Issue':
+        return <AlertCircle className="w-4 h-4" />;
+      case 'Equipment Damage':
+        return <Package className="w-4 h-4 text-destructive" />;
+      case 'Repair Required':
+        return <Wrench className="w-4 h-4 text-[var(--warning)]" />;
+      case 'Technician Dispatch':
+        return <Truck className="w-4 h-4 text-[var(--info)]" />;
+      case 'Service Move':
+        return <Truck className="w-4 h-4" />;
+      case 'Service Cancellation':
+        return <Ban className="w-4 h-4 text-destructive" />;
+      case 'Service Suspension':
+        return <Pause className="w-4 h-4 text-[var(--warning)]" />;
+      case 'Service Change':
         return <AlertCircle className="w-4 h-4" />;
       default:
         return <MessageSquare className="w-4 h-4" />;
@@ -131,6 +175,25 @@ export function CustomerNotesTab() {
         return 'bg-purple-500/10 text-purple-500 border-purple-500/30';
       case 'Sales':
         return 'bg-orange-500/10 text-orange-500 border-orange-500/30';
+      case 'Service Action':
+        return 'bg-indigo-500/10 text-indigo-500 border-indigo-500/30';
+      case 'Equipment':
+        return 'bg-red-500/10 text-red-500 border-red-500/30';
+      default:
+        return 'bg-gray-500/10 text-gray-500 border-gray-500/30';
+    }
+  };
+
+  const getPriorityColor = (priority?: string) => {
+    switch (priority) {
+      case 'Urgent':
+        return 'bg-red-500/10 text-red-500 border-red-500/30';
+      case 'High':
+        return 'bg-orange-500/10 text-orange-500 border-orange-500/30';
+      case 'Normal':
+        return 'bg-blue-500/10 text-blue-500 border-blue-500/30';
+      case 'Low':
+        return 'bg-gray-500/10 text-gray-500 border-gray-500/30';
       default:
         return 'bg-gray-500/10 text-gray-500 border-gray-500/30';
     }
@@ -160,11 +223,11 @@ export function CustomerNotesTab() {
         <Card className="bg-[var(--secondary)] border-[var(--border)] p-4">
           <h4 className="text-sm font-semibold text-[var(--foreground)] mb-4">New Note</h4>
           <div className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="note-type">Interaction Type *</Label>
-                <Select 
-                  value={newNote.type} 
+                <Label htmlFor="note-type">Note Type *</Label>
+                <Select
+                  value={newNote.type}
                   onValueChange={(value) => setNewNote({ ...newNote, type: value as Note['type'] })}
                 >
                   <SelectTrigger className="bg-[var(--background)] border-[var(--border)]">
@@ -176,14 +239,21 @@ export function CustomerNotesTab() {
                     <SelectItem value="Support Ticket">Support Ticket</SelectItem>
                     <SelectItem value="Service Issue">Service Issue</SelectItem>
                     <SelectItem value="Billing Inquiry">Billing Inquiry</SelectItem>
+                    <SelectItem value="Equipment Damage">Equipment Damage</SelectItem>
+                    <SelectItem value="Repair Required">Repair Required</SelectItem>
+                    <SelectItem value="Technician Dispatch">Technician Dispatch</SelectItem>
+                    <SelectItem value="Service Change">Service Change</SelectItem>
+                    <SelectItem value="Service Move">Service Move</SelectItem>
+                    <SelectItem value="Service Suspension">Service Suspension</SelectItem>
+                    <SelectItem value="Service Cancellation">Service Cancellation</SelectItem>
                     <SelectItem value="General Note">General Note</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="note-category">Category *</Label>
-                <Select 
-                  value={newNote.category} 
+                <Select
+                  value={newNote.category}
                   onValueChange={(value) => setNewNote({ ...newNote, category: value as Note['category'] })}
                 >
                   <SelectTrigger className="bg-[var(--background)] border-[var(--border)]">
@@ -194,7 +264,26 @@ export function CustomerNotesTab() {
                     <SelectItem value="Billing">Billing</SelectItem>
                     <SelectItem value="Support">Support</SelectItem>
                     <SelectItem value="Sales">Sales</SelectItem>
+                    <SelectItem value="Service Action">Service Action</SelectItem>
+                    <SelectItem value="Equipment">Equipment</SelectItem>
                     <SelectItem value="General">General</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="note-priority">Priority *</Label>
+                <Select
+                  value={newNote.priority}
+                  onValueChange={(value) => setNewNote({ ...newNote, priority: value as Note['priority'] })}
+                >
+                  <SelectTrigger className="bg-[var(--background)] border-[var(--border)]">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent className="bg-[var(--popover)] border-[var(--border)]">
+                    <SelectItem value="Low">Low</SelectItem>
+                    <SelectItem value="Normal">Normal</SelectItem>
+                    <SelectItem value="High">High</SelectItem>
+                    <SelectItem value="Urgent">Urgent</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -231,6 +320,7 @@ export function CustomerNotesTab() {
                     category: 'General',
                     subject: '',
                     content: '',
+                    priority: 'Normal',
                   });
                 }}
                 className="bg-transparent border-[var(--border)] text-[var(--foreground)] hover:bg-[var(--muted)]"
@@ -287,6 +377,11 @@ export function CustomerNotesTab() {
                       <span className={`px-2 py-0.5 rounded text-xs font-medium border ${getCategoryColor(note.category)}`}>
                         {note.category}
                       </span>
+                      {note.priority && note.priority !== 'Normal' && (
+                        <span className={`px-2 py-0.5 rounded text-xs font-medium border ${getPriorityColor(note.priority)}`}>
+                          {note.priority}
+                        </span>
+                      )}
                       {note.resolved && (
                         <span className="flex items-center gap-1 px-2 py-0.5 rounded text-xs font-medium bg-green-500/10 text-green-500 border border-green-500/30">
                           <CheckCircle2 className="w-3 h-3" />

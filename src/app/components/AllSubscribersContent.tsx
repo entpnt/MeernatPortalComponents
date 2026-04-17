@@ -30,6 +30,38 @@ const subscriberData = [
     subscriptionStatus: 'Active',
     contract: 'Property Access : Signed',
     installationStatus: 'pending',
+    addresses: [
+      {
+        addressId: 'ADDR-001',
+        fullAddress: '17 Durant Avenue, Jamestown, NY 14701',
+        currentStatus: 'Completed',
+        statusAtSignup: 'Completed',
+        ownership: 'owner',
+        addressCreated: '1/26/2026',
+        serialNumber: 'ISKT4A2B9C',
+        serviceProvider: 'Sumo Fiber',
+        planName: '2 Gigabit Internet',
+        subscriptionStatus: 'Active',
+        contract: 'Property Access : Signed',
+        installationStatus: 'pending',
+        isPrimary: true,
+      },
+      {
+        addressId: 'ADDR-002',
+        fullAddress: '456 Oak Avenue, Jamestown, NY 14701',
+        currentStatus: 'Completed',
+        statusAtSignup: 'Completed',
+        ownership: 'owner',
+        addressCreated: '2/1/2026',
+        serialNumber: 'ISKT9X1Y2Z',
+        serviceProvider: 'Orangeburg Fiber',
+        planName: '1 Gigabit Internet',
+        subscriptionStatus: 'Active',
+        contract: 'Month-to-Month : Active',
+        installationStatus: 'completed',
+        isPrimary: false,
+      },
+    ],
   },
   {
     accountId: 'JB-2026-672123',
@@ -45,6 +77,53 @@ const subscriberData = [
     subscriptionStatus: 'Pending',
     contract: 'Property Access : Signed',
     installationStatus: 'N/A',
+    addresses: [
+      {
+        addressId: 'ADDR-003',
+        fullAddress: '329 East Elmwood Avenue, Falconer, NY 14733',
+        currentStatus: 'planned',
+        statusAtSignup: 'planned',
+        ownership: 'owner',
+        addressCreated: '1/26/2026',
+        serialNumber: 'ISKT7F3K8D',
+        serviceProvider: 'N/A',
+        planName: 'N/A',
+        subscriptionStatus: 'Pending',
+        contract: 'Property Access : Signed',
+        installationStatus: 'N/A',
+        isPrimary: true,
+      },
+      {
+        addressId: 'ADDR-004',
+        fullAddress: '12 Pine Street, Falconer, NY 14733',
+        currentStatus: 'planned',
+        statusAtSignup: 'planned',
+        ownership: 'renter',
+        addressCreated: '2/5/2026',
+        serialNumber: 'N/A',
+        serviceProvider: 'N/A',
+        planName: 'N/A',
+        subscriptionStatus: 'Pending',
+        contract: 'No Contract',
+        installationStatus: 'N/A',
+        isPrimary: false,
+      },
+      {
+        addressId: 'ADDR-005',
+        fullAddress: '789 Elm Street, Falconer, NY 14733',
+        currentStatus: 'Completed',
+        statusAtSignup: 'planned',
+        ownership: 'owner',
+        addressCreated: '2/10/2026',
+        serialNumber: 'ISKT3B5C7D',
+        serviceProvider: 'Sumo Fiber',
+        planName: '500 Mbps Internet',
+        subscriptionStatus: 'Active',
+        contract: '12-Month : Active',
+        installationStatus: 'completed',
+        isPrimary: false,
+      },
+    ],
   },
   {
     accountId: 'JB-2026-571258',
@@ -60,6 +139,23 @@ const subscriberData = [
     subscriptionStatus: 'Active',
     contract: 'No Contract',
     installationStatus: 'N/A',
+    addresses: [
+      {
+        addressId: 'ADDR-006',
+        fullAddress: '25 Maple Street, Jamestown, NY 14701',
+        currentStatus: 'Completed',
+        statusAtSignup: 'Completed',
+        ownership: 'owner',
+        addressCreated: '1/25/2026',
+        serialNumber: 'ISKT1M5N2P',
+        serviceProvider: 'N/A',
+        planName: 'N/A',
+        subscriptionStatus: 'Active',
+        contract: 'No Contract',
+        installationStatus: 'N/A',
+        isPrimary: true,
+      },
+    ],
   },
   {
     accountId: 'JB-2026-326724',
@@ -75,6 +171,23 @@ const subscriberData = [
     subscriptionStatus: 'Pending',
     contract: 'No Contract',
     installationStatus: 'N/A',
+    addresses: [
+      {
+        addressId: 'ADDR-007',
+        fullAddress: '42 Wicks Avenue, Jamestown, NY 14701',
+        currentStatus: 'planned',
+        statusAtSignup: 'planned',
+        ownership: 'owner',
+        addressCreated: '1/23/2026',
+        serialNumber: 'ISKT9Q6R4T',
+        serviceProvider: 'N/A',
+        planName: 'N/A',
+        subscriptionStatus: 'Pending',
+        contract: 'No Contract',
+        installationStatus: 'N/A',
+        isPrimary: true,
+      },
+    ],
   },
   {
     accountId: 'JB-2026-858617',
@@ -90,6 +203,23 @@ const subscriberData = [
     subscriptionStatus: 'Pending',
     contract: 'No Contract',
     installationStatus: 'N/A',
+    addresses: [
+      {
+        addressId: 'ADDR-008',
+        fullAddress: '365 S MAIN ST, JAMESTOWN, NY 14701',
+        currentStatus: 'planned',
+        statusAtSignup: 'planned',
+        ownership: 'N/A',
+        addressCreated: '1/23/2026',
+        serialNumber: 'ISKT3V8W7X',
+        serviceProvider: 'N/A',
+        planName: 'N/A',
+        subscriptionStatus: 'Pending',
+        contract: 'No Contract',
+        installationStatus: 'N/A',
+        isPrimary: true,
+      },
+    ],
   },
   {
     accountId: 'JB-2026-758596',
@@ -105,6 +235,23 @@ const subscriberData = [
     subscriptionStatus: 'Active',
     contract: 'No Contract',
     installationStatus: 'N/A',
+    addresses: [
+      {
+        addressId: 'ADDR-009',
+        fullAddress: '13 Harris Avenue, Jamestown, NY 14701',
+        currentStatus: 'Completed',
+        statusAtSignup: 'Completed',
+        ownership: 'owner',
+        addressCreated: '1/23/2026',
+        serialNumber: 'ISKT5Y2Z1A',
+        serviceProvider: 'N/A',
+        planName: 'N/A',
+        subscriptionStatus: 'Active',
+        contract: 'No Contract',
+        installationStatus: 'N/A',
+        isPrimary: true,
+      },
+    ],
   },
   {
     accountId: 'JB-2026-714553',
@@ -120,6 +267,23 @@ const subscriberData = [
     subscriptionStatus: 'Pending',
     contract: 'Property Access : Signed',
     installationStatus: 'N/A',
+    addresses: [
+      {
+        addressId: 'ADDR-010',
+        fullAddress: '40 HAMMOND ST, JAMESTOWN, NY 14701',
+        currentStatus: 'planned',
+        statusAtSignup: 'planned',
+        ownership: 'owner',
+        addressCreated: '1/22/2026',
+        serialNumber: 'ISKT6B4C8E',
+        serviceProvider: 'N/A',
+        planName: 'N/A',
+        subscriptionStatus: 'Pending',
+        contract: 'Property Access : Signed',
+        installationStatus: 'N/A',
+        isPrimary: true,
+      },
+    ],
   },
 ];
 
@@ -154,18 +318,19 @@ const defaultColumns: Column[] = [
   { id: 'installationStatus', label: 'Installation Status', visible: true },
 ];
 
-type AccountFilterType = 'all' | 'active' | 'pending' | 'cancelled';
+type AccountFilterType = 'all' | 'pending' | 'scheduled' | 'active' | 'cancelled';
 
 export function AllSubscribersContent() {
   const [showAdvancedSearch, setShowAdvancedSearch] = useState(false);
   const [showStats, setShowStats] = useState(true);
-  const [accountFilter, setAccountFilter] = useState<AccountFilterType>('all');
+  const [accountFilter, setAccountFilter] = useState<AccountFilterType>('active');
   const [columns, setColumns] = useState<Column[]>(defaultColumns);
   const [entriesPerPage, setEntriesPerPage] = useState('50');
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 131; // 1302 total / 10 per page (example)
   const [selectedCustomer, setSelectedCustomer] = useState<any>(null);
   const [isColumnSheetOpen, setIsColumnSheetOpen] = useState(false);
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [activeFilters, setActiveFilters] = useState<Record<string, any>>({
     currentStatus: [],
     subscriptionStatus: [],
@@ -215,28 +380,84 @@ export function AllSubscribersContent() {
     }
   };
 
+  const toggleRowExpansion = (accountId: string) => {
+    setExpandedRows(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(accountId)) {
+        newSet.delete(accountId);
+      } else {
+        newSet.add(accountId);
+      }
+      return newSet;
+    });
+  };
+
   // Filter data based on account filter
   const getFilteredData = () => {
     switch (accountFilter) {
-      case 'active':
-        return subscriberData.filter(sub => sub.subscriptionStatus.toLowerCase() === 'active');
       case 'pending':
-        return subscriberData.filter(sub => sub.subscriptionStatus.toLowerCase() === 'pending');
+        // Customers in planned construction state who have partially signed up
+        return subscriberData.filter(sub => sub.currentStatus.toLowerCase() === 'planned');
+      case 'scheduled':
+        // Customers fully signed up, waiting for installation to be completed
+        return subscriberData.filter(sub =>
+          sub.installationStatus.toLowerCase() === 'pending' ||
+          sub.installationStatus.toLowerCase() === 'scheduled'
+        );
+      case 'active':
+        // Customers with completed install and active subscription
+        return subscriberData.filter(sub => sub.subscriptionStatus.toLowerCase() === 'active');
       case 'cancelled':
+        // All cancelled accounts
         return subscriberData.filter(sub => sub.subscriptionStatus.toLowerCase() === 'cancelled');
       default:
+        // All accounts
         return subscriberData;
     }
   };
 
-  const filteredData = getFilteredData();
+  // Flatten data to include parent and child rows
+  const getFlattenedData = () => {
+    const filtered = getFilteredData();
+    const flattened: any[] = [];
+
+    filtered.forEach(account => {
+      // Add parent account row
+      flattened.push({
+        ...account,
+        isParent: true,
+        hasChildren: account.addresses && account.addresses.length > 1,
+      });
+
+      // Add child address rows if expanded
+      if (expandedRows.has(account.accountId) && account.addresses && account.addresses.length > 1) {
+        account.addresses.forEach((address: any) => {
+          flattened.push({
+            ...address,
+            isChild: true,
+            parentAccountId: account.accountId,
+            parentAccountData: account,
+            accountId: address.addressId,
+            customerName: account.customerName,
+            name: account.customerName,
+            email: account.email || 'Not provided',
+            phone: account.phone,
+          });
+        });
+      }
+    });
+
+    return flattened;
+  };
+
+  const filteredData = getFlattenedData();
 
   return (
     <DndProvider backend={HTML5Backend}>
       <div className="p-6">
         <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="mb-6 flex items-start justify-between">
+          <div className="mb-8 flex items-start justify-between">
             <div>
               <h1 className="text-3xl font-bold text-[var(--foreground)] mb-2">All Accounts</h1>
               <p className="text-[var(--muted-foreground)]">Comprehensive directory of all customer accounts</p>
@@ -252,7 +473,7 @@ export function AllSubscribersContent() {
           </div>
 
           {/* Account Filter Tabs */}
-          <div className="flex gap-2 mb-6 border-b border-[var(--border)]">
+          <div className="flex gap-2 mt-8 mb-8 border-b border-[var(--border)]">
             <button
               onClick={() => setAccountFilter('all')}
               className={`px-4 py-2.5 text-sm font-medium transition-all relative ${
@@ -264,16 +485,6 @@ export function AllSubscribersContent() {
               All Accounts
             </button>
             <button
-              onClick={() => setAccountFilter('active')}
-              className={`px-4 py-2.5 text-sm font-medium transition-all relative ${
-                accountFilter === 'active'
-                  ? 'text-[var(--foreground)] bg-[var(--secondary)] rounded-t-lg'
-                  : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
-              }`}
-            >
-              Active
-            </button>
-            <button
               onClick={() => setAccountFilter('pending')}
               className={`px-4 py-2.5 text-sm font-medium transition-all relative ${
                 accountFilter === 'pending'
@@ -282,6 +493,26 @@ export function AllSubscribersContent() {
               }`}
             >
               Pending
+            </button>
+            <button
+              onClick={() => setAccountFilter('scheduled')}
+              className={`px-4 py-2.5 text-sm font-medium transition-all relative ${
+                accountFilter === 'scheduled'
+                  ? 'text-[var(--foreground)] bg-[var(--secondary)] rounded-t-lg'
+                  : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+              }`}
+            >
+              Scheduled
+            </button>
+            <button
+              onClick={() => setAccountFilter('active')}
+              className={`px-4 py-2.5 text-sm font-medium transition-all relative ${
+                accountFilter === 'active'
+                  ? 'text-[var(--foreground)] bg-[var(--secondary)] rounded-t-lg'
+                  : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'
+              }`}
+            >
+              Active
             </button>
             <button
               onClick={() => setAccountFilter('cancelled')}
@@ -297,7 +528,7 @@ export function AllSubscribersContent() {
 
           {/* Account Statistics */}
           {showStats && (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
               {/* Total Active */}
               <Card className="bg-[var(--card)] border border-[var(--border)] p-6">
                 <div className="flex items-start justify-between mb-3">
@@ -341,7 +572,7 @@ export function AllSubscribersContent() {
           )}
 
           {/* Search Bar */}
-          <div className="mb-6">
+          <div className="mb-8">
             <div className="bg-[var(--card)] border border-[var(--border)] rounded-lg p-4">
               <div className="flex items-center gap-4">
                 <div className="flex-1 flex items-center gap-3 bg-[var(--input-background)] border border-[var(--border)] rounded-lg px-4 py-3">
@@ -363,8 +594,8 @@ export function AllSubscribersContent() {
 
               {/* Advanced Search Panel */}
               {showAdvancedSearch && (
-                <div className="mt-4 pt-4 border-t border-[var(--border)]">
-                  <div className="flex items-center justify-between mb-6">
+                <div className="mt-6 pt-6 border-t border-[var(--border)]">
+                  <div className="flex items-center justify-between mb-8">
                     <h3 className="text-lg font-semibold text-[var(--foreground)]">Advanced Search Filters</h3>
                     <div className="flex items-center gap-3">
                       {getTotalActiveFilters() > 0 && (
@@ -752,6 +983,8 @@ export function AllSubscribersContent() {
               showColumnManager={false}
               showPagination={false}
               onRowClick={setSelectedCustomer}
+              expandedRows={expandedRows}
+              onRowExpand={toggleRowExpansion}
             />
 
             {/* Pagination */}

@@ -1,5 +1,5 @@
 import { useState, ReactNode } from 'react';
-import { ArrowUpDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import { ArrowUpDown, ChevronLeft, ChevronRight, ChevronDown, ChevronRight as ChevronRightIcon } from 'lucide-react';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/app/components/ui/table';
 import { Button } from '@/app/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/app/components/ui/select';
@@ -27,6 +27,8 @@ interface DataTableProps {
   showPagination?: boolean;
   emptyMessage?: string;
   onRowClick?: (row: any) => void;
+  expandedRows?: Set<string>;
+  onRowExpand?: (accountId: string) => void;
 }
 
 export function DataTable({
@@ -42,6 +44,8 @@ export function DataTable({
   showPagination = true,
   emptyMessage = 'No data available',
   onRowClick,
+  expandedRows = new Set(),
+  onRowExpand,
 }: DataTableProps) {
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
@@ -139,13 +143,58 @@ export function DataTable({
             {data.length > 0 ? (
               data.map((row, index) => (
                 <TableRow
-                  key={row.id || index}
-                  className="border-b border-[var(--border)] hover:bg-[var(--muted)]/40 transition-colors cursor-pointer"
-                  onClick={() => onRowClick && onRowClick(row)}
+                  key={row.id || row.accountId || index}
+                  className={`border-b border-[var(--border)] hover:bg-[var(--muted)]/40 transition-colors cursor-pointer ${
+                    row.isChild ? 'bg-[var(--muted)]/20' : ''
+                  }`}
+                  onClick={() => {
+                    if (onRowClick) {
+                      // If it's a child row, pass the parent account data with address info
+                      if (row.isChild && row.parentAccountData) {
+                        onRowClick(row.parentAccountData);
+                      } else if (!row.isChild) {
+                        onRowClick(row);
+                      }
+                    }
+                  }}
                 >
-                  {visibleColumns.map(column => (
-                    <TableCell key={column.id} className="py-3 px-4 text-sm text-[var(--foreground)]">
-                      {renderCellValue(column, row)}
+                  {visibleColumns.map((column, colIndex) => (
+                    <TableCell
+                      key={column.id}
+                      className={`py-3 text-sm ${
+                        colIndex === 0 ? 'pl-4 pr-4' : 'px-4'
+                      } ${row.isChild ? 'text-[var(--muted-foreground)]' : 'text-[var(--foreground)]'}`}
+                    >
+                      {colIndex === 0 ? (
+                        <div className="flex items-center gap-2">
+                          {row.isParent && row.hasChildren && onRowExpand ? (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onRowExpand(row.accountId);
+                              }}
+                              className="p-0.5 hover:bg-[var(--muted)] rounded transition-colors flex-shrink-0"
+                            >
+                              {expandedRows.has(row.accountId) ? (
+                                <ChevronDown className="w-4 h-4 text-[var(--muted-foreground)]" />
+                              ) : (
+                                <ChevronRightIcon className="w-4 h-4 text-[var(--muted-foreground)]" />
+                              )}
+                            </button>
+                          ) : row.isParent ? (
+                            <div className="w-5 flex-shrink-0"></div>
+                          ) : null}
+                          {row.isChild ? (
+                            <>
+                              <div className="w-5 flex-shrink-0"></div>
+                              <span className="text-xs text-[var(--muted-foreground)] flex-shrink-0">└</span>
+                            </>
+                          ) : null}
+                          <span className={row.isChild ? '' : 'text-[var(--foreground)]'}>{renderCellValue(column, row)}</span>
+                        </div>
+                      ) : (
+                        renderCellValue(column, row)
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>

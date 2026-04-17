@@ -16,12 +16,13 @@ export function OnboardingContent({ onNavigateBack }: OnboardingContentProps) {
   return (
     <div className="p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-foreground mb-2">Onboarding Pipeline</h1>
-        <p className="text-muted-foreground">Track customer progress through the signup process • Orangeburg Fiber</p>
-      </div>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-2">Onboarding Pipeline</h1>
+          <p className="text-muted-foreground">Track customer progress through the signup process • Orangeburg Fiber</p>
+        </div>
 
-      {/* Tabs */}
-      <div className="flex gap-2 mb-8 border-b border-border">
+        {/* Tabs */}
+        <div className="flex gap-2 mt-8 mb-8 border-b border-border">
         <button
           onClick={() => setActiveTab('overview')}
           className={`px-4 py-2.5 text-sm font-medium transition-all relative ${
@@ -56,10 +57,11 @@ export function OnboardingContent({ onNavigateBack }: OnboardingContentProps) {
         </button>
       </div>
 
-      {/* Tab Content */}
-      {activeTab === 'overview' && <OverviewTab />}
-      {activeTab === 'completed-flow' && <CompletedFlowTab />}
-      {activeTab === 'planned-flow' && <PlannedFlowTab />}
+        {/* Tab Content */}
+        {activeTab === 'overview' && <OverviewTab />}
+        {activeTab === 'completed-flow' && <CompletedFlowTab />}
+        {activeTab === 'planned-flow' && <PlannedFlowTab />}
+      </div>
     </div>
   );
 }
@@ -67,7 +69,7 @@ export function OnboardingContent({ onNavigateBack }: OnboardingContentProps) {
 // Overview Tab Component
 function OverviewTab() {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Summary Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="bg-card border-border p-6">
@@ -339,7 +341,7 @@ function CompletedFlowTab() {
   const totalPages = 2;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Summary Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="bg-card border-border p-6">
@@ -516,7 +518,7 @@ function PlannedFlowTab() {
   const totalPagesWaiting = 5;
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Summary Metrics */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="bg-card border-border p-6">

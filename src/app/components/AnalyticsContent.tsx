@@ -31,27 +31,31 @@ export function AnalyticsContent({ onNavigateBack }: AnalyticsContentProps) {
   return (
     <div className="p-6">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-3xl font-bold text-foreground mb-2">Account Analytics</h1>
-        <p className="text-muted-foreground">
-          Comprehensive insights into account metrics • Orangeburg Fiber
-        </p>
-      </div>
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-foreground mb-2">Account Analytics</h1>
+          <p className="text-muted-foreground">
+            Comprehensive insights into account metrics • Orangeburg Fiber
+          </p>
+        </div>
 
-      {/* Tabs */}
-      <TabMenu
+        {/* Tabs */}
+        <div className="mt-8 mb-8">
+          <TabMenu
         activeTab={activeTab}
         onTabChange={(tab) => setActiveTab(tab as TabType)}
-        tabs={[
-          { id: 'growth-trends', label: 'Growth Trends' },
-          { id: 'churn-analysis', label: 'Churn Analysis' },
-          { id: 'cohort-retention', label: 'Cohort Retention' },
-        ]}
-      />
+          tabs={[
+            { id: 'growth-trends', label: 'Growth Trends' },
+            { id: 'churn-analysis', label: 'Churn Analysis' },
+            { id: 'cohort-retention', label: 'Cohort Retention' },
+          ]}
+        />
+        </div>
 
-      {/* Tab Content */}
-      {activeTab === 'growth-trends' && <GrowthTrendsTab />}
-      {activeTab === 'churn-analysis' && <ChurnAnalysisTab />}
-      {activeTab === 'cohort-retention' && <CohortRetentionTab />}
+        {/* Tab Content */}
+        {activeTab === 'growth-trends' && <GrowthTrendsTab />}
+        {activeTab === 'churn-analysis' && <ChurnAnalysisTab />}
+        {activeTab === 'cohort-retention' && <CohortRetentionTab />}
+      </div>
     </div>
   );
 }
@@ -78,9 +82,9 @@ function GrowthTrendsTab() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Growth Analytics Header */}
-      <div className="flex items-start gap-3 mb-6">
+      <div className="flex items-start gap-3 mb-8">
         <div className="p-2 bg-secondary rounded-lg">
           <TrendingUp className="w-5 h-5 text-[var(--info)]" />
         </div>
@@ -276,9 +280,9 @@ function ChurnAnalysisTab() {
   ];
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Churn Analysis Header */}
-      <div className="flex items-start gap-3 mb-6">
+      <div className="flex items-start gap-3 mb-8">
         <div className="p-2 bg-secondary rounded-lg">
           <UserX className="w-5 h-5 text-[var(--error)]" />
         </div>
@@ -492,9 +496,9 @@ function CohortRetentionTab() {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {/* Cohort Retention Header */}
-      <div className="flex items-start gap-3 mb-6">
+      <div className="flex items-start gap-3 mb-8">
         <div className="p-2 bg-secondary rounded-lg">
           <TrendingUp className="w-5 h-5 text-[var(--success)]" />
         </div>
