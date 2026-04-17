@@ -209,13 +209,13 @@ export function ProvidersContent() {
     <div className="p-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="mb-6">
+        <div className="mb-8">
           <h1 className="text-3xl font-bold text-[#F8FAFC] mb-2">Providers</h1>
           <p className="text-[#94A3B8]">Manage service providers and integrations</p>
         </div>
 
         {/* Search and Actions */}
-        <div className="flex items-center gap-4 mb-6">
+        <div className="flex items-center gap-4 mb-8">
           <div className="relative flex-1 max-w-md">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-[#94A3B8]" />
             <input

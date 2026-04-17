@@ -85,8 +85,9 @@ const getSeverityColor = (severity: string) => {
 export function DashboardContent() {
   return (
     <div className="p-6 bg-[#020817] min-h-screen">
-      {/* Page Header */}
-      <div className="mb-6 flex items-start justify-between">
+      <div className="max-w-7xl mx-auto">
+        {/* Page Header */}
+        <div className="mb-8 flex items-start justify-between">
         <div>
           <h1 className="text-3xl font-bold text-[#F8FAFC] mb-2">Network Operations Center</h1>
           <p className="text-[#94A3B8]">Real-time monitoring and control center for fiber network operations</p>
@@ -534,6 +535,7 @@ export function DashboardContent() {
             <div>• Avg response: 15 min</div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

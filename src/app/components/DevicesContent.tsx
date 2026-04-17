@@ -336,9 +336,10 @@ export function DevicesContent() {
   };
 
   return (
-    <div className="p-8 bg-[var(--background)]">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
+    <div className="p-6 bg-[var(--background)]">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold text-[var(--foreground)] mb-2">Devices</h1>
           <p className="text-[var(--muted-foreground)]">
@@ -552,16 +553,17 @@ export function DevicesContent() {
         </div>
       </Card>
 
-      {/* Device Management Modal */}
-      {selectedDevice && (
-        <DeviceManagementModal
-          device={selectedDevice}
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          activeTab={activeTab}
-          setActiveTab={setActiveTab}
-        />
-      )}
+        {/* Device Management Modal */}
+        {selectedDevice && (
+          <DeviceManagementModal
+            device={selectedDevice}
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+          />
+        )}
+      </div>
     </div>
   );
 }
